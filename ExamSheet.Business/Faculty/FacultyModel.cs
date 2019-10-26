@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ExamSheet.Data.Models
+namespace ExamSheet.Business.Faculty
 {
-    public class Faculty
+    public class FacultyModel
     {
         public virtual string Id { get; set; }
 

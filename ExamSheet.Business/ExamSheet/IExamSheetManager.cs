@@ -6,6 +6,6 @@ namespace ExamSheet.Business.ExamSheet
 {
     public interface IExamSheetManager
     {
-        IEnumerable<ExamSheet> GetExamSheets();
+        IEnumerable<ExamSheetModel> FindAll();
     }
 }

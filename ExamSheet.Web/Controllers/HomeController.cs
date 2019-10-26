@@ -22,7 +22,7 @@ namespace ExamSheet.Web.Controllers
         public IActionResult Index()
         {
             //TODO: Add method to business, use current Role inside method, paging
-            var examSheets = examSheetManager.GetExamSheets();
+            var examSheets = examSheetManager.FindAll();
             return View();
         }
 

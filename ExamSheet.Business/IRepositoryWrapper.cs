@@ -1,11 +1,11 @@
-﻿using ExamSheet.Data.ExamSheet;
+﻿using ExamSheet.Business.ExamSheet;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ExamSheet.Data
+namespace ExamSheet.Business
 {
-    public class IRepositoryWrapper
+    public interface IRepositoryWrapper
     {
         IExamSheetRepository ExamSheet { get; }
     }

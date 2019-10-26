@@ -5,12 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NHibernate" Version="5.2.6" />
     <PackageReference Include="NHibernate.NetCore" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ExamSheet.Business\ExamSheet.Business.csproj" />
-    <ProjectReference Include="..\ExamSheet.Repository\ExamSheet.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="hibernate.config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

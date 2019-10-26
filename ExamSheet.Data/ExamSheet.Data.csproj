@@ -5,14 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Models\Mappings.hbm.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Models\Mappings.hbm.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="NHibernate" Version="5.2.6" />
     <PackageReference Include="NHibernate.NetCore" Version="3.0.0" />
   </ItemGroup>

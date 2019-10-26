@@ -1,6 +1,6 @@
-﻿using ExamSheet.Business.ExamSheet;
-using ExamSheet.Core.ExamSheet;
-using ExamSheet.Data;
+﻿using ExamSheet.Business;
+using ExamSheet.Business.ExamSheet;
+using ExamSheet.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using NHibernate.NetCore;
 using System;
