@@ -8,12 +8,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSheet.Web", "ExamSheet.
 		{803B5D5D-0B79-4502-9691-6CE81DCC7133} = {803B5D5D-0B79-4502-9691-6CE81DCC7133}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamSheet.Business", "ExamSheet.Business\ExamSheet.Business.csproj", "{803B5D5D-0B79-4502-9691-6CE81DCC7133}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSheet.Business", "ExamSheet.Business\ExamSheet.Business.csproj", "{803B5D5D-0B79-4502-9691-6CE81DCC7133}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8F7490E4-E30B-406A-8D46-BDAFC4F52C1C} = {8F7490E4-E30B-406A-8D46-BDAFC4F52C1C}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamSheet.Data", "ExamSheet.Data\ExamSheet.Data.csproj", "{8F7490E4-E30B-406A-8D46-BDAFC4F52C1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSheet.Data", "ExamSheet.Data\ExamSheet.Data.csproj", "{8F7490E4-E30B-406A-8D46-BDAFC4F52C1C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSheet.Core", "ExamSheet.Core\ExamSheet.Core.csproj", "{135F3551-D119-426D-90D4-355B069920DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamSheet.Extensions", "ExamSheet.Extensions\ExamSheet.Extensions.csproj", "{466C205B-C5AC-41F3-BC3A-ED29AD1A89CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{8F7490E4-E30B-406A-8D46-BDAFC4F52C1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F7490E4-E30B-406A-8D46-BDAFC4F52C1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F7490E4-E30B-406A-8D46-BDAFC4F52C1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{135F3551-D119-426D-90D4-355B069920DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{135F3551-D119-426D-90D4-355B069920DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{135F3551-D119-426D-90D4-355B069920DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{135F3551-D119-426D-90D4-355B069920DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{466C205B-C5AC-41F3-BC3A-ED29AD1A89CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{466C205B-C5AC-41F3-BC3A-ED29AD1A89CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{466C205B-C5AC-41F3-BC3A-ED29AD1A89CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{466C205B-C5AC-41F3-BC3A-ED29AD1A89CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

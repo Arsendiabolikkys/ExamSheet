@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ExamSheet.Business.Models
+namespace ExamSheet.Business.ExamSheet
 {
     public class ExamSheet
     {

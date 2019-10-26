@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NHibernate.NetCore" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExamSheet.Business\ExamSheet.Business.csproj" />
+    <ProjectReference Include="..\ExamSheet.Core\ExamSheet.Core.csproj" />
+    <ProjectReference Include="..\ExamSheet.Data\ExamSheet.Data.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns="urn:nhibernate-mapping-2.2"
+ namespace="ExamSheet.Data.Models"
+ assembly="ExamSheet.Data">
+  
+  <class name="Faculty" schema="public" table="Faculties">
+    <id name="Id" column="Id" type="string"></id>
+    <property name="Name" column="Name" type="string" />
+  </class>
+  
+</hibernate-mapping>

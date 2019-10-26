@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExamSheet.Business\ExamSheet.Business.csproj" />
+    <ProjectReference Include="..\ExamSheet.Data\ExamSheet.Data.csproj" />
+  </ItemGroup>
+
+</Project>

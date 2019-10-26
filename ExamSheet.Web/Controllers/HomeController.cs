@@ -5,13 +5,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ExamSheet.Web.Models;
+using ExamSheet.Business.ExamSheet;
 
 namespace ExamSheet.Web.Controllers
 {
     public class HomeController : Controller
     {
+        protected IExamSheetManager examSheetManager;
+
+        public HomeController(IExamSheetManager examSheetManager)
+        {
+            //TODO: check if initialized
+            this.examSheetManager = examSheetManager;
+        }
+
         public IActionResult Index()
         {
+            //TODO: Add method to business, use current Role inside method, paging
+            var examSheets = examSheetManager.GetExamSheets();
             return View();
         }
 
