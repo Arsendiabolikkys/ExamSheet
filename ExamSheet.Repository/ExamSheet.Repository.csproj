@@ -11,7 +11,6 @@
     <None Remove="Group\Group.hbm.xml" />
     <None Remove="Semester\Semester.hbm.xml" />
     <None Remove="Student\Student.hbm.xml" />
-    <None Remove="TeacherSubject\TeacherSubject.hbm.xml" />
     <None Remove="Subject\Subject.hbm.xml" />
     <None Remove="Teacher\Teacher.hbm.xml" />
   </ItemGroup>
@@ -23,7 +22,6 @@
     <EmbeddedResource Include="Group\Group.hbm.xml" />
     <EmbeddedResource Include="Semester\Semester.hbm.xml" />
     <EmbeddedResource Include="Student\Student.hbm.xml" />
-    <EmbeddedResource Include="TeacherSubject\TeacherSubject.hbm.xml" />
     <EmbeddedResource Include="Subject\Subject.hbm.xml" />
     <EmbeddedResource Include="Teacher\Teacher.hbm.xml" />
   </ItemGroup>
