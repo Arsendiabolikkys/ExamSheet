@@ -5,12 +5,32 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NHibernate" Version="5.2.6" />
-    <PackageReference Include="NHibernate.NetCore" Version="3.0.0" />
+    <None Remove="Deanery\Deanery.hbm.xml" />
+    <None Remove="ExamSheet\ExamSheet.hbm.xml" />
+    <None Remove="Faculty\Faculty.hbm.xml" />
+    <None Remove="Group\Group.hbm.xml" />
+    <None Remove="Semester\Semester.hbm.xml" />
+    <None Remove="Student\Student.hbm.xml" />
+    <None Remove="TeacherSubject\TeacherSubject.hbm.xml" />
+    <None Remove="Subject\Subject.hbm.xml" />
+    <None Remove="Teacher\Teacher.hbm.xml" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ExamSheet.Business\ExamSheet.Business.csproj" />
+    <EmbeddedResource Include="Deanery\Deanery.hbm.xml" />
+    <EmbeddedResource Include="ExamSheet\ExamSheet.hbm.xml" />
+    <EmbeddedResource Include="Faculty\Faculty.hbm.xml" />
+    <EmbeddedResource Include="Group\Group.hbm.xml" />
+    <EmbeddedResource Include="Semester\Semester.hbm.xml" />
+    <EmbeddedResource Include="Student\Student.hbm.xml" />
+    <EmbeddedResource Include="TeacherSubject\TeacherSubject.hbm.xml" />
+    <EmbeddedResource Include="Subject\Subject.hbm.xml" />
+    <EmbeddedResource Include="Teacher\Teacher.hbm.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NHibernate" Version="5.2.6" />
+    <PackageReference Include="NHibernate.NetCore" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>

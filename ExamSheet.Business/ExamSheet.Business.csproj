@@ -5,11 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Faculty\Faculty.hbm.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Faculty\Faculty.hbm.xml" />
+    <ProjectReference Include="..\ExamSheet.Repository\ExamSheet.Repository.csproj" />
   </ItemGroup>
 
 </Project>

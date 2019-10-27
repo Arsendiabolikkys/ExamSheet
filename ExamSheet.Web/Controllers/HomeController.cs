@@ -11,9 +11,9 @@ namespace ExamSheet.Web.Controllers
 {
     public class HomeController : Controller
     {
-        protected IExamSheetManager examSheetManager;
+        protected ExamSheetManager examSheetManager;
 
-        public HomeController(IExamSheetManager examSheetManager)
+        public HomeController(ExamSheetManager examSheetManager)
         {
             //TODO: check if initialized
             this.examSheetManager = examSheetManager;

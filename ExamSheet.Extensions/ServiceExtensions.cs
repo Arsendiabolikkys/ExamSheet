@@ -12,12 +12,12 @@ namespace ExamSheet.Extensions
     {
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)
         {
-            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddScoped<RepositoryWrapper, RepositoryWrapper>();
         }
 
         public static void ConfigureManagers(this IServiceCollection services)
         {
-            services.AddTransient<IExamSheetManager, ExamSheetManager>();
+            services.AddTransient<ExamSheetManager, ExamSheetManager>();
         }
 
         public static void UseAsHibernateFactory(this Microsoft.Extensions.Logging.ILoggerFactory loggerFactory)

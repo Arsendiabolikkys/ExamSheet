@@ -1,16 +1,17 @@
-﻿using System;
+﻿using ExamSheet.Repository;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ExamSheet.Business
 {
     public abstract class BaseManager<T> where T : class
     {
-        protected IRepositoryWrapper repositoryWrapper;
+        protected RepositoryWrapper repositoryWrapper;
 
-        public BaseManager(IRepositoryWrapper repositoryWrapper)
+        public BaseManager(RepositoryWrapper repositoryWrapper)
         {
             this.repositoryWrapper = repositoryWrapper;
         }
+
+        public abstract IEnumerable<T> FindAll();
     }
 }

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns="urn:nhibernate-mapping-2.2"
+ namespace="ExamSheet.Repository.ExamSheet"
+ assembly="ExamSheet.Repository">
+  
+  <class name="ExamSheet" schema="public" table="ExamSheets">
+    <id name="Id" column="Id" type="string"></id>
+    <property name="State" column="State" type="short" />
+    <property name="OpenDate" column="OpenDate" type="datetime" />
+    <property name="CloseDate" column="CloseDate" type="datetime" />
+    <property name="TeacherId" column="TeacherId" type="string" />
+    <property name="SubjectId" column="SubjectId" type="string" />
+    <property name="GroupId" column="GroupId" type="string" />
+    <property name="FacultyId" column="FacultyId" type="string" />
+    <property name="SemesterId" column="SemesterId" type="string" />
+    <property name="Ratings" column="Ratings" type="xml" />
+  </class>
+  
+</hibernate-mapping>

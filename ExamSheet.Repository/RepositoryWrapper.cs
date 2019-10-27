@@ -1,16 +1,14 @@
-﻿using ExamSheet.Business;
-using ExamSheet.Business.ExamSheet;
-using ExamSheet.Repository.ExamSheet;
+﻿using ExamSheet.Repository.ExamSheet;
 using NHibernate;
 
 namespace ExamSheet.Repository
 {
-    public class RepositoryWrapper : IRepositoryWrapper
+    public class RepositoryWrapper
     {
         private ISessionFactory sessionFactory;
-        private IExamSheetRepository examSheet;
+        private ExamSheetRepository examSheet;
 
-        public IExamSheetRepository ExamSheet
+        public ExamSheetRepository ExamSheet
         {
             get
             {

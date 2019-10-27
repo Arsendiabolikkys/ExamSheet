@@ -3,10 +3,10 @@
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
  xmlns="urn:nhibernate-mapping-2.2"
- namespace="ExamSheet.Business.Faculty"
- assembly="ExamSheet.Business">
+ namespace="ExamSheet.Repository.Subject"
+ assembly="ExamSheet.Repository">
   
-  <class name="FacultyModel" schema="public" table="Faculties">
+  <class name="Subject" schema="public" table="Subjects">
     <id name="Id" column="Id" type="string"></id>
     <property name="Name" column="Name" type="string" />
   </class>

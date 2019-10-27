@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns="urn:nhibernate-mapping-2.2"
+ namespace="ExamSheet.Repository.Group"
+ assembly="ExamSheet.Repository">
+  
+  <class name="Group" schema="public" table="Groups">
+    <id name="Id" column="Id" type="string"></id>
+    <property name="Name" column="Name" type="string" />
+    <property name="SubjectId" column="SubjectId" type="string" />
+  </class>
+  
+</hibernate-mapping>

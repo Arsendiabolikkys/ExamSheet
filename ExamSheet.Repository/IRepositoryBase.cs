@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ExamSheet.Business
+namespace ExamSheet.Repository
 {
     public interface IRepositoryBase<T>
     {
