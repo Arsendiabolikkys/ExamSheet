@@ -21,6 +21,7 @@ namespace ExamSheet.Business.Group
 
         public override GroupModel GetById(string id)
         {
+            return new GroupModel() { Id = "test", Name = "Group" };
             return CreateModel(Repository.GetById(id));
         }
 

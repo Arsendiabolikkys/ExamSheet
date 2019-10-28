@@ -19,6 +19,7 @@ namespace ExamSheet.Business.Subject
 
         public override SubjectModel GetById(string id)
         {
+            return new SubjectModel() { Id = "Id", Name = "Subject" };
             return CreateModel(Repository.GetById(id));
         }
 

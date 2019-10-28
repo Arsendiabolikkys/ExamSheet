@@ -19,6 +19,7 @@ namespace ExamSheet.Business.Semester
 
         public override SemesterModel GetById(string id)
         {
+            return new SemesterModel() { Id = "Id", Year = 2019, Number = 1 };
             return CreateModel(Repository.GetById(id));
         }
 

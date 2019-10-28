@@ -19,6 +19,7 @@ namespace ExamSheet.Business.Teacher
 
         public override TeacherModel GetById(string id)
         {
+            return new TeacherModel() { Id = "Id", Name = "Name", Surname = "Surname" };
             return CreateModel(Repository.GetById(id));
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ExamSheet.Business.ExamSheet;
 using System.Linq;
+using ExamSheet.Web.Models;
 
 namespace ExamSheet.Web.Controllers
 {
@@ -17,8 +18,15 @@ namespace ExamSheet.Web.Controllers
         public IActionResult Index()
         {
             //TODO: Add method to business, use current Role inside method, paging
-            var examSheets = examSheetManager.FindAll().ToList();
-            return View();
+            var model = CreateIndexPageViewModel();
+            return View(model);
+        }
+
+        protected virtual IndexPageViewModel CreateIndexPageViewModel()
+        {
+            var model = new IndexPageViewModel();
+            model.ExamSheets = examSheetManager.FindAll().ToList();
+            return model;
         }
 
         //public IActionResult About()

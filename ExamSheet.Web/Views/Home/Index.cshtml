@@ -1,13 +1,13 @@
-﻿@{
+﻿@model IndexPageViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="header">
-    <h1>Renaissance Image Grid</h1>
+    <h1>Відомості</h1>
 </div>
 
 <div class="container">
-
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -37,129 +37,42 @@
 </div>
 <!-- /.container -->
 
-<div class="card-deck">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-success"><i class="fa fa-briefcase" style="font-size:20px;"></i>   Company</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-user" style="font-size:20px;"></i>   Role</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Location</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-clock-o" style="font-size:20px;"></i>   Duration</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-inr" style="font-size:20px;"></i>   Cost</li>
-            </ul>
+@{
+    var index = 0;
+    var count = 3;
 
-        </div>
-        <div class="card-footer">
-            <button type="button" class="btn" id="left-panel-link">Register</button>
-            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal1" id="right-panel-link">
-                Learn More
-            </button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-success"><i class="fa fa-briefcase" style="font-size:20px;"></i>   Company</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-user" style="font-size:20px;"></i>   Role</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Location</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-clock-o" style="font-size:20px;"></i>   Duration</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-inr" style="font-size:20px;"></i>   Cost</li>
-            </ul>
+    var sheets = Model.ExamSheets.Skip(index * count).Take(count);
+    while (sheets.Any())
+    {
+        <div class="card-deck">
+            @foreach (var sheet in sheets)
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@sheet.State</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-success"><i style="font-size:20px;"></i>@sheet.Teacher.Name @sheet.Teacher.Surname</li>
+                            <li class="list-group-item list-group-item-success"><i class="fa fa-user" style="font-size:20px;"></i>>@sheet.Subject.Name</li>
+                            <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>>@sheet.Group.Name</li>
+                            <li class="list-group-item list-group-item-success"><i class="fa fa-clock-o" style="font-size:20px;"></i>>@sheet.Faculty.Name</li>
+                            <li class="list-group-item list-group-item-success"><i class="fa fa-inr" style="font-size:20px;"></i>>@sheet.Semester.Year</li>
+                        </ul>
 
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn" id="left-panel-link">Register</button>
+                        <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal4" id="right-panel-link">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+            }
         </div>
-        <div class="card-footer">
-            <button type="button" class="btn" id="left-panel-link">Register</button>
-            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal2" id="right-panel-link">
-                Learn More
-            </button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-success"><i class="fa fa-briefcase" style="font-size:20px;"></i>   Company</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-user" style="font-size:20px;"></i>   Role</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Location</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-clock-o" style="font-size:20px;"></i>   Duration</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-inr" style="font-size:20px;"></i>   Cost</li>
-            </ul>
-
-        </div>
-        <div class="card-footer">
-            <button type="button" class="btn" id="left-panel-link">Register</button>
-            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal3" id="right-panel-link">
-                Learn More
-            </button>
-        </div>
-    </div>
-</div>
-<div class="sep"></div>
-
-<!-- Row 1 -->
-
-<div class="card-deck">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-success"><i class="fa fa-briefcase" style="font-size:20px;"></i>   Company</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-user" style="font-size:20px;"></i>   Role</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Location</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-clock-o" style="font-size:20px;"></i>   Duration</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-inr" style="font-size:20px;"></i>   Cost</li>
-            </ul>
-
-        </div>
-        <div class="card-footer">
-            <button type="button" class="btn" id="left-panel-link">Register</button>
-            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal4" id="right-panel-link">
-                Learn More
-            </button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-success"><i class="fa fa-briefcase" style="font-size:20px;"></i>   Company</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-user" style="font-size:20px;"></i>   Role</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Location</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-clock-o" style="font-size:20px;"></i>   Duration</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-inr" style="font-size:20px;"></i>   Cost</li>
-            </ul>
-
-        </div>
-        <div class="card-footer">
-            <button type="button" class="btn" id="left-panel-link">Register</button>
-            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal5" id="right-panel-link">
-                Learn More
-            </button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-success"><i class="fa fa-briefcase" style="font-size:20px;"></i>   Company</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-user" style="font-size:20px;"></i>   Role</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>   Location</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-clock-o" style="font-size:20px;"></i>   Duration</li>
-                <li class="list-group-item list-group-item-success"><i class="fa fa-inr" style="font-size:20px;"></i>   Cost</li>
-            </ul>
-
-        </div>
-        <div class="card-footer">
-            <button type="button" class="btn" id="left-panel-link">Register</button>
-            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal6" id="right-panel-link">
-                Learn More
-            </button>
-        </div>
-    </div>
-</div>
-<div class="sep"></div>
+        <div class="sep"></div>
+        index++;
+        sheets = Model.ExamSheets.Skip(index * count).Take(count);
+    }
+}
 
 <!--Modal 1-->
 <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

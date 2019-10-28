@@ -38,6 +38,9 @@ body {
 
 /* CUSTOM DESIGN */
 
+.navbar-inverse {
+    background-color: #444;
+}
 
 body {
     margin: 0;
@@ -48,7 +51,6 @@ body {
     color: #212529;
     text-align: left;
     background-color: #fff;
-
     font-family: 'Montserrat';
     background-image: url("https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
     background-attachment: fixed;
