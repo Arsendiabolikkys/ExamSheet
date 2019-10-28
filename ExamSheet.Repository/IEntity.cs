@@ -4,9 +4,7 @@ using System.Text;
 
 namespace ExamSheet.Repository
 {
-    public interface IRepositoryBase<T>
+    public interface IEntity
     {
-        IEnumerable<T> FindAll();
-        T GetById(string id);
     }
 }

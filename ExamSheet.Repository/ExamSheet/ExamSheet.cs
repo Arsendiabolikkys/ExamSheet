@@ -2,15 +2,16 @@
 
 namespace ExamSheet.Repository.ExamSheet
 {
-    public class ExamSheet
+    public class ExamSheet : IEntity
     {
+        //TODO: REMOVE ID, MAKE COMPOSITE ID
         public virtual string Id { get; set; }
 
         public virtual short State { get; set; }
 
         public virtual DateTime? OpenDate { get; set; }
 
-        public virtual DateTime? ClosedDate { get; set; }
+        public virtual DateTime? CloseDate { get; set; }
 
         public virtual string TeacherId { get; set; }
 

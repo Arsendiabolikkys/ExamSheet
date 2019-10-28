@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using ExamSheet.Web.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using ExamSheet.Business.ExamSheet;
+using System.Linq;
 
 namespace ExamSheet.Web.Controllers
 {
@@ -22,7 +17,7 @@ namespace ExamSheet.Web.Controllers
         public IActionResult Index()
         {
             //TODO: Add method to business, use current Role inside method, paging
-            var examSheets = examSheetManager.FindAll();
+            var examSheets = examSheetManager.FindAll().ToList();
             return View();
         }
 

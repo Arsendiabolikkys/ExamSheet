@@ -1,7 +1,7 @@
 ﻿
 namespace ExamSheet.Repository.Student
 {
-    public class Student
+    public class Student : IEntity
     {
         public virtual string Id { get; set; }
 

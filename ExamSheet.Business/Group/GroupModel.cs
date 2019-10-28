@@ -12,8 +12,8 @@ namespace ExamSheet.Business.Group
 
         public string Name { get; set; }
 
-        public IEnumerable<SubjectModel> Subjects { get; set; }
+        //public IEnumerable<SubjectModel> Subjects { get; set; }
 
-        public FacultyModel Faculty { get; set; }
+        //public FacultyModel Faculty { get; set; }
     }
 }

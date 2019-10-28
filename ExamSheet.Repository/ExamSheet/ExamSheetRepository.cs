@@ -1,28 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using NHibernate;
 
 namespace ExamSheet.Repository.ExamSheet
 {
-    public class ExamSheetRepository : RepositoryBase<ExamSheet>
+    public class ExamSheetRepository : RepositoryBase<ExamSheet>, IRepositoryBase<ExamSheet>
     {
         public ExamSheetRepository(ISessionFactory sessionFactory) 
             : base(sessionFactory) { }
 
-        //public override IEnumerable<ExamSheetModel> FindAll()
-        //{
-        //    using (var session = sessionFactory.OpenSession())
-        //    {
-        //        return new List<ExamSheetModel>()
-        //        {
-        //            new ExamSheetModel() { Id = Guid.NewGuid().ToString(), Ratings = "Test", State = ExamSheetState.New },
-        //            new ExamSheetModel() { Id = Guid.NewGuid().ToString(), Ratings = "Test rating", State = ExamSheetState.New },
-        //            new ExamSheetModel() { Id = Guid.NewGuid().ToString(), Ratings = "Test", State = ExamSheetState.Open },
-        //            new ExamSheetModel() { Id = Guid.NewGuid().ToString(), Ratings = "Test", State = ExamSheetState.Open },
-        //            new ExamSheetModel() { Id = Guid.NewGuid().ToString(), Ratings = "Test", State = ExamSheetState.Closed },
-        //            new ExamSheetModel() { Id = Guid.NewGuid().ToString(), Ratings = "Test", State = ExamSheetState.Archived },
-        //        };
-        //    }
-            
-        //}
+        public override IEnumerable<ExamSheet> FindAll()
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                return new List<ExamSheet>()
+                {
+                    new ExamSheet() { Id = Guid.NewGuid().ToString(), TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId", Ratings = "Ratings" },
+                    new ExamSheet() { Id = Guid.NewGuid().ToString(), TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId", Ratings = "Ratings" },
+                    new ExamSheet() { Id = Guid.NewGuid().ToString(), TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId", Ratings = "Ratings" },
+                    new ExamSheet() { Id = Guid.NewGuid().ToString(), TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId", Ratings = "Ratings" },
+                    new ExamSheet() { Id = Guid.NewGuid().ToString(), TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId", Ratings = "Ratings" },
+                    new ExamSheet() { Id = Guid.NewGuid().ToString(), TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId", Ratings = "Ratings" },
+                };
+            }
+
+        }
     }
 }

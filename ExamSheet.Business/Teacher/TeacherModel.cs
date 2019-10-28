@@ -13,6 +13,6 @@ namespace ExamSheet.Business.Teacher
 
         public string Surname { get; set; }
 
-        public IEnumerable<SubjectModel> Subjects { get; set; }
+        //public IEnumerable<SubjectModel> Subjects { get; set; }
     }
 }

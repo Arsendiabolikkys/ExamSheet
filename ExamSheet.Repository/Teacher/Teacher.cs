@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ExamSheet.Repository.Teacher
 {
-    public class Teacher
+    public class Teacher : IEntity
     {
         public virtual string Id { get; set; }
 
@@ -12,6 +12,6 @@ namespace ExamSheet.Repository.Teacher
 
         public virtual string Surname { get; set; }
 
-        public virtual string SubjectId { get; set; }
+        //public virtual string SubjectId { get; set; }
     }
 }

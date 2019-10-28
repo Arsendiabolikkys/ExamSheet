@@ -6,7 +6,7 @@
  namespace="ExamSheet.Repository.Faculty"
  assembly="ExamSheet.Repository">
   
-  <class name="FacultyModel" schema="public" table="Faculties">
+  <class name="Faculty" schema="public" table="Faculties">
     <id name="Id" column="Id" type="string"></id>
     <property name="Name" column="Name" type="string" />
   </class>

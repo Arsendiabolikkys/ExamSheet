@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ExamSheet.Repository.Subject
 {
-    public class Subject
+    public class Subject : IEntity
     {
         public virtual string Id { get; set; }
 

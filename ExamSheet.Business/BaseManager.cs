@@ -13,5 +13,9 @@ namespace ExamSheet.Business
         }
 
         public abstract IEnumerable<T> FindAll();
+
+        public abstract T GetById(string id);
+
+        public abstract T CreateModel(IEntity entity);
     }
 }

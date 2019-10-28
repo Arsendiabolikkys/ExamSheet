@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ExamSheet.Repository;
+using ExamSheet.Repository.Faculty;
 
 namespace ExamSheet.Business.Faculty
 {
@@ -8,10 +10,25 @@ namespace ExamSheet.Business.Faculty
         public FacultyManager(RepositoryWrapper repositoryWrapper)
             : base(repositoryWrapper) { }
 
-        //TODO: virtual in base class? Use FICT FEED MAPPER in base class, otherwise override it
+        protected FacultyRepository Repository => repositoryWrapper.Faculty;
+
         public override IEnumerable<FacultyModel> FindAll()
         {
-            throw new System.NotImplementedException();
+            return Repository.FindAll().Select(CreateModel);
+        }
+
+        public override FacultyModel GetById(string id)
+        {
+            return CreateModel(Repository.GetById(id));
+        }
+
+        public override FacultyModel CreateModel(IEntity entity)
+        {
+            var faculty = entity as Repository.Faculty.Faculty;
+            var model = new FacultyModel();
+            model.Id = faculty.Id;
+            model.Name = faculty.Name;
+            return model;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ExamSheet.Repository
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : IEntity
     {
         protected ISessionFactory sessionFactory;
 
@@ -19,6 +19,14 @@ namespace ExamSheet.Repository
             {
                 var query = session.Query<T>();
                 return query.ToList();
+            }
+        }
+
+        public virtual T GetById(string id)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                return session.Get<T>(id);
             }
         }
     }

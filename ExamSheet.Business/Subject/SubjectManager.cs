@@ -1,7 +1,7 @@
 ﻿using ExamSheet.Repository;
-using System;
+using ExamSheet.Repository.Subject;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace ExamSheet.Business.Subject
 {
@@ -10,9 +10,25 @@ namespace ExamSheet.Business.Subject
         public SubjectManager(RepositoryWrapper repositoryWrapper)
             : base(repositoryWrapper) { }
 
+        protected SubjectRepository Repository => repositoryWrapper.Subject;
+
         public override IEnumerable<SubjectModel> FindAll()
         {
-            throw new NotImplementedException();
+            return Repository.FindAll().Select(CreateModel);
+        }
+
+        public override SubjectModel GetById(string id)
+        {
+            return CreateModel(Repository.GetById(id));
+        }
+
+        public override SubjectModel CreateModel(IEntity entity)
+        {
+            var subject = entity as Repository.Subject.Subject;
+            var model = new SubjectModel();
+            model.Id = subject.Id;
+            model.Name = subject.Name;
+            return model;
         }
     }
 }

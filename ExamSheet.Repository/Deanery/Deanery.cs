@@ -2,7 +2,7 @@
 
 namespace ExamSheet.Repository.Deanery
 {
-    public class Deanery 
+    public class Deanery : IEntity
     {
         public virtual string Id { get; set; }
 

@@ -4,12 +4,12 @@ using System.Text;
 
 namespace ExamSheet.Repository.Group
 {
-    public class Group
+    public class Group : IEntity
     {
         public virtual string Id { get; set; }
 
         public virtual string Name { get; set; }
 
-        public virtual string SubjectId { get; set; }
+        //public virtual string SubjectId { get; set; }
     }
 }

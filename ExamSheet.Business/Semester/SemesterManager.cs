@@ -1,7 +1,7 @@
 ﻿using ExamSheet.Repository;
-using System;
+using ExamSheet.Repository.Semester;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace ExamSheet.Business.Semester
 {
@@ -10,9 +10,26 @@ namespace ExamSheet.Business.Semester
         public SemesterManager(RepositoryWrapper repositoryWrapper)
             : base(repositoryWrapper) { }
 
+        protected SemesterRepository Repository => repositoryWrapper.Semester;
+
         public override IEnumerable<SemesterModel> FindAll()
         {
-            throw new NotImplementedException();
+            return Repository.FindAll().Select(CreateModel);
+        }
+
+        public override SemesterModel GetById(string id)
+        {
+            return CreateModel(Repository.GetById(id));
+        }
+
+        public override SemesterModel CreateModel(IEntity entity)
+        {
+            var semester = entity as Repository.Semester.Semester;
+            var model = new SemesterModel();
+            model.Id = semester.Id;
+            model.Number = semester.Number;
+            model.Year = semester.Year;
+            return model;
         }
     }
 }
