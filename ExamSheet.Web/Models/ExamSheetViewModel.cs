@@ -7,6 +7,7 @@ namespace ExamSheet.Web.Models
     public class ExamSheetViewModel
     {
         [Required]
+        //[UIHint("ExamSheetState")]
         public ExamSheetState State { get; set; }
 
         public DateTime? OpenDate { get; set; }
