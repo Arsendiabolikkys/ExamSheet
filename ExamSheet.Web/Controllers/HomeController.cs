@@ -2,17 +2,18 @@
 using ExamSheet.Business.ExamSheet;
 using System.Linq;
 using ExamSheet.Web.Models;
+using System.Diagnostics;
 
 namespace ExamSheet.Web.Controllers
 {
     public class HomeController : Controller
     {
-        protected ExamSheetManager examSheetManager;
+        protected ExamSheetManager ExamSheetManager;
 
         public HomeController(ExamSheetManager examSheetManager)
         {
             //TODO: check if initialized
-            this.examSheetManager = examSheetManager;
+            this.ExamSheetManager = examSheetManager;
         }
 
         public IActionResult Index()
@@ -25,33 +26,14 @@ namespace ExamSheet.Web.Controllers
         protected virtual IndexPageViewModel CreateIndexPageViewModel()
         {
             var model = new IndexPageViewModel();
-            model.ExamSheets = examSheetManager.FindAll().ToList();
+            model.ExamSheets = ExamSheetManager.FindAll().ToList();
             return model;
         }
 
-        //public IActionResult About()
-        //{
-        //    ViewData["Message"] = "Your application description page.";
-
-        //    return View();
-        //}
-
-        //public IActionResult Contact()
-        //{
-        //    ViewData["Message"] = "Your contact page.";
-
-        //    return View();
-        //}
-
-        //public IActionResult Privacy()
-        //{
-        //    return View();
-        //}
-
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }

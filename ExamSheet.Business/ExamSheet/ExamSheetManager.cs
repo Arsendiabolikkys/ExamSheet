@@ -49,7 +49,7 @@ namespace ExamSheet.Business.ExamSheet
         {
             var examSheet = entity as Repository.ExamSheet.ExamSheet;
             var model = new ExamSheetModel();
-            model.Id = examSheet.Id;
+            //model.Id = examSheet.Id;
             model.OpenDate = examSheet.OpenDate;
             model.CloseDate = examSheet.CloseDate;
             model.Ratings = examSheet.Ratings;

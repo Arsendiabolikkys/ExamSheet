@@ -7,13 +7,17 @@
  assembly="ExamSheet.Repository">
   
   <class name="ExamSheet" schema="public" table="ExamSheets">
-    <id name="Id" column="Id" type="string"></id>
+    <composite-id>
+      <key-property name="TeacherId" column="TeacherId" type="string" />
+      <key-property name="SubjectId" column="SubjectId" type="string" />
+      <key-property name="GroupId" column="GroupId" type="string" />
+    </composite-id>
     <property name="State" column="State" type="short" />
     <property name="OpenDate" column="OpenDate" type="datetime" />
     <property name="CloseDate" column="CloseDate" type="datetime" />
-    <property name="TeacherId" column="TeacherId" type="string" />
-    <property name="SubjectId" column="SubjectId" type="string" />
-    <property name="GroupId" column="GroupId" type="string" />
+    <!--<property name="TeacherId" column="TeacherId" type="string" />-->
+    <!--<property name="SubjectId" column="SubjectId" type="string" />-->
+    <!--<property name="GroupId" column="GroupId" type="string" />-->
     <property name="FacultyId" column="FacultyId" type="string" />
     <property name="SemesterId" column="SemesterId" type="string" />
     <property name="Ratings" column="Ratings" type="xml" />

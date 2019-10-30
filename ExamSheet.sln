@@ -12,7 +12,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSheet.Business", "ExamS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSheet.Extensions", "ExamSheet.Extensions\ExamSheet.Extensions.csproj", "{466C205B-C5AC-41F3-BC3A-ED29AD1A89CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamSheet.Repository", "ExamSheet.Repository\ExamSheet.Repository.csproj", "{C605C51D-53A7-432B-B1BC-5ABF908A442B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSheet.Repository", "ExamSheet.Repository\ExamSheet.Repository.csproj", "{C605C51D-53A7-432B-B1BC-5ABF908A442B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

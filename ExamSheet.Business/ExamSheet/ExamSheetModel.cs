@@ -9,7 +9,7 @@ namespace ExamSheet.Business.ExamSheet
 {
     public class ExamSheetModel
     {
-        public string Id { get; set; }
+        //public string Id { get; set; }
 
         public ExamSheetState State { get; set; }
 
