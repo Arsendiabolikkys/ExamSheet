@@ -1,15 +1,17 @@
 ﻿using ExamSheet.Business.Faculty;
 using ExamSheet.Business.Group;
+using ExamSheet.Business.Rating;
 using ExamSheet.Business.Semester;
 using ExamSheet.Business.Subject;
 using ExamSheet.Business.Teacher;
 using System;
+using System.Collections.Generic;
 
 namespace ExamSheet.Business.ExamSheet
 {
     public class ExamSheetModel
     {
-        //public string Id { get; set; }
+        public string Id { get; set; }
 
         public ExamSheetState State { get; set; }
 
@@ -26,9 +28,8 @@ namespace ExamSheet.Business.ExamSheet
         public FacultyModel Faculty { get; set; }
 
         public SemesterModel Semester { get; set; }
-
-        //TODO: XML FIELD
-        public string Ratings { get; set; }
+        
+        public IList<RatingModel> Ratings { get; set; }
     }
 
     public enum ExamSheetState

@@ -3,6 +3,7 @@ for details on configuring this project to bundle and minify static web assets. 
 body {
     padding-top: 50px;
     padding-bottom: 20px;
+    font-family: Arial;
 }
 
 /* //TODO: INIT ONE FONT FOR ALL ELEMENTS */ 
@@ -40,6 +41,16 @@ body {
 
 /* CUSTOM DESIGN */
 
+.form-create-sheet{
+    width: 40%;
+    margin-left: 25%;
+}
+
+label {
+    font-size: 1.5rem;
+    font-weight: normal;
+}
+
 .navbar-inverse {
     background-color: #0D47A1 !important;
     border-color: #0D47A1;
@@ -63,14 +74,12 @@ body {
 
 body {
     margin: 0;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
     font-size: 1.8rem;
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
     text-align: left;
     background-color: #fff;
-    font-family: 'Montserrat';
     /*background-image: url("https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");*/
     background-attachment: fixed;
     background-position: center;
@@ -272,6 +281,6 @@ li {
     width: 100%;
 }
 
-.form-container {
+.body-container {
     margin-top: 50px;
 }

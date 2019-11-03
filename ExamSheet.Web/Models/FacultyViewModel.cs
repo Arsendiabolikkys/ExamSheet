@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ExamSheet.Web.Models
 {
@@ -9,6 +6,8 @@ namespace ExamSheet.Web.Models
     {
         public string Id { get; set; }
 
+        [Required]
+        [Display(Name = "Факультет")]
         public string Name { get; set; }
     }
 }

@@ -10,5 +10,8 @@ namespace ExamSheet.Repository.Student
         public virtual string Surname { get; set; }
 
         public virtual string GroupId { get; set; }
+
+        //TODO: ratingId
+        //TODO> subject + student + semester + Mark (0-100)
     }
 }

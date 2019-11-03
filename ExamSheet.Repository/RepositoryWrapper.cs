@@ -2,6 +2,7 @@
 using ExamSheet.Repository.ExamSheet;
 using ExamSheet.Repository.Faculty;
 using ExamSheet.Repository.Group;
+using ExamSheet.Repository.Rating;
 using ExamSheet.Repository.Semester;
 using ExamSheet.Repository.Student;
 using ExamSheet.Repository.Subject;
@@ -21,6 +22,7 @@ namespace ExamSheet.Repository
         private FacultyRepository faculty;
         private SemesterRepository semester;
         private StudentRepository student;
+        private RatingRepository rating;
 
         public ExamSheetRepository ExamSheet
         {
@@ -91,6 +93,18 @@ namespace ExamSheet.Repository
                     faculty = new FacultyRepository(sessionFactory);
                 }
                 return faculty;
+            }
+        }
+
+        public RatingRepository Rating
+        {
+            get
+            {
+                if (rating == null)
+                {
+                    rating = new RatingRepository(sessionFactory);
+                }
+                return rating;
             }
         }
 

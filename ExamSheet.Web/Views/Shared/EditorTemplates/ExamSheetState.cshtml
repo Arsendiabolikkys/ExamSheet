@@ -1,4 +1,8 @@
-﻿@model ExamSheet.Business.ExamSheet.ExamSheetState
-@{   
+﻿@model ExamSheet.Web.Models.ExamSheetState
+@{
+    var list = Html.GetEnumSelectList<ExamSheet.Web.Models.ExamSheetState>();
+    var name = ViewData.TemplateInfo.HtmlFieldPrefix;
 }
-<p>Use this page to detail your site's privacy policy.</p>
+
+@Html.LabelFor(m => Model, "Статус")
+@Html.DropDownList(string.Empty, list, htmlAttributes: new { @class = "form-control" })

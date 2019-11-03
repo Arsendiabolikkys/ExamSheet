@@ -38,7 +38,8 @@ namespace ExamSheet.Web
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            
+            //TODO: Create admin user is not exist on start
             services.ConfigureHibernate();
             services.ConfigureRepositoryWrapper();
             services.ConfigureManagers();

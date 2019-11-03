@@ -1,5 +1,6 @@
 ﻿using ExamSheet.Business.Faculty;
 using ExamSheet.Business.Group;
+using ExamSheet.Business.Rating;
 using ExamSheet.Business.Semester;
 using ExamSheet.Business.Subject;
 using ExamSheet.Business.Teacher;
@@ -21,11 +22,13 @@ namespace ExamSheet.Business.ExamSheet
         protected virtual SemesterManager SemesterManager { get; set; }
 
         protected virtual SubjectManager SubjectManager { get; set; }
+
+        protected virtual RatingManager RatingManager { get; set; }
         
         protected ExamSheetRepository Repository => repositoryWrapper.ExamSheet;
 
         public ExamSheetManager(RepositoryWrapper repositoryWrapper, GroupManager groupManager, TeacherManager teacherManager,
-            FacultyManager facultyManager, SemesterManager semesterManager, SubjectManager subjectManager)
+            FacultyManager facultyManager, SemesterManager semesterManager, SubjectManager subjectManager, RatingManager ratingManager)
             : base(repositoryWrapper)
         {
             GroupManager = groupManager;
@@ -33,6 +36,7 @@ namespace ExamSheet.Business.ExamSheet
             FacultyManager = facultyManager;
             SemesterManager = semesterManager;
             SubjectManager = subjectManager;
+            RatingManager = ratingManager;
         }
 
         public override IEnumerable<ExamSheetModel> FindAll()
@@ -52,13 +56,13 @@ namespace ExamSheet.Business.ExamSheet
             //model.Id = examSheet.Id;
             model.OpenDate = examSheet.OpenDate;
             model.CloseDate = examSheet.CloseDate;
-            model.Ratings = examSheet.Ratings;
             model.State = (ExamSheetState)examSheet.State;
             model.Group = GroupManager.GetById(examSheet.GroupId);
             model.Teacher = TeacherManager.GetById(examSheet.TeacherId);
             model.Faculty = FacultyManager.GetById(examSheet.FacultyId);
             model.Semester = SemesterManager.GetById(examSheet.SemesterId);
             model.Subject = SubjectManager.GetById(examSheet.SubjectId);
+            model.Ratings = RatingManager.FindAll(examSheet.Id);
             return model;
         }
     }

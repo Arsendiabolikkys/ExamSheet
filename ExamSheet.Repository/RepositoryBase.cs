@@ -22,6 +22,28 @@ namespace ExamSheet.Repository
             }
         }
 
+        public virtual void Save(T model)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                session.SaveOrUpdate(model);
+                session.Flush();
+            }
+        }
+
+        public virtual void Remove(string id)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var item = session.Get<T>(id);
+                if (item != null)
+                {
+                    session.Delete(item);
+                    session.Flush();
+                }
+            }
+        }
+
         public virtual T GetById(string id)
         {
             using (var session = sessionFactory.OpenSession())

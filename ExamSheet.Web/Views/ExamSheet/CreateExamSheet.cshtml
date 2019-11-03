@@ -3,20 +3,37 @@
 }
 
 <div class="form-container">
-    @using (Html.BeginForm(FormMethod.Post))
+    @using (Html.BeginForm(FormMethod.Post, htmlAttributes: new { @class = "form-create-sheet" }))
     {
         @Html.AntiForgeryToken()
+        <h4>Відомість</h4>
         <div class="form-group">
             @Html.EditorFor(m => m.State)
         </div>
         <div class="form-group">
+            @Html.LabelFor(m => m.OpenDate)
             @Html.EditorFor(m => m.OpenDate)
         </div>
         <div class="form-group">
-            @Html.EditorFor(m => m.CloseDate)
+            @Html.LabelFor(m => m.Faculty.Name)
+            @Html.EditorFor(m => m.Faculty.Name)
         </div>
         <div class="form-group">
-            @Html.EditorFor(m => m.Semester)
+            @Html.LabelFor(m => m.Group.Name)
+            @Html.EditorFor(m => m.Group.Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Subject.Name)
+            @Html.EditorFor(m => m.Subject.Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Teacher)
+            @Html.EditorFor(m => m.Teacher.Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Semester)
+            @Html.EditorFor(m => m.Semester.Year)
+            @Html.EditorFor(m => m.Semester.Number)
         </div>
 
         <button type="submit" class="btn btn-primary">Створити</button>
