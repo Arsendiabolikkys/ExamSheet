@@ -54,14 +54,17 @@
     {
         foreach (var sheet in Model.ExamSheets)
         {
+            var group = sheet.Group == null ? string.Empty : sheet.Group.Name;
+            var faculty = sheet.Faculty == null ? string.Empty : sheet.Faculty.Name;
+            var subject = sheet.Subject == null ? string.Empty : sheet.Subject.Name;
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">@sheet.State</h5>
                     <ul class="list-group">
-                        <li class="list-group-item list-group-item-success"><i style="font-size:20px;"></i>@sheet.Teacher.Name @sheet.Teacher.Surname</li>
-                        <li class="list-group-item list-group-item-success"><i class="fa fa-user" style="font-size:20px;"></i>>@sheet.Subject.Name</li>
-                        <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>>@sheet.Group.Name</li>
-                        <li class="list-group-item list-group-item-success"><i class="fa fa-clock-o" style="font-size:20px;"></i>>@sheet.Faculty.Name</li>
+                        <li class="list-group-item list-group-item-success"><i style="font-size:20px;"></i>>@sheet.Teacher.Name @sheet.Teacher.Surname</li>
+                        <li class="list-group-item list-group-item-success"><i class="fa fa-user" style="font-size:20px;"></i>>@subject</li>
+                        <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>>@group</li>
+                        <li class="list-group-item list-group-item-success"><i class="fa fa-clock-o" style="font-size:20px;"></i>>@faculty</li>
                         <li class="list-group-item list-group-item-success"><i class="fa fa-inr" style="font-size:20px;"></i>>@sheet.Semester.Year</li>
                     </ul>
 

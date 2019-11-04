@@ -19,7 +19,10 @@ namespace ExamSheet.Business.Faculty
 
         public override FacultyModel GetById(string id)
         {
-            return CreateModel(Repository.GetById(id));
+            var faculty = Repository.GetById(id);
+            if (faculty == null)
+                return null;
+            return CreateModel(faculty);
         }
 
         public virtual void Save(FacultyModel facultyModel)
@@ -51,8 +54,6 @@ namespace ExamSheet.Business.Faculty
         {
             var faculty = entity as Repository.Faculty.Faculty;
             var model = new FacultyModel();
-            if (faculty == null)
-                return model;
             model.Id = faculty.Id;
             model.Name = faculty.Name;
             return model;

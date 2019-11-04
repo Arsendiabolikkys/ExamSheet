@@ -1,16 +1,16 @@
-﻿@model IList<FacultyViewModel>
+﻿@model IList<GroupViewModel>
 @{
     ViewData["Title"] = "Index";
 }
 
-<h3>Факультети</h3>
+<h3>Групи</h3>
 <div class="row">
     <div class="col-12">
         <table class="table table-sm table-striped table-hover border-bottom">
             <thead>
                 <tr class="d-none d-lg-table-cell">
                     <th>
-                        Факультет
+                        Група
                     </th>
                     <th></th>
                     <th></th>
@@ -26,17 +26,17 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                @Html.ActionLink("Редагувати", "Edit", "Faculty", routeValues: new { id = item.Id })
+                                @Html.ActionLink("Редагувати", "Edit", "Group", routeValues: new { id = item.Id })
                             </td>
                             <td>
-                                @Html.ActionLink("Видалити", "Delete", "Faculty", routeValues: new { id = item.Id })
+                                @Html.ActionLink("Видалити", "Delete", "Group", routeValues: new { id = item.Id })
                             </td>
                         </tr>
                     }
                 }
                 <tr>
                     <td colspan="3">
-                        @Html.ActionLink("Додати факультет", "Create", "Faculty", null, htmlAttributes: new { @class = "btn btn-success" })
+                        @Html.ActionLink("Додати групу", "Create", "Group", null, htmlAttributes: new { @class = "btn btn-success" })
                     </td>
                 </tr>
             </tbody>

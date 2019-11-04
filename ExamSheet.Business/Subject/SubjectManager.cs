@@ -19,8 +19,35 @@ namespace ExamSheet.Business.Subject
 
         public override SubjectModel GetById(string id)
         {
-            return new SubjectModel() { Id = "Id", Name = "Subject" };
-            return CreateModel(Repository.GetById(id));
+            var subject = Repository.GetById(id);
+            if (subject == null)
+                return null;
+            return CreateModel(subject);
+        }
+
+        public virtual void Save(SubjectModel subjectModel)
+        {
+            if (subjectModel == null)
+                return;
+            if (string.IsNullOrEmpty(subjectModel.Id))
+                return;
+            Repository.Save(CreateModel(subjectModel));
+        }
+
+        public virtual void Remove(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return;
+
+            Repository.Remove(id);
+        }
+
+        public virtual Repository.Subject.Subject CreateModel(SubjectModel subjectModel)
+        {
+            var subject = new Repository.Subject.Subject();
+            subject.Id = subjectModel.Id;
+            subject.Name = subjectModel.Name;
+            return subject;
         }
 
         public override SubjectModel CreateModel(IEntity entity)

@@ -284,3 +284,7 @@ li {
 .body-container {
     margin-top: 50px;
 }
+
+.validation-summary-errors, .field-validation-error {
+    color: red;
+}

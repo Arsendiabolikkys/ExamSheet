@@ -6,7 +6,7 @@
  namespace="ExamSheet.Repository.Rating"
  assembly="ExamSheet.Repository">
   
-  <class name="Rating" schema="public" table="Ratings">
+  <class name="Rating" table="Ratings">
     <composite-id>
       <key-property name="StudentId" column="StudentId" type="string" />
       <key-property name="ExamSheetId" column="ExamSheetId" type="string" />

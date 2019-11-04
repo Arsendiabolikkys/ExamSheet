@@ -6,7 +6,7 @@
  namespace="ExamSheet.Repository.ExamSheet"
  assembly="ExamSheet.Repository">
   
-  <class name="ExamSheet" schema="public" table="ExamSheets">
+  <class name="ExamSheet" table="ExamSheets">
     <id name="Id" column="Id" type="string"></id>
     <!--<composite-id>
       <key-property name="TeacherId" column="TeacherId" type="string" />

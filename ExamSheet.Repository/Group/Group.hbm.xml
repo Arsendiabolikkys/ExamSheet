@@ -6,7 +6,7 @@
  namespace="ExamSheet.Repository.Group"
  assembly="ExamSheet.Repository">
   
-  <class name="Group" schema="public" table="Groups">
+  <class name="Group" table="Groups">
     <id name="Id" column="Id" type="string"></id>
     <property name="Name" column="Name" type="string" />
   </class>

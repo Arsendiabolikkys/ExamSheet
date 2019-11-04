@@ -21,8 +21,35 @@ namespace ExamSheet.Business.Group
 
         public override GroupModel GetById(string id)
         {
-            return new GroupModel() { Id = "test", Name = "Group" };
-            return CreateModel(Repository.GetById(id));
+            var group = Repository.GetById(id);
+            if (group == null)
+                return null;
+            return CreateModel(group);
+        }
+
+        public virtual void Save(GroupModel groupModel)
+        {
+            if (groupModel == null)
+                return;
+            if (string.IsNullOrEmpty(groupModel.Id))
+                return;
+            Repository.Save(CreateModel(groupModel));
+        }
+
+        public virtual void Remove(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return;
+
+            Repository.Remove(id);
+        }
+
+        public virtual Repository.Group.Group CreateModel(GroupModel groupModel)
+        {
+            var group = new Repository.Group.Group();
+            group.Id = groupModel.Id;
+            group.Name = groupModel.Name;
+            return group;
         }
 
         public override GroupModel CreateModel(IEntity entity)
