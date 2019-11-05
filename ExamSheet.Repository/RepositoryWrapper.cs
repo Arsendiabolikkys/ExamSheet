@@ -1,8 +1,10 @@
-﻿using ExamSheet.Repository.Deanery;
+﻿using ExamSheet.Repository.Account;
+using ExamSheet.Repository.Deanery;
 using ExamSheet.Repository.ExamSheet;
 using ExamSheet.Repository.Faculty;
 using ExamSheet.Repository.Group;
 using ExamSheet.Repository.Rating;
+using ExamSheet.Repository.Role;
 using ExamSheet.Repository.Semester;
 using ExamSheet.Repository.Student;
 using ExamSheet.Repository.Subject;
@@ -23,6 +25,32 @@ namespace ExamSheet.Repository
         private SemesterRepository semester;
         private StudentRepository student;
         private RatingRepository rating;
+        private RoleRepository role;
+        private AccountRepository account;
+
+        public AccountRepository Account
+        {
+            get
+            {
+                if (account == null)
+                {
+                    account = new AccountRepository(sessionFactory);
+                }
+                return account;
+            }
+        }
+
+        public RoleRepository Role
+        {
+            get
+            {
+                if (role == null)
+                {
+                    role = new RoleRepository(sessionFactory);
+                }
+                return role;
+            }
+        }
 
         public ExamSheetRepository ExamSheet
         {

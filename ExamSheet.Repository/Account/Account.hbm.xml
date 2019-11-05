@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns="urn:nhibernate-mapping-2.2"
+ namespace="ExamSheet.Repository.Account"
+ assembly="ExamSheet.Repository">
+  
+  <class name="Account" table="Accounts">
+    <id name="Id" column="Id" type="string"></id>
+    <property name="Email" column="Email" type="string" />
+    <property name="PasswordHash" column="PasswordHash" type="string" />
+    <property name="Salt" column="Salt" type="string" />
+    <property name="RoleId" column="RoleId" type="string" />
+    <property name="ReferenceId" column="ReferenceId" type="string" />
+  </class>
+  
+</hibernate-mapping>

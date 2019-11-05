@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Account\Account.hbm.xml" />
     <None Remove="Deanery\Deanery.hbm.xml" />
     <None Remove="ExamSheet\ExamSheet.hbm.xml" />
     <None Remove="Faculty\Faculty.hbm.xml" />
     <None Remove="Group\Group.hbm.xml" />
     <None Remove="Rating\Rating.hbm.xml" />
+    <None Remove="Role\Role.hbm.xml" />
     <None Remove="Semester\Semester.hbm.xml" />
     <None Remove="Student\Student.hbm.xml" />
     <None Remove="Subject\Subject.hbm.xml" />
@@ -17,11 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Account\Account.hbm.xml" />
     <EmbeddedResource Include="Deanery\Deanery.hbm.xml" />
     <EmbeddedResource Include="ExamSheet\ExamSheet.hbm.xml" />
     <EmbeddedResource Include="Faculty\Faculty.hbm.xml" />
     <EmbeddedResource Include="Group\Group.hbm.xml" />
     <EmbeddedResource Include="Rating\Rating.hbm.xml" />
+    <EmbeddedResource Include="Role\Role.hbm.xml" />
     <EmbeddedResource Include="Semester\Semester.hbm.xml" />
     <EmbeddedResource Include="Student\Student.hbm.xml" />
     <EmbeddedResource Include="Subject\Subject.hbm.xml" />

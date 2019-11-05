@@ -1,9 +1,4 @@
-﻿using ExamSheet.Business.Faculty;
-using ExamSheet.Business.Subject;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace ExamSheet.Business.Group
 {
     public class GroupModel
@@ -12,7 +7,7 @@ namespace ExamSheet.Business.Group
 
         public string Name { get; set; }
 
-        //public IEnumerable<SubjectModel> Subjects { get; set; }
+        //TODO: FACULTY?
 
         //public FacultyModel Faculty { get; set; }
     }
