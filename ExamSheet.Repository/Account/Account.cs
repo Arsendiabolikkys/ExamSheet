@@ -14,7 +14,7 @@ namespace ExamSheet.Repository.Account
 
         public virtual string Salt { get; set; }
 
-        public virtual string RoleId { get; set; }
+        public virtual short AccountType { get; set; }
 
         public virtual string ReferenceId { get; set; }
     }

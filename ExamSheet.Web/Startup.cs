@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NHibernate.NetCore;
 using ExamSheet.Extensions;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace ExamSheet.Web
 {
@@ -38,7 +39,8 @@ namespace ExamSheet.Web
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
+            services.Configure<HtmlHelperOptions>(o => o.ClientValidationEnabled = true);
+
             //TODO: Create admin user is not exist on start
             services.ConfigureHibernate();
             services.ConfigureRepositoryWrapper();

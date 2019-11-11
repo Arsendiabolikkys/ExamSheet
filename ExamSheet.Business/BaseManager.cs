@@ -17,5 +17,9 @@ namespace ExamSheet.Business
         public abstract T GetById(string id);
 
         public abstract T CreateModel(IEntity entity);
+
+        //public abstract void Save(T model);
+
+        //public abstract void Remove(string id);
     }
 }

@@ -1,0 +1,36 @@
+﻿@model AccountViewModel
+
+@using (Html.BeginForm(FormMethod.Post, htmlAttributes: new { id = "account-form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword)
+        @Html.PasswordFor(m => m.ConfirmPassword, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AccountType)
+        @Html.EditorFor(m => m.AccountType)
+        @Html.ValidationMessageFor(m => m.AccountType)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ReferenceId)
+        @Html.EditorFor(m => m.ReferenceId, new { Teachers = Model.Teachers, Deaneries = Model.Deaneries })
+        @Html.ValidationMessageFor(m => m.ReferenceId)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Зберегти</button>
+    <button>Назад</button>
+}

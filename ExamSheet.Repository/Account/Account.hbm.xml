@@ -11,7 +11,7 @@
     <property name="Email" column="Email" type="string" />
     <property name="PasswordHash" column="PasswordHash" type="string" />
     <property name="Salt" column="Salt" type="string" />
-    <property name="RoleId" column="RoleId" type="string" />
+    <property name="AccountType" column="AccountType" type="short" />
     <property name="ReferenceId" column="ReferenceId" type="string" />
   </class>
   

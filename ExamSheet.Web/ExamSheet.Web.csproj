@@ -45,6 +45,12 @@
     <Content Update="Views\Group\_Edit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Shared\EditorTemplates\ReferenceId.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\AccountTypeView.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\EditorTemplates\ExamSheetState.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

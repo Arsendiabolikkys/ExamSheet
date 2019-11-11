@@ -12,8 +12,16 @@ namespace ExamSheet.Business.Account
 
         public string Salt { get; set; }
 
-        public RoleModel Role { get; set; }
+        public AccountType AccountType { get; set; }
+        //public RoleModel Role { get; set; }
 
         public string ReferenceId { get; set; }
+    }
+
+    public enum AccountType
+    {
+        Teacher,
+        Deanery,
+        Admin
     }
 }
