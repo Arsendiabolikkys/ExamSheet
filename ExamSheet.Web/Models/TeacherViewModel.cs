@@ -6,7 +6,7 @@ namespace ExamSheet.Web.Models
     //TODO: login first time - create password???
     //TODO: add new table - accounts - if create teacher - role teacher
 
-    public class TeacherViewModel
+    public class TeacherViewModel : IItemViewModel
     {
         [Required]
         [ScaffoldColumn(false)]

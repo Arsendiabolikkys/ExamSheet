@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ExamSheet.Business.Group
 {
-    public class GroupManager : BaseManager<GroupModel>
+    public class GroupManager : BaseManager<GroupModel>, IItemManager<GroupModel>
     {
         public GroupManager(RepositoryWrapper repositoryWrapper)
             : base(repositoryWrapper)

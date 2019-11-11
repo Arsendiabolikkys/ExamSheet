@@ -1,83 +1,38 @@
 ﻿using System;
-using System.Linq;
 using ExamSheet.Business.Group;
 using ExamSheet.Web.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ExamSheet.Web.Controllers
 {
-    public class GroupController : Controller
+    public class GroupController : ItemsController<GroupModel, GroupViewModel>
     {
-        protected GroupManager Group { get; set; }
+        public GroupController(GroupManager manager)
+            : base(manager) { }
 
-        public GroupController(GroupManager groupManager)
+        protected override GroupModel CreateModel(GroupViewModel model)
         {
-            Group = groupManager;
-        }
-
-        public IActionResult Index()
-        {
-            var groups = Group.FindAll().Select(CreateGroupViewModel).ToList();
-            return View(groups);
-        }
-
-        protected virtual GroupViewModel CreateGroupViewModel(GroupModel group)
-        {
-            return new GroupViewModel()
+            return new GroupModel()
             {
-                Id = group.Id,
-                Name = group.Name
+                Id = model.Id,
+                Name = model.Name
             };
         }
 
-        [HttpGet]
-        public IActionResult Edit(string id)
+        protected override GroupViewModel CreateViewModel(GroupModel model)
         {
-            var model = Group.GetById(id);
-            return View(CreateGroupViewModel(model));
+            return new GroupViewModel()
+            {
+                Id = model.Id,
+                Name = model.Name 
+            };
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(GroupViewModel model)
+        protected override GroupViewModel CreateViewModel()
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            return SaveOrUpdate(model);
-        }
-
-        [HttpGet]
-        public IActionResult Create()
-        {
-            var model = new GroupViewModel() { Id = Guid.NewGuid().ToString() };
-            return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(GroupViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            return SaveOrUpdate(model);
-        }
-
-        protected IActionResult SaveOrUpdate(GroupViewModel model)
-        {
-            var group = new GroupModel() { Id = model.Id, Name = model.Name };
-            Group.Save(group);
-            return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Delete(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-                return RedirectToAction(nameof(Index));
-
-            Group.Remove(id);
-            return RedirectToAction(nameof(Index));
+            return new GroupViewModel()
+            {
+                Id = Guid.NewGuid().ToString()
+            };
         }
     }
 }

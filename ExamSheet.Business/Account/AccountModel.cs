@@ -2,7 +2,7 @@
 
 namespace ExamSheet.Business.Account
 {
-    public class AccountModel
+    public class AccountModel : IItem
     {
         public string Id { get; set; }
 

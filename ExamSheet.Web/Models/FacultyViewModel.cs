@@ -2,7 +2,7 @@
 
 namespace ExamSheet.Web.Models
 {
-    public class FacultyViewModel
+    public class FacultyViewModel : IItemViewModel
     {
         [Required]
         [ScaffoldColumn(false)]

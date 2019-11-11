@@ -1,7 +1,7 @@
 ﻿
 namespace ExamSheet.Business.Group
 {
-    public class GroupModel
+    public class GroupModel : IItem
     {
         public string Id { get; set; }
 

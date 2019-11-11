@@ -3,7 +3,7 @@
 namespace ExamSheet.Web.Models
 {
     //TODO: add Dekan Surname -> Initials
-    public class DeaneryViewModel
+    public class DeaneryViewModel : IItemViewModel
     {
         [Required]
         [ScaffoldColumn(false)]

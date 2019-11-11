@@ -5,14 +5,11 @@ using ExamSheet.Repository.Account;
 
 namespace ExamSheet.Business.Account
 {
-    public class AccountManager : BaseManager<AccountModel>
+    public class AccountManager : BaseManager<AccountModel>, IItemManager<AccountModel>
     {
-        //protected virtual RoleManager RoleManager { get; set; }
-
         public AccountManager(RepositoryWrapper repositoryWrapper)
             : base(repositoryWrapper)
         {
-            //RoleManager = roleManager;
         }
 
         protected AccountRepository Repository => repositoryWrapper.Account;

@@ -1,0 +1,47 @@
+﻿@model IList<TeacherViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3>Викладачі</h3>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-sm table-striped table-hover border-bottom">
+            <thead>
+                <tr class="d-none d-lg-table-cell">
+                    <th>
+                        Викладач
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        var name = string.Format("{0} {1}", item.Surname, item.Name);
+                        <tr>
+                            <td class="d-none d-lg-table-cell">
+                                @name
+                            </td>
+                            <td>
+                                @Html.ActionLink("Редагувати", "Edit", "Teacher", routeValues: new { id = item.Id })
+                            </td>
+                            <td>
+                                @*////TODO: btn-delete-item confirm JS *@
+                                @Html.ActionLink("Видалити", "Delete", "Teacher", routeValues: new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
+                }
+                <tr>
+                    <td colspan="3">
+                        @Html.ActionLink("Додати вчителя", "Create", "Teacher", null, htmlAttributes: new { @class = "btn btn-success" })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

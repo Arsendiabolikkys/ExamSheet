@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ExamSheet.Business.Teacher
 {
-    public class TeacherModel
+    public class TeacherModel : IItem
     {
         public string Id { get; set; }
 

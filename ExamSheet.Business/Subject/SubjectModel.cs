@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
 namespace ExamSheet.Business.Subject
 {
-    public class SubjectModel
+    public class SubjectModel : IItem
     {
         public string Id { get; set; }
 

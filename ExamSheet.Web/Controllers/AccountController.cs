@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 
 namespace ExamSheet.Web.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : ItemsController<AccountModel, AccountViewModel>
     {
         protected AccountManager AccountManager { get; set; }
 
@@ -18,16 +18,31 @@ namespace ExamSheet.Web.Controllers
         protected DeaneryManager DeaneryManager { get; set; }
 
         public AccountController(AccountManager accountManager, TeacherManager teacherManager, DeaneryManager deaneryManager)
+            : base(accountManager)
         {
             AccountManager = accountManager;
             TeacherManager = teacherManager;
             DeaneryManager = deaneryManager;
         }
 
-        public IActionResult Index()
+        protected override AccountViewModel CreateViewModel(AccountModel model)
         {
-            var accounts = AccountManager.FindAll().Select(x => CreateAccountViewModel(x)).ToList();
-            return View(accounts);
+            return CreateViewModel(model, false);
+        }
+
+        protected override AccountViewModel CreateViewModel()
+        {
+            return new AccountViewModel() { Id = Guid.NewGuid().ToString() };
+        }
+
+        protected override AccountModel CreateModel(AccountViewModel model)
+        {
+            return new AccountModel()
+            {
+                Id = model.Id,
+                Email = model.Email,
+                
+            };
         }
 
         public IActionResult IsUniqueEmailAddress(string email)
@@ -36,23 +51,18 @@ namespace ExamSheet.Web.Controllers
             return Json(account == null);
         }
 
-        //TODO: is unique reference id
-
-        public IActionResult GetReferences()
-        {
-            return Json(0);
-        }
+        //TODO: is unique reference id for teachers only?
 
         [HttpGet]
-        public IActionResult Edit(string id)
+        public override IActionResult Edit(string id)
         {
             var model = AccountManager.GetById(id);
-            return View(CreateAccountViewModel(model, true));
+            return View(CreateViewModel(model, true));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(AccountViewModel model)
+        public override IActionResult Edit(AccountViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -64,7 +74,7 @@ namespace ExamSheet.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public override IActionResult Create()
         {
             var model = new AccountViewModel() { Id = Guid.NewGuid().ToString() };
             InitAccountReferences(model);
@@ -73,7 +83,7 @@ namespace ExamSheet.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(AccountViewModel model)
+        public override IActionResult Create(AccountViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -84,7 +94,7 @@ namespace ExamSheet.Web.Controllers
             return SaveOrUpdate(model);
         }
 
-        protected IActionResult SaveOrUpdate(AccountViewModel model)
+        protected override IActionResult SaveOrUpdate(AccountViewModel model)
         {
             byte[] saltBytes;
             new RNGCryptoServiceProvider().GetBytes(saltBytes = new byte[16]);
@@ -105,17 +115,8 @@ namespace ExamSheet.Web.Controllers
             AccountManager.Save(account);
             return RedirectToAction(nameof(Index));
         }
-
-        public IActionResult Delete(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-                return RedirectToAction(nameof(Index));
-
-            AccountManager.Remove(id);
-            return RedirectToAction(nameof(Index));
-        }
-
-        protected virtual AccountViewModel CreateAccountViewModel(AccountModel account, bool initReferences = false)
+        
+        protected virtual AccountViewModel CreateViewModel(AccountModel account, bool initReferences = false)
         {
             var accountViewModel = new AccountViewModel()
             {

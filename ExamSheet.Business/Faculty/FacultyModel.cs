@@ -1,7 +1,7 @@
 ﻿
 namespace ExamSheet.Business.Faculty
 {
-    public class FacultyModel
+    public class FacultyModel : IItem
     {
         public string Id { get; set; }
 

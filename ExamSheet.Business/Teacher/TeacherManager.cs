@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ExamSheet.Business.Teacher
 {
-    public class TeacherManager : BaseManager<TeacherModel>
+    public class TeacherManager : BaseManager<TeacherModel>, IItemManager<TeacherModel>
     {
         public TeacherManager(RepositoryWrapper repositoryWrapper)
             : base(repositoryWrapper) { }
@@ -19,8 +19,10 @@ namespace ExamSheet.Business.Teacher
 
         public override TeacherModel GetById(string id)
         {
-            return new TeacherModel() { Id = "Id", Name = "Name", Surname = "Surname" };
-            return CreateModel(Repository.GetById(id));
+            var model = Repository.GetById(id);
+            if (model == null)
+                return null;
+            return CreateModel(model);
         }
 
         public override TeacherModel CreateModel(IEntity entity)
@@ -31,6 +33,32 @@ namespace ExamSheet.Business.Teacher
             model.Name = teacher.Name;
             model.Surname = teacher.Surname;
             return model;
+        }
+
+        public void Save(TeacherModel model)
+        {
+            if (model == null)
+                return;
+            if (string.IsNullOrEmpty(model.Id))
+                return;
+            Repository.Save(CreateModel(model));
+        }
+
+        public virtual Repository.Teacher.Teacher CreateModel(TeacherModel teacherModel)
+        {
+            var teacher = new Repository.Teacher.Teacher();
+            teacher.Id = teacherModel.Id;
+            teacher.Name = teacherModel.Name;
+            teacher.Surname = teacherModel.Surname;
+            return teacher;
+        }
+
+        public void Remove(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return;
+
+            Repository.Remove(id);
         }
     }
 }

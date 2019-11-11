@@ -6,6 +6,7 @@ using ExamSheet.Repository.Role;
 
 namespace ExamSheet.Business.Role
 {
+    //TODO: REMOVE
     public class RoleManager : BaseManager<RoleModel>
     {
         public RoleManager(RepositoryWrapper repositoryWrapper)

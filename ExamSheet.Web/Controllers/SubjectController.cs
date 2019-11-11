@@ -1,85 +1,36 @@
 ﻿using ExamSheet.Business.Subject;
 using ExamSheet.Web.Models;
-using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
 
 namespace ExamSheet.Web.Controllers
 {
     //TODO: add Admin access only
-    public class SubjectController : Controller
+    public class SubjectController : ItemsController<SubjectModel, SubjectViewModel>
     {
-        protected SubjectManager Subject { get; set; }
+        public SubjectController(SubjectManager manager)
+            : base(manager) { }
 
-        public SubjectController(SubjectManager subjectManager)
+        protected override SubjectModel CreateModel(SubjectViewModel model)
         {
-            Subject = subjectManager;
-        }
-
-        public IActionResult Index()
-        {
-            var subjects = Subject.FindAll().Select(CreateSubjectViewModel).ToList();
-            return View(subjects);
-        }
-
-        protected virtual SubjectViewModel CreateSubjectViewModel(SubjectModel subject)
-        {
-            return new SubjectViewModel()
+            return new SubjectModel()
             {
-                Id = subject.Id,
-                Name = subject.Name
+                Id = model.Id,
+                Name = model.Name
             };
         }
 
-        [HttpGet]
-        public IActionResult Edit(string id)
+        protected override SubjectViewModel CreateViewModel(SubjectModel model)
         {
-            var model = Subject.GetById(id);
-            return View(CreateSubjectViewModel(model));
+            return new SubjectViewModel()
+            {
+                Id = model.Id,
+                Name = model.Name
+            };
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(SubjectViewModel model)
+        protected override SubjectViewModel CreateViewModel()
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            return SaveOrUpdate(model);
-        }
-
-        [HttpGet]
-        public IActionResult Create()
-        {
-            var model = new SubjectViewModel() { Id = Guid.NewGuid().ToString() };
-            return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(SubjectViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            return SaveOrUpdate(model);
-        }
-
-        protected IActionResult SaveOrUpdate(SubjectViewModel model)
-        {
-            var subject = new SubjectModel() { Id = model.Id, Name = model.Name };
-            Subject.Save(subject);
-            return RedirectToAction(nameof(Index));
-        }
-
-        //TODO: add remote validation if ExamSheet exist
-        public IActionResult Delete(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-                return RedirectToAction(nameof(Index));
-
-            Subject.Remove(id);
-            return RedirectToAction(nameof(Index));
+            return new SubjectViewModel() { Id = Guid.NewGuid().ToString() };
         }
     }
 }

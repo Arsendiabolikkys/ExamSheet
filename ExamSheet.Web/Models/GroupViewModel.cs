@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExamSheet.Web.Models
 {
-    public class GroupViewModel
+    public class GroupViewModel : IItemViewModel
     {
         [Required]
         [ScaffoldColumn(false)]

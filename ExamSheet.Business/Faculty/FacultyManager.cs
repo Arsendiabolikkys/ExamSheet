@@ -5,7 +5,7 @@ using ExamSheet.Repository.Faculty;
 
 namespace ExamSheet.Business.Faculty
 {
-    public class FacultyManager : BaseManager<FacultyModel>
+    public class FacultyManager : BaseManager<FacultyModel>, IItemManager<FacultyModel>
     {
         public FacultyManager(RepositoryWrapper repositoryWrapper)
             : base(repositoryWrapper) { }

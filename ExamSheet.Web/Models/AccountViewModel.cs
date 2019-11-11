@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ExamSheet.Web.Models
 {
     //TODO: ErrorMessage for all view models
-    public class AccountViewModel
+    public class AccountViewModel : IItemViewModel
     {
         [Required]
         [ScaffoldColumn(false)]

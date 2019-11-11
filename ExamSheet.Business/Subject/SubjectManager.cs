@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ExamSheet.Business.Subject
 {
-    public class SubjectManager : BaseManager<SubjectModel>
+    public class SubjectManager : BaseManager<SubjectModel>, IItemManager<SubjectModel>
     {
         public SubjectManager(RepositoryWrapper repositoryWrapper)
             : base(repositoryWrapper) { }

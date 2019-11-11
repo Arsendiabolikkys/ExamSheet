@@ -1,0 +1,46 @@
+﻿@model IList<DeaneryViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3>Деканати</h3>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-sm table-striped table-hover border-bottom">
+            <thead>
+                <tr class="d-none d-lg-table-cell">
+                    <th>
+                        Деканат
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="d-none d-lg-table-cell">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Редагувати", "Edit", "Deanery", routeValues: new { id = item.Id })
+                            </td>
+                            <td>
+                                @*////TODO: btn-delete-item confirm JS *@
+                                @Html.ActionLink("Видалити", "Delete", "Deanery", routeValues: new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
+                }
+                <tr>
+                    <td colspan="3">
+                        @Html.ActionLink("Додати деканат", "Create", "Deanery", null, htmlAttributes: new { @class = "btn btn-success" })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

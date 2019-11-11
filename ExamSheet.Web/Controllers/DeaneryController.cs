@@ -1,16 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using ExamSheet.Business.Deanery;
+using ExamSheet.Web.Models;
+using System;
 
 namespace ExamSheet.Web.Controllers
 {
-    public class DeaneryController : Controller
+    public class DeaneryController : ItemsController<DeaneryModel, DeaneryViewModel>
     {
-        public IActionResult Index()
+        public DeaneryController(DeaneryManager manager)
+            : base(manager) { }
+
+        protected override DeaneryModel CreateModel(DeaneryViewModel model)
         {
-            return View();
+            return new DeaneryModel()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                FacultyId = model.FacultyId
+            };
+        }
+
+        protected override DeaneryViewModel CreateViewModel(DeaneryModel model)
+        {
+            return new DeaneryViewModel()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                FacultyId = model.FacultyId
+            };
+        }
+
+        protected override DeaneryViewModel CreateViewModel()
+        {
+            return new DeaneryViewModel()
+            {
+                Id = Guid.NewGuid().ToString()
+            };
         }
     }
 }

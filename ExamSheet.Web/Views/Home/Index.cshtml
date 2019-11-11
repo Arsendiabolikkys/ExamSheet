@@ -57,11 +57,12 @@
             var group = sheet.Group == null ? string.Empty : sheet.Group.Name;
             var faculty = sheet.Faculty == null ? string.Empty : sheet.Faculty.Name;
             var subject = sheet.Subject == null ? string.Empty : sheet.Subject.Name;
+            var teacher = sheet.Teacher == null ? string.Empty : string.Format("{0} {1}", sheet.Teacher.Surname, sheet.Teacher.Name);
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">@sheet.State</h5>
                     <ul class="list-group">
-                        <li class="list-group-item list-group-item-success"><i style="font-size:20px;"></i>>@sheet.Teacher.Name @sheet.Teacher.Surname</li>
+                        <li class="list-group-item list-group-item-success"><i style="font-size:20px;"></i>>@teacher</li>
                         <li class="list-group-item list-group-item-success"><i class="fa fa-user" style="font-size:20px;"></i>>@subject</li>
                         <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>>@group</li>
                         <li class="list-group-item list-group-item-success"><i class="fa fa-clock-o" style="font-size:20px;"></i>>@faculty</li>

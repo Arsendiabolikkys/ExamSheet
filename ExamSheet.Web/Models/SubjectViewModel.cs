@@ -5,7 +5,7 @@ namespace ExamSheet.Web.Models
 {
     //TODO: create subjects page for admin
 
-    public class SubjectViewModel
+    public class SubjectViewModel : IItemViewModel
     {
         [Required]
         [ScaffoldColumn(false)]

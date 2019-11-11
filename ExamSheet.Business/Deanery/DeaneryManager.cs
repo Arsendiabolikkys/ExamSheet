@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ExamSheet.Business.Deanery
 {
-    public class DeaneryManager : BaseManager<DeaneryModel>
+    public class DeaneryManager : BaseManager<DeaneryModel>, IItemManager<DeaneryModel>
     {
         protected virtual FacultyManager FacultyManager { get; set; }
 
@@ -25,7 +25,10 @@ namespace ExamSheet.Business.Deanery
 
         public override DeaneryModel GetById(string id)
         {
-            return CreateModel(Repository.GetById(id));
+            var model = Repository.GetById(id);
+            if (model == null)
+                return null;
+            return CreateModel(model);
         }
 
         public override DeaneryModel CreateModel(IEntity entity)
@@ -34,8 +37,35 @@ namespace ExamSheet.Business.Deanery
             var model = new DeaneryModel();
             model.Id = deanery.Id;
             model.Name = deanery.Name;
-            model.Faculty = FacultyManager.GetById(deanery.FacultyId);
+            //model.Faculty = FacultyManager.GetById(deanery.FacultyId);
+            model.FacultyId = deanery.FacultyId;
             return model;
+        }
+
+        public void Save(DeaneryModel model)
+        {
+            if (model == null)
+                return;
+            if (string.IsNullOrEmpty(model.Id))
+                return;
+            Repository.Save(CreateModel(model));
+        }
+
+        public virtual Repository.Deanery.Deanery CreateModel(DeaneryModel deaneryModel)
+        {
+            var deanery = new Repository.Deanery.Deanery();
+            deanery.Id = deaneryModel.Id;
+            deanery.Name = deaneryModel.Name;
+            deanery.FacultyId = deaneryModel.FacultyId;
+            return deanery;
+        }
+
+        public void Remove(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return;
+
+            Repository.Remove(id);
         }
     }
 }
