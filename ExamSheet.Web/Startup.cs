@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using ExamSheet.Business.ExamSheet;
+﻿using ExamSheet.Business.ExamSheet;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NHibernate.NetCore;
 using ExamSheet.Extensions;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -46,8 +40,7 @@ namespace ExamSheet.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.Configure<HtmlHelperOptions>(o => o.ClientValidationEnabled = true);
-
-            //TODO: Create admin user is not exist on start
+            
             services.ConfigureHibernate();
             services.ConfigureRepositoryWrapper();
             services.ConfigureManagers();

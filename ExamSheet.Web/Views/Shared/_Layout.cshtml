@@ -31,7 +31,7 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Електронні відомості</a>
             </div>
             <div class="navbar-collapse collapse">
-                @if (User.IsInRole(ExamSheet.Business.Account.AccountType.Admin))
+                @if (true)//User.IsInRole(ExamSheet.Business.Account.AccountType.Admin))
                 {
                     <ul class="nav navbar-nav">
                         <li><a asp-area="" asp-controller="Faculty" asp-action="Index">Факультети</a></li>
