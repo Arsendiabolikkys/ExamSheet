@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace ExamSheet.Business.Student
 {
-    //TODO: DO we need student entities???
     public class StudentManager : BaseManager<StudentModel>
     {
         protected virtual GroupManager GroupManager { get; set; }

@@ -3,8 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExamSheet.Web.Models
 {
-    //TODO: create subjects page for admin
-
     public class SubjectViewModel : IItemViewModel
     {
         [Required]

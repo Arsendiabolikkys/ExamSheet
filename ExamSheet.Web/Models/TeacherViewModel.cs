@@ -2,10 +2,6 @@
 
 namespace ExamSheet.Web.Models
 {
-    //TODO: create teachers with admin role ?
-    //TODO: login first time - create password???
-    //TODO: add new table - accounts - if create teacher - role teacher
-
     public class TeacherViewModel : IItemViewModel
     {
         [Required]

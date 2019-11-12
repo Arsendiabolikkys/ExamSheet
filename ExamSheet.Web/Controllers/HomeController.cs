@@ -12,7 +12,6 @@ namespace ExamSheet.Web.Controllers
 
         public HomeController(ExamSheetManager examSheetManager)
         {
-            //TODO: check if initialized
             this.ExamSheetManager = examSheetManager;
         }
 
