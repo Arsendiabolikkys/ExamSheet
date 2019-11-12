@@ -1,10 +1,12 @@
-﻿using ExamSheet.Business.Subject;
+﻿using ExamSheet.Business.Account;
+using ExamSheet.Business.Subject;
+using ExamSheet.Web.Attributes;
 using ExamSheet.Web.Models;
 using System;
 
 namespace ExamSheet.Web.Controllers
 {
-    //TODO: add Admin access only
+    [IsInRole(AccountType.Admin)]
     public class SubjectController : ItemsController<SubjectModel, SubjectViewModel>
     {
         public SubjectController(SubjectManager manager)

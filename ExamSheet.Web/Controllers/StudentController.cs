@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ExamSheet.Business.Account;
+using ExamSheet.Web.Attributes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamSheet.Web.Controllers
 {
+    [IsInRole(AccountType.Admin)]
     public class StudentController : Controller
     {
         public IActionResult Index()

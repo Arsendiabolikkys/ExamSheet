@@ -1,9 +1,12 @@
 ﻿using System;
+using ExamSheet.Business.Account;
 using ExamSheet.Business.Teacher;
+using ExamSheet.Web.Attributes;
 using ExamSheet.Web.Models;
 
 namespace ExamSheet.Web.Controllers
 {
+    [IsInRole(AccountType.Admin)]
     public class TeacherController : ItemsController<TeacherModel, TeacherViewModel>
     {
         public TeacherController(TeacherManager manager)

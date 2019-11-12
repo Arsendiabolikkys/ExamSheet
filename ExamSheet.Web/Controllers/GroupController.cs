@@ -1,9 +1,12 @@
 ﻿using System;
+using ExamSheet.Business.Account;
 using ExamSheet.Business.Group;
+using ExamSheet.Web.Attributes;
 using ExamSheet.Web.Models;
 
 namespace ExamSheet.Web.Controllers
 {
+    [IsInRole(AccountType.Admin)]
     public class GroupController : ItemsController<GroupModel, GroupViewModel>
     {
         public GroupController(GroupManager manager)

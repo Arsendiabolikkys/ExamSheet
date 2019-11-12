@@ -1,6 +1,7 @@
 ﻿using ExamSheet.Business.Account;
 using ExamSheet.Business.Deanery;
 using ExamSheet.Business.Teacher;
+using ExamSheet.Web.Attributes;
 using ExamSheet.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +10,7 @@ using System.Security.Cryptography;
 
 namespace ExamSheet.Web.Controllers
 {
+    [IsInRole(AccountType.Admin)]
     public class AccountController : ItemsController<AccountModel, AccountViewModel>
     {
         protected AccountManager AccountManager { get; set; }

@@ -1,10 +1,13 @@
 ﻿using System.Linq;
 using ExamSheet.Business;
+using ExamSheet.Business.Account;
+using ExamSheet.Web.Attributes;
 using ExamSheet.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamSheet.Web.Controllers
 {
+    [IsInRole(AccountType.Admin)]
     public abstract class ItemsController<T, TView> : Controller
         where T : IItem
         where TView : IItemViewModel

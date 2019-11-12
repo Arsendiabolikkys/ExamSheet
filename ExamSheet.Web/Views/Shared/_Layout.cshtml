@@ -31,14 +31,26 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Електронні відомості</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Faculty" asp-action="Index">Факультети</a></li>
-                    <li><a asp-area="" asp-controller="Group" asp-action="Index">Групи</a></li>
-                    <li><a asp-area="" asp-controller="Subject" asp-action="Index">Предмети</a></li>
-                    <li><a asp-area="" asp-controller="Account" asp-action="Index">Акаунти</a></li>
-                    <li><a asp-area="" asp-controller="Teacher" asp-action="Index">Викладачі</a></li>
-                    <li><a asp-area="" asp-controller="Deanery" asp-action="Index">Деканати</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                @if (User.IsInRole(ExamSheet.Business.Account.AccountType.Admin))
+                {
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Faculty" asp-action="Index">Факультети</a></li>
+                        <li><a asp-area="" asp-controller="Group" asp-action="Index">Групи</a></li>
+                        <li><a asp-area="" asp-controller="Subject" asp-action="Index">Предмети</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Index">Акаунти</a></li>
+                        <li><a asp-area="" asp-controller="Teacher" asp-action="Index">Викладачі</a></li>
+                        <li><a asp-area="" asp-controller="Deanery" asp-action="Index">Деканати</a></li>
+                    </ul>
+                }
+                <ul class="nav navbar-nav navbar-right">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="" asp-controller="User" asp-action="Login"><span class="glyphicon glyphicon-log-in"></span> Вхід</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="User" asp-action="Logout"><span class="glyphicon glyphicon-log-out"></span> Вихід</a></li>
+                    }
                 </ul>
             </div>
         </div>

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using ExamSheet.Repository;
 using ExamSheet.Repository.Account;
 
@@ -76,6 +78,25 @@ namespace ExamSheet.Business.Account
                 return;
 
             Repository.Remove(id);
+        }
+
+        public bool IsPasswordValid(string email, string password)
+        {
+            AccountModel account = GetByEmail(email);
+            if (account == null)
+                return false;
+            
+            byte[] storedSalt = Convert.FromBase64String(account.Salt);
+            byte[] storedPassword = Convert.FromBase64String(account.PasswordHash);
+            var cryptedPassword = new Rfc2898DeriveBytes(password, storedSalt);
+            var passwordBytes = cryptedPassword.GetBytes(20);
+                
+            for (int i = 0; i < storedPassword.Length; ++i)
+            {
+                if (storedPassword[i] != passwordBytes[i])
+                    return false;
+            }
+            return true;
         }
     }
 }

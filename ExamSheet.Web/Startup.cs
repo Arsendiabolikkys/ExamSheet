@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using NHibernate.NetCore;
 using ExamSheet.Extensions;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ExamSheet.Web
 {
@@ -37,6 +38,11 @@ namespace ExamSheet.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("/User/Login");
+                });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.Configure<HtmlHelperOptions>(o => o.ClientValidationEnabled = true);
@@ -61,6 +67,7 @@ namespace ExamSheet.Web
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
