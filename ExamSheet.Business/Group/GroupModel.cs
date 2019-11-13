@@ -7,8 +7,6 @@ namespace ExamSheet.Business.Group
 
         public string Name { get; set; }
 
-        //TODO: FACULTY?
-
-        //public FacultyModel Faculty { get; set; }
+        public string FacultyId { get; set; }
     }
 }

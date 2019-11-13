@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ExamSheet.Business.Student
 {
-    public class StudentManager : BaseManager<StudentModel>
+    public class StudentManager : BaseManager<StudentModel>, IItemManager<StudentModel>
     {
         protected virtual GroupManager GroupManager { get; set; }
 
@@ -33,10 +33,37 @@ namespace ExamSheet.Business.Student
             var student = entity as Repository.Student.Student;
             var model = new StudentModel();
             model.Id = student.Id;
-            model.Group = GroupManager.GetById(student.GroupId);
+            model.GroupId = student.GroupId;
             model.Name = student.Name;
             model.Surname = student.Surname;
             return model;
+        }
+
+        public void Save(StudentModel model)
+        {
+            if (model == null)
+                return;
+            if (string.IsNullOrEmpty(model.Id))
+                return;
+            Repository.Save(CreateModel(model));
+        }
+
+        public virtual Repository.Student.Student CreateModel(StudentModel studentModel)
+        {
+            var student = new Repository.Student.Student();
+            student.Id = studentModel.Id;
+            student.Name = studentModel.Name;
+            student.Surname = studentModel.Surname;
+            student.GroupId = studentModel.GroupId;
+            return student;
+        }
+
+        public void Remove(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return;
+
+            Repository.Remove(id);
         }
     }
 }

@@ -30,6 +30,7 @@ namespace ExamSheet.Web.Controllers
         [HttpGet]
         public virtual IActionResult Edit(string id)
         {
+            OnEdit();
             var model = ItemManager.GetById(id);
             return View(CreateViewModel(model));
         }
@@ -39,31 +40,42 @@ namespace ExamSheet.Web.Controllers
         public virtual IActionResult Edit(TView model)
         {
             if (!ModelState.IsValid)
+            {
+                OnEdit();
                 return View(model);
+            }
 
             return SaveOrUpdate(model);
         }
 
+        protected virtual void OnEdit() { }
+
         [HttpGet]
         public virtual IActionResult Create()
         {
+            OnCreate();
             var model = CreateViewModel();
             return View(model);
         }
-
-        protected abstract TView CreateViewModel();
-
-        protected abstract T CreateModel(TView model);
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public virtual IActionResult Create(TView model)
         {
             if (!ModelState.IsValid)
+            {
+                OnCreate();
                 return View(model);
+            }
 
             return SaveOrUpdate(model);
         }
+
+        protected virtual void OnCreate() { }
+
+        protected abstract TView CreateViewModel();
+
+        protected abstract T CreateModel(TView model);
 
         protected virtual IActionResult SaveOrUpdate(TView model)
         {

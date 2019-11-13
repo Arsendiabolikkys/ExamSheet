@@ -12,5 +12,9 @@ namespace ExamSheet.Web.Models
         [Required]
         [Display(Name = "Група")]
         public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Факультет")]
+        public string FacultyId { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ExamSheet.Business.Student
 {
-    public class StudentModel
+    public class StudentModel : IItem
     {
         public string Id { get; set; }
 
@@ -10,6 +10,7 @@ namespace ExamSheet.Business.Student
 
         public string Surname { get; set; }
 
-        public GroupModel Group { get; set; }
+        public string GroupId { get; set; }
+        //public GroupModel Group { get; set; } ???
     }
 }

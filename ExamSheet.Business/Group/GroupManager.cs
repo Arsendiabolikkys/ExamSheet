@@ -49,6 +49,7 @@ namespace ExamSheet.Business.Group
             var group = new Repository.Group.Group();
             group.Id = groupModel.Id;
             group.Name = groupModel.Name;
+            group.FacultyId = groupModel.FacultyId;
             return group;
         }
 
@@ -58,6 +59,7 @@ namespace ExamSheet.Business.Group
             var model = new GroupModel();
             model.Id = group.Id;
             model.Name = group.Name;
+            model.FacultyId = group.FacultyId;
             return model;
         }
     }

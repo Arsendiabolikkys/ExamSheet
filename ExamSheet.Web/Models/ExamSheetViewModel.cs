@@ -8,6 +8,10 @@ namespace ExamSheet.Web.Models
     public class ExamSheetViewModel
     {
         [Required]
+        [ScaffoldColumn(false)]
+        public string Id { get; set; }
+
+        [Required]
         public ExamSheetState State { get; set; }
 
         [Display(Name = "Дата відкриття")]

@@ -6,7 +6,9 @@
     @using (Html.BeginForm(FormMethod.Post, htmlAttributes: new { @class = "form-create-sheet" }))
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id)
         <h4>Відомість</h4>
+
         <div class="form-group">
             @Html.EditorFor(m => m.State)
         </div>

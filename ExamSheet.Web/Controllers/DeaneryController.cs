@@ -1,16 +1,50 @@
 ﻿using ExamSheet.Business.Account;
 using ExamSheet.Business.Deanery;
+using ExamSheet.Business.Faculty;
 using ExamSheet.Web.Attributes;
 using ExamSheet.Web.Models;
 using System;
+using System.Linq;
 
 namespace ExamSheet.Web.Controllers
 {
     [IsInRole(AccountType.Admin)]
     public class DeaneryController : ItemsController<DeaneryModel, DeaneryViewModel>
     {
-        public DeaneryController(DeaneryManager manager)
-            : base(manager) { }
+        protected FacultyManager FacultyManager { get; set; }
+
+        public DeaneryController(DeaneryManager manager, FacultyManager facultyManager)
+            : base(manager)
+        {
+            FacultyManager = facultyManager;
+        }
+
+        protected virtual void InitFaculties()
+        {
+            var faculties = FacultyManager.FindAll().Select(CreateFacultyViewModel).ToList();
+            ViewData["faculties"] = faculties;
+        }
+        
+        protected virtual FacultyViewModel CreateFacultyViewModel(FacultyModel facultyModel)
+        {
+            return new FacultyViewModel()
+            {
+                Id = facultyModel.Id,
+                Name = facultyModel.Name
+            };
+        }
+
+        protected override void OnEdit()
+        {
+            InitFaculties();
+            base.OnEdit();
+        }
+
+        protected override void OnCreate()
+        {
+            InitFaculties();
+            base.OnCreate();
+        }
 
         protected override DeaneryModel CreateModel(DeaneryViewModel model)
         {
