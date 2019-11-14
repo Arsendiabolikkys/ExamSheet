@@ -36,20 +36,20 @@
         </div>
         <!-- /.row -->
     </div>
-
-    <div class="card card-new">
-        <div class="card-body">
-            <h5 class="card-title">Нова відомість</h5>
+    @if (User.IsInRole(ExamSheet.Business.Account.AccountType.Deanery))
+    {
+        <div class="card card-new">
+            <div class="card-body">
+                <h5 class="card-title">Нова відомість</h5>
+            </div>
+            <div class="card-footer">
+                <a href="@Url.Action("CreateExamSheet", "ExamSheet")" class="btn-lg btn-new">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </a>
+            </div>
         </div>
-        <div class="card-footer">
-            <a href="@Url.Action("CreateExamSheet", "ExamSheet")" class="btn-lg btn-new">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </a>
-            @*<button type="button" class="btn btn-default btn-lg btn-new">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            </button>*@
-        </div>
-    </div>
+    }
+    
     @if (Model.ExamSheets != null && Model.ExamSheets.Any())
     {
         foreach (var sheet in Model.ExamSheets)
@@ -60,178 +60,24 @@
             var teacher = sheet.Teacher == null ? string.Empty : string.Format("{0} {1}", sheet.Teacher.Surname, sheet.Teacher.Name);
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">@sheet.State</h5>
+                    <h5 class="card-title">Відомість</h5>
                     <ul class="list-group">
-                        <li class="list-group-item list-group-item-success"><i style="font-size:20px;"></i>>@teacher</li>
-                        <li class="list-group-item list-group-item-success"><i class="fa fa-user" style="font-size:20px;"></i>>@subject</li>
-                        <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>>@group</li>
-                        <li class="list-group-item list-group-item-success"><i class="fa fa-clock-o" style="font-size:20px;"></i>>@faculty</li>
-                        <li class="list-group-item list-group-item-success"><i class="fa fa-inr" style="font-size:20px;"></i>>@sheet.Semester.Year</li>
+                        <li class="list-group-item list-group-item-success">> @teacher</li>
+                        <li class="list-group-item list-group-item-success">> @subject</li>
+                        <li class="list-group-item list-group-item-success">> @group</li>
+                        <li class="list-group-item list-group-item-success">> @faculty</li>
+                        <li class="list-group-item list-group-item-success">> @sheet.Semester семестр @sheet.Year рік</li>
                     </ul>
 
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="btn" id="left-panel-link">Register</button>
-                    <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal4" id="right-panel-link">
-                        Learn More
-                    </button>
+                    @*//TODO: EDIT*@
+                    <a asp-action="Edit" asp-controller="ExamSheet" asp-route-id="@sheet.Id" class="btn">Редагувати</a>
+                    @*//TODO: WORD*@
+                    <a asp-action="Download" asp-controller="ExamSheet" asp-route-id="@sheet.Id" class="btn download-word"><i class="fa fa-file-text-o"></i></a>
+                    <a asp-action="Delete" asp-controller="ExamSheet" asp-route-id="@sheet.Id" class="btn btn-delete">Видалити</a>
                 </div>
             </div>
         }
     }
-
-    @*@{
-        var index = 0;
-        var count = 3;
-
-        var sheets = Model.ExamSheets.Skip(index * count).Take(count);
-        while (sheets.Any())
-        {
-            @*<div class="card-deck">
-            @foreach (var sheet in sheets)
-            {
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@sheet.State</h5>
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-success"><i style="font-size:20px;"></i>@sheet.Teacher.Name @sheet.Teacher.Surname</li>
-                            <li class="list-group-item list-group-item-success"><i class="fa fa-user" style="font-size:20px;"></i>>@sheet.Subject.Name</li>
-                            <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker" style="font-size:20px;"></i>>@sheet.Group.Name</li>
-                            <li class="list-group-item list-group-item-success"><i class="fa fa-clock-o" style="font-size:20px;"></i>>@sheet.Faculty.Name</li>
-                            <li class="list-group-item list-group-item-success"><i class="fa fa-inr" style="font-size:20px;"></i>>@sheet.Semester.Year</li>
-                        </ul>
-
-                    </div>
-                    <div class="card-footer">
-                        <button type="button" class="btn" id="left-panel-link">Register</button>
-                        <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal4" id="right-panel-link">
-                            Learn More
-                        </button>
-                    </div>
-                </div>
-            }
-            @*</div>*@
-            @*<div class="sep"></div>
-            index++;
-            sheets = Model.ExamSheets.Skip(index * count).Take(count);
-        }*@
 </div>
-
-
-
-@*<!--Modal 1-->
-<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title 1</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Modal 2-->
-<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title 2</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Modal 2-->
-<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title 3</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--Modal 4-->
-<div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title 4</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--Modal 5-->
-<div class="modal fade" id="exampleModal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title 5</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--Modal 6-->
-<div class="modal fade" id="exampleModal6" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title 6</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>*@

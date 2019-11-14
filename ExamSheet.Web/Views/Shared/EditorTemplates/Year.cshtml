@@ -1,0 +1,6 @@
+﻿@model short
+@{
+    var year = Model == 0 ? DateTime.Now.Year : Model;
+}
+
+@Html.TextBox(string.Empty, year, htmlAttributes: new { @class = "form-control year-picker" })

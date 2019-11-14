@@ -8,6 +8,6 @@ namespace ExamSheet.Web.Models
 {
     public class IndexPageViewModel
     {
-        public IList<ExamSheetModel> ExamSheets { get; set; }
+        public IList<ExamSheetListViewModel> ExamSheets { get; set; }
     }
 }

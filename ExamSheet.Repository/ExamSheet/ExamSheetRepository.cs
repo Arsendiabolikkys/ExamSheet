@@ -9,22 +9,22 @@ namespace ExamSheet.Repository.ExamSheet
         public ExamSheetRepository(ISessionFactory sessionFactory) 
             : base(sessionFactory) { }
 
-        public override IEnumerable<ExamSheet> FindAll()
-        {
-            using (var session = sessionFactory.OpenSession())
-            {
-                return new List<ExamSheet>()
-                {
-                    new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-                    new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-                    new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-                    new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-                    new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-                    new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-                    new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-                };
-            }
+        //public override IEnumerable<ExamSheet> FindAll()
+        //{
+        //    using (var session = sessionFactory.OpenSession())
+        //    {
+        //        return new List<ExamSheet>()
+        //        {
+        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
+        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
+        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
+        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
+        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
+        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
+        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
+        //        };
+        //    }
 
-        }
+        //}
     }
 }

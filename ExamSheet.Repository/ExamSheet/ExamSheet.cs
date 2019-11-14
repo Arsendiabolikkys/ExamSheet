@@ -20,7 +20,9 @@ namespace ExamSheet.Repository.ExamSheet
 
         public virtual string FacultyId { get; set; }
 
-        public virtual string SemesterId { get; set; }
+        public virtual short Semester { get; set; }
+
+        public virtual short Year { get; set; }
 
         //public override bool Equals(object obj)
         //{

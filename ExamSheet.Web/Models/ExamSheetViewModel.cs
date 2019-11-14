@@ -1,10 +1,13 @@
 ﻿using ExamSheet.Business.ExamSheet;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ExamSheet.Web.Models
 {
+    //TODO: DYNAMIC CREATE/EDIT FORM (SELECT FACULTY - THEN APPROPRIATE GROUP)
+    //[ModelBinder(BinderType = typeof(AuthorEntityBinder))]
     public class ExamSheetViewModel
     {
         [Required]
@@ -14,21 +17,39 @@ namespace ExamSheet.Web.Models
         [Required]
         public ExamSheetState State { get; set; }
 
+        [Required]
         [Display(Name = "Дата відкриття")]
+        [UIHint("DateTime")]
         public DateTime? OpenDate { get; set; }
+
+        [Required]
+        [Display(Name = "Факультет")]
+        public string FacultyId { get; set; }
+
+        [Required]
+        [Display(Name = "Група")]
+        public string GroupId { get; set; }
+
+        [Required]
+        [Display(Name = "Предмет")]
+        public string SubjectId { get; set; }
+
+        [Required]
+        [Display(Name = "Викладач")]
+        public string TeacherId { get; set; }
 
         [Display(Name = "Дата закриття")]
         public DateTime? CloseDate { get; set; }
-        
-        public TeacherViewModel Teacher { get; set; }
 
-        public GroupViewModel Group { get; set; }
+        [Required]
+        [Display(Name = "Семестр")]
+        [UIHint("SemesterNumber")]
+        public short Semester { get; set; }
 
-        public SubjectViewModel Subject { get; set; }
-        
-        public FacultyViewModel Faculty { get; set; }
-
-        public SemesterViewModel Semester { get; set; }
+        [Required]
+        [Display(Name = "Рік")]
+        [UIHint("Year")]
+        public short Year { get; set; }
         
         public IList<RatingViewModel> Ratings { get; set; }
     }

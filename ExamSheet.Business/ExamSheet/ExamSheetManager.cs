@@ -44,24 +44,68 @@ namespace ExamSheet.Business.ExamSheet
             return Repository.FindAll().Select(CreateModel);
         }
 
+        public IEnumerable<ExamSheetModel> FindAllTeacher(string teacherId)
+        {
+
+        }
+
+        public IEnumerable<ExamSheetModel> FindAllFaculty(string facultyId)
+        {
+
+        }
+
         public override ExamSheetModel GetById(string id)
         {
             return CreateModel(Repository.GetById(id));
+        }
+
+        public virtual void Save(ExamSheetModel model)
+        {
+            if (model == null)
+                return;
+            if (string.IsNullOrEmpty(model.Id))
+                return;
+            Repository.Save(CreateModel(model));
+        }
+
+        public virtual void Remove(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return;
+
+            Repository.Remove(id);
+        }
+
+        public virtual Repository.ExamSheet.ExamSheet CreateModel(ExamSheetModel examSheetModel)
+        {
+            var examSheet = new Repository.ExamSheet.ExamSheet();
+            examSheet.Id = examSheetModel.Id;
+            examSheet.FacultyId = examSheetModel.FacultyId;
+            examSheet.GroupId = examSheetModel.GroupId;
+            examSheet.OpenDate = examSheetModel.OpenDate;
+            examSheet.State = (short)examSheetModel.State;
+            examSheet.SubjectId = examSheetModel.SubjectId;
+            examSheet.TeacherId = examSheetModel.TeacherId;
+            examSheet.CloseDate = examSheetModel.CloseDate;
+            examSheet.Semester = examSheetModel.Semester;
+            examSheet.Year = examSheetModel.Year;
+            return examSheet;
         }
 
         public override ExamSheetModel CreateModel(IEntity entity)
         {
             var examSheet = entity as Repository.ExamSheet.ExamSheet;
             var model = new ExamSheetModel();
-            //model.Id = examSheet.Id;
+            model.Id = examSheet.Id;
             model.OpenDate = examSheet.OpenDate;
             model.CloseDate = examSheet.CloseDate;
             model.State = (ExamSheetState)examSheet.State;
-            model.Group = GroupManager.GetById(examSheet.GroupId);
-            model.Teacher = TeacherManager.GetById(examSheet.TeacherId);
-            model.Faculty = FacultyManager.GetById(examSheet.FacultyId);
-            model.Semester = SemesterManager.GetById(examSheet.SemesterId);
-            model.Subject = SubjectManager.GetById(examSheet.SubjectId);
+            model.FacultyId = examSheet.FacultyId;
+            model.GroupId = examSheet.GroupId;
+            model.Semester = examSheet.Semester;
+            model.SubjectId = examSheet.SubjectId;
+            model.TeacherId = examSheet.TeacherId;
+            model.Year = examSheet.Year;
             model.Ratings = RatingManager.FindAll(examSheet.Id);
             return model;
         }

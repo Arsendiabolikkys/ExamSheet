@@ -1,0 +1,11 @@
+﻿@model DateTime
+@{
+    var name = ViewData.TemplateInfo.HtmlFieldPrefix;
+}
+
+<div class="input-group date datetime-picker">
+    <input name="@name" type="text" class="form-control" value="@Model" />
+    <span class="input-group-addon">
+        <span class="glyphicon glyphicon-calendar"></span>
+    </span>
+</div>

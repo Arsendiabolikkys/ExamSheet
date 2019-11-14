@@ -1,0 +1,7 @@
+﻿@model short
+@{
+    var list = new List<SelectListItem>()
+    { new SelectListItem() { Text = "Перший", Value = "1" }, new SelectListItem() { Text = "Другий", Value = "2" } };
+}
+
+@Html.DropDownList(string.Empty, list, htmlAttributes: new { @class = "form-control" })

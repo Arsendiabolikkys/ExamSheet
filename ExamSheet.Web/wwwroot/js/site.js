@@ -7,4 +7,14 @@
 
 $(function () {
     $('.selectpicker').selectpicker();
+
+    $('.datetime-picker').datetimepicker({
+        //locale: 'ua'
+    });
+
+    $('.year-picker').datepicker({
+        format: " yyyy",
+        viewMode: "years",
+        minViewMode: "years"
+    });
 });

@@ -288,3 +288,7 @@ li {
 .validation-summary-errors, .field-validation-error {
     color: red;
 }
+
+.btn-delete{
+    float:right;
+}

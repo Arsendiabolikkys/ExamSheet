@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExamSheet.Web.Models
 {
+    //TODO: REMOVE SEMESTERMODEL?????
     public class SemesterViewModel
     {
         [Required]
@@ -14,7 +15,7 @@ namespace ExamSheet.Web.Models
         public short Year { get; set; }
 
         [Required]
-        //TODO: first - second semester
+        [UIHint("SemesterNumber")]
         public short Number { get; set; }
     }
 }
