@@ -105,6 +105,9 @@
     <Content Update="Views\Subject\_Edit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\TeacherSheet\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\TeacherSheet\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

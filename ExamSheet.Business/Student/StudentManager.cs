@@ -23,6 +23,14 @@ namespace ExamSheet.Business.Student
             return Repository.FindAll().Select(CreateModel);
         }
 
+        public IEnumerable<StudentModel> FindGroup(string groupId)
+        {
+            if (string.IsNullOrEmpty(groupId))
+                return new List<StudentModel>();
+
+            return Repository.FindGroup(groupId).Select(CreateModel)?.ToList() ?? new List<StudentModel>();
+        }
+
         public override StudentModel GetById(string id)
         {
             return CreateModel(Repository.GetById(id));

@@ -11,6 +11,5 @@ namespace ExamSheet.Business.Student
         public string Surname { get; set; }
 
         public string GroupId { get; set; }
-        //public GroupModel Group { get; set; } ???
     }
 }

@@ -1,0 +1,16 @@
+﻿@model ExamSheet.Web.Models.TeacherSheetViewModel
+
+<div class="form-container">
+    @using (Html.BeginForm(FormMethod.Post, htmlAttributes: new { @class = "form-create-sheet" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id)
+        @Html.ValidationSummary()
+        <h4>Відомість</h4>
+
+        
+        <button type="submit" class="btn btn-primary">Зберегти</button>
+        <button type="submit" class="btn btn-primary">Зберегти та закрити</button>
+        <a asp-action="Index" asp-controller="TeacherSheet" class="btn btn-primary">Назад</a>
+    }
+</div>
