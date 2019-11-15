@@ -48,7 +48,8 @@ namespace ExamSheet.Web.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, account.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, account.AccountType.ToString())
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, account.AccountType.ToString()),
+                new Claim(Constants.Claims.ReferenceId, account.ReferenceId)
             };
             var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             return HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));

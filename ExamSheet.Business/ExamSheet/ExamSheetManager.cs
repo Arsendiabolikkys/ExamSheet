@@ -55,15 +55,21 @@ namespace ExamSheet.Business.ExamSheet
             return CreateModel(sheet);
         }
 
-        //public IEnumerable<ExamSheetModel> FindAllTeacher(string teacherId)
-        //{
+        public IEnumerable<ExamSheetModel> FindAllForTeacher(string teacherId)
+        {
+            if (string.IsNullOrEmpty(teacherId))
+                return new List<ExamSheetModel>();
 
-        //}
+            return Repository.FindAllForTeacher(teacherId).Select(CreateModel);
+        }
 
-        //public IEnumerable<ExamSheetModel> FindAllFaculty(string facultyId)
-        //{
+        public IEnumerable<ExamSheetModel> FindAllForFaculty(string facultyId)
+        {
+            if (string.IsNullOrEmpty(facultyId))
+                return new List<ExamSheetModel>();
 
-        //}
+            return Repository.FindAllForFaculty(facultyId).Select(CreateModel);
+        }
 
         public override ExamSheetModel GetById(string id)
         {

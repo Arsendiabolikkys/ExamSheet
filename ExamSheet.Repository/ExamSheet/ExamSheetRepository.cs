@@ -24,5 +24,27 @@ namespace ExamSheet.Repository.ExamSheet
                 return criteria.UniqueResult<ExamSheet>();
             }
         }
+
+        public virtual IEnumerable<ExamSheet> FindAllForTeacher(string teacherId)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<ExamSheet>()
+                    .Add(Restrictions.Eq("TeacherId", teacherId));
+
+                return criteria.List<ExamSheet>();
+            }
+        }
+
+        public virtual IEnumerable<ExamSheet> FindAllForFaculty(string facultyId)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<ExamSheet>()
+                    .Add(Restrictions.Eq("FacultyId", facultyId));
+                
+                return criteria.List<ExamSheet>();
+            }
+        }
     }
 }

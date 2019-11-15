@@ -1,0 +1,68 @@
+﻿@model IndexPageViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="header">
+    <h1>Відомості</h1>
+</div>
+
+<div class="card-container container">
+    <div class="filter-container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <form>
+                            <div class="form-group row">
+                                <label for="" class="col-sm-2 form-control-label">Country</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control selectpicker" id="select-country" data-live-search="true">
+                                        <option data-tokens="china">China</option>
+                                        <option data-tokens="malayasia">Malayasia</option>
+                                        <option data-tokens="singapore">Singapore</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    
+    @if (Model.ExamSheets != null && Model.ExamSheets.Any())
+    {
+        foreach (var sheet in Model.ExamSheets)
+        {
+            var group = sheet.Group == null ? string.Empty : sheet.Group.Name;
+            var faculty = sheet.Faculty == null ? string.Empty : sheet.Faculty.Name;
+            var subject = sheet.Subject == null ? string.Empty : sheet.Subject.Name;
+            var teacher = sheet.Teacher == null ? string.Empty : string.Format("{0} {1}", sheet.Teacher.Surname, sheet.Teacher.Name);
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Відомість</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-success">> @teacher</li>
+                        <li class="list-group-item list-group-item-success">> @subject</li>
+                        <li class="list-group-item list-group-item-success">> @group</li>
+                        <li class="list-group-item list-group-item-success">> @faculty</li>
+                        <li class="list-group-item list-group-item-success">> @sheet.Semester семестр @sheet.Year рік</li>
+                    </ul>
+
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Edit" asp-controller="ExamSheet" asp-route-id="@sheet.Id" class="btn">Редагувати</a>
+                    @*//TODO: WORD*@
+                    <a asp-action="Download" asp-controller="ExamSheet" asp-route-id="@sheet.Id" class="btn download-word"><i class="fa fa-file-text-o"></i></a>
+                </div>
+            </div>
+        }
+    }
+</div>

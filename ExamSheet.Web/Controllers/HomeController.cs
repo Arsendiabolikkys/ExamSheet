@@ -8,6 +8,7 @@ using ExamSheet.Business.Group;
 using ExamSheet.Business.Subject;
 using ExamSheet.Business.Teacher;
 using Microsoft.AspNetCore.Authorization;
+using ExamSheet.Business.Account;
 
 namespace ExamSheet.Web.Controllers
 {
@@ -37,9 +38,10 @@ namespace ExamSheet.Web.Controllers
         public IActionResult Index()
         {
             //TODO: Add method to business, use current Role inside method, paging
-
-            //TODO: add exam sheet list view model with group, teacher etc
             //TODO: if deanery - get for deanery, get for teacher if teacher
+            if (User.IsInRole(AccountType.Teacher))
+                return RedirectToAction("Index", "TeacherSheet");
+
             var model = CreateIndexPageViewModel();
             return View(model);
         }
