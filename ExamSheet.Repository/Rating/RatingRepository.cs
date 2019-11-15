@@ -8,6 +8,17 @@ namespace ExamSheet.Repository.Rating
     {
         public RatingRepository(ISessionFactory sessionFactory)
             : base(sessionFactory) { }
+        
+        public virtual void Save(IEnumerable<Rating> ratings)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                foreach (var rating in ratings)
+                    session.SaveOrUpdate(rating);
+
+                session.Flush();
+            }
+        }
 
         public virtual IList<Rating> FindAll(string examSheetId)
         {

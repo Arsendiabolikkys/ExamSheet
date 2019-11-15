@@ -13,6 +13,7 @@ namespace ExamSheet.Web.Models
     {
         public string Id { get; set; }
         
+        [Display(Name = "Статус")]
         public ExamSheetState State { get; set; }
         
         [Display(Name = "Дата відкриття")]

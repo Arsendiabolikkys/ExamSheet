@@ -8,7 +8,49 @@
         @Html.ValidationSummary()
         <h4>Відомість</h4>
 
-        
+        <div class="form-group">
+            @Html.LabelFor(m => m.State)
+            @Html.DisplayFor(m => m.State)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Faculty)
+            @Html.DisplayFor(m => m.Faculty.Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Group)
+            @Html.DisplayFor(m => m.Group.Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Teacher)
+            @string.Format("{0} {1}", Model.Teacher.Surname, Model.Teacher.Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Subject)
+            @Html.DisplayFor(m => m.Subject.Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Year)
+            @Html.DisplayFor(m => m.Year)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Semester)
+            @Html.DisplayFor(m => m.Semester)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Ratings)
+        </div>
+        @for (int i = 0; i < Model.Ratings.Count; ++i)
+        {
+            string studentName = string.Format("{0} {1}", Model.Ratings[i].Student.Surname, Model.Ratings[i].Student.Name);
+            <div class="form-group">
+                @Html.HiddenFor(m => Model.Ratings[i].ExamSheetId)
+                @Html.HiddenFor(m => Model.Ratings[i].StudentId)
+                @Html.LabelFor(m => Model.Ratings[i].Mark, studentName)
+                @Html.TextBoxFor(m => Model.Ratings[i].Mark, htmlAttributes: new { type = "number", @class = "form-control" })
+                @Html.ValidationMessageFor(m => Model.Ratings[i].Mark)
+            </div>
+        }
+
         <button type="submit" class="btn btn-primary">Зберегти</button>
         <button type="submit" class="btn btn-primary">Зберегти та закрити</button>
         <a asp-action="Index" asp-controller="TeacherSheet" class="btn btn-primary">Назад</a>

@@ -6,7 +6,9 @@ namespace ExamSheet.Business.Rating
 {
     public class RatingModel
     {
-        public StudentModel Student { get; set; }
+        public string StudentId { get; set; }
+
+        public string ExamSheetId { get; set; }
 
         public short Mark { get; set; }
     }

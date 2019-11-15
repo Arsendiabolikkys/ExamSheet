@@ -16,8 +16,6 @@ namespace ExamSheet.Business.Rating
             StudentManager studentManager)
             : base(repositoryWrapper)
         {
-            //SemesterManager = semesterManager;
-            //SubjectManager = subjectManager;
             StudentManager = studentManager;
         }
 
@@ -30,7 +28,6 @@ namespace ExamSheet.Business.Rating
 
         public override RatingModel GetById(string id)
         {
-            return new RatingModel();
             return CreateModel(Repository.GetById(id));
         }
 
@@ -41,14 +38,31 @@ namespace ExamSheet.Business.Rating
             return Repository.FindAll(examSheetId).Select(CreateModel).ToList();
         }
 
+        public virtual void SaveRatings(IEnumerable<RatingModel> ratings)
+        {
+            if (!ratings?.Any() ?? true)
+                return;
+
+            Repository.Save(ratings.Select(CreateEntity));
+        }
+
+        public virtual Repository.Rating.Rating CreateEntity(RatingModel model)
+        {
+            return new Repository.Rating.Rating()
+            {
+                ExamSheetId = model.ExamSheetId,
+                Mark = model.Mark,
+                StudentId = model.StudentId
+            };
+        }
+
         public override RatingModel CreateModel(IEntity entity)
         {
             var rating = entity as Repository.Rating.Rating;
             var model = new RatingModel();
             model.Mark = rating.Mark;
-            //model.Semester = SemesterManager.GetById(rating.SemesterId);
-            //model.Subject = SubjectManager.GetById(rating.SubjectId);
-            model.Student = StudentManager.GetById(rating.StudentId);
+            model.StudentId = rating.StudentId;
+            model.ExamSheetId = rating.ExamSheetId;
             return model;
         }
     }
