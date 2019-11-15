@@ -55,8 +55,13 @@ namespace ExamSheet.Web.Controllers
         {
             //TODO: think what to do with status of exam sheet
             var faculty = GetDeaneryFaculty(User.Identity.Name);
-            InitSelectItems();
-            var model = new ExamSheetViewModel() { Id = Guid.NewGuid().ToString(), OpenDate = DateTime.Now, FacultyId = faculty.Id };
+            var model = new ExamSheetViewModel()
+            {
+                Id = Guid.NewGuid().ToString(),
+                OpenDate = DateTime.Now,
+                Faculty = CreateFacultyViewModel(faculty)
+            };
+            InitSelectItems(model.Faculty.Id);
             return View(model);
         }
 
@@ -67,7 +72,14 @@ namespace ExamSheet.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                InitSelectItems();
+                InitSelectItems(model.Faculty.Id);
+                return View(model);
+            }
+            var examSheet = ExamSheetManager.Get(model.GroupId, model.TeacherId, model.SubjectId, model.Year, model.Semester);
+            if (examSheet != null && examSheet.Id != model.Id)
+            {
+                ModelState.AddModelError(string.Empty, "Така відомість вже існує!");
+                InitSelectItems(model.Faculty.Id);
                 return View(model);
             }
 
@@ -79,9 +91,9 @@ namespace ExamSheet.Web.Controllers
         [IsInRole(Business.Account.AccountType.Deanery)]
         public IActionResult Edit(string id)
         {
-            InitSelectItems();
             var examSheet = ExamSheetManager.GetById(id);
             var model = CreateViewModel(examSheet);
+            InitSelectItems(model.Faculty.Id);
             return View(model);
         }
 
@@ -92,14 +104,21 @@ namespace ExamSheet.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                InitSelectItems();
+                InitSelectItems(model.Faculty.Id);
                 return View(model);
             }
-
+            var examSheet = ExamSheetManager.Get(model.GroupId, model.TeacherId, model.SubjectId, model.Year, model.Semester);
+            if (examSheet != null && examSheet.Id != model.Id)
+            {
+                ModelState.AddModelError(string.Empty, "Така відомість вже існує!");
+                InitSelectItems(model.Faculty.Id);
+                return View(model);
+            }
             SaveOrUpdate(model);
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost]
         [IsInRole(Business.Account.AccountType.Deanery)]
         public virtual IActionResult Delete(string id)
         {
@@ -107,7 +126,7 @@ namespace ExamSheet.Web.Controllers
                 return RedirectToAction("Index", "Home");
 
             ExamSheetManager.Remove(id);
-            return RedirectToAction("Index", "Home");
+            return Json(1);
         }
 
         public virtual IActionResult Download(string id)
@@ -118,15 +137,16 @@ namespace ExamSheet.Web.Controllers
 
         protected virtual ExamSheetViewModel CreateViewModel(ExamSheetModel model)
         {
+            var faculty = FacultyManager.GetById(model.FacultyId);
             return new ExamSheetViewModel()
             {
                 Id = model.Id,
                 CloseDate = model.CloseDate,
-                FacultyId = model.FacultyId,
+                Faculty = CreateFacultyViewModel(faculty),
                 GroupId = model.GroupId,
                 OpenDate = model.OpenDate,
                 Semester = model.Semester,
-                State = (Web.Models.ExamSheetState)model.State,
+                State = (Models.ExamSheetState)model.State,
                 SubjectId = model.SubjectId,
                 TeacherId = model.TeacherId,
                 Year = model.Year
@@ -135,7 +155,6 @@ namespace ExamSheet.Web.Controllers
 
         protected virtual void SaveOrUpdate(ExamSheetViewModel model)
         {
-            //TODO: ADD VALIDATION FOR GROUP TEACHER SUBJECT
             var businessModel = CreateModel(model);
             ExamSheetManager.Save(businessModel);
             //TODO: generate word doc and save it
@@ -149,7 +168,7 @@ namespace ExamSheet.Web.Controllers
                 State = (Business.ExamSheet.ExamSheetState)viewModel.State,
                 OpenDate = viewModel.OpenDate,
                 TeacherId = viewModel.TeacherId,
-                FacultyId = viewModel.FacultyId,
+                FacultyId = viewModel.Faculty.Id,
                 GroupId = viewModel.GroupId,
                 SubjectId = viewModel.SubjectId,
                 Semester = viewModel.Semester,
@@ -158,16 +177,14 @@ namespace ExamSheet.Web.Controllers
             };
         }
 
-        protected virtual void InitSelectItems()
+        protected virtual void InitSelectItems(string facultyId)
         {
             //TODO: on list page add filter for groups, teachers, open/closed state
 
-            //TODO: faculty will be preselected
-            //TODO: get groups by faculty
-
             //TODO: for teacher get sheets for teacherId
-            InitFaculties();
-            InitGroups();
+            //TODO: teacher is able to edit only ratings
+
+            InitGroups(facultyId);
             InitSubjects();
             InitTeachers();
         }
@@ -187,9 +204,9 @@ namespace ExamSheet.Web.Controllers
             };
         }
 
-        protected virtual void InitGroups()
+        protected virtual void InitGroups(string facultyId)
         {
-            var groups = GroupManager.FindAll().Select(CreateGroupViewModel).ToList();
+            var groups = GroupManager.FindAllForFaculty(facultyId).Select(CreateGroupViewModel).ToList();
             ViewData["groups"] = groups;
         }
 

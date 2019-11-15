@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NHibernate;
+using NHibernate.Criterion;
 
 namespace ExamSheet.Repository.ExamSheet
 {
@@ -9,22 +10,19 @@ namespace ExamSheet.Repository.ExamSheet
         public ExamSheetRepository(ISessionFactory sessionFactory) 
             : base(sessionFactory) { }
 
-        //public override IEnumerable<ExamSheet> FindAll()
-        //{
-        //    using (var session = sessionFactory.OpenSession())
-        //    {
-        //        return new List<ExamSheet>()
-        //        {
-        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-        //            new ExamSheet() { /*Id = Guid.NewGuid().ToString(), */TeacherId = "TeacherId", FacultyId = "FacultyId", State = 0, GroupId = "GroupId", SubjectId = "SubjectId", SemesterId = "SemesterId" },
-        //        };
-        //    }
+        public virtual ExamSheet Get(string groupId, string teacherId, string subjectId, short year, short semester)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<ExamSheet>()
+                    .Add(Restrictions.Eq("GroupId", groupId))
+                    .Add(Restrictions.Eq("TeacherId", teacherId))
+                    .Add(Restrictions.Eq("SubjectId", subjectId))
+                    .Add(Restrictions.Eq("Year", year))
+                    .Add(Restrictions.Eq("Semester", semester));
 
-        //}
+                return criteria.UniqueResult<ExamSheet>();
+            }
+        }
     }
 }

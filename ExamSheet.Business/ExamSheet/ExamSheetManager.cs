@@ -44,15 +44,26 @@ namespace ExamSheet.Business.ExamSheet
             return Repository.FindAll().Select(CreateModel);
         }
 
-        public IEnumerable<ExamSheetModel> FindAllTeacher(string teacherId)
+        public virtual ExamSheetModel Get(string groupId, string teacherId, string subjectId, short year, short semester)
         {
+            if (string.IsNullOrEmpty(groupId) || string.IsNullOrEmpty(teacherId) || string.IsNullOrEmpty(subjectId))
+                return null;
+            var sheet = Repository.Get(groupId, teacherId, subjectId, year, semester);
+            if (sheet == null)
+                return null;
 
+            return CreateModel(sheet);
         }
 
-        public IEnumerable<ExamSheetModel> FindAllFaculty(string facultyId)
-        {
+        //public IEnumerable<ExamSheetModel> FindAllTeacher(string teacherId)
+        //{
 
-        }
+        //}
+
+        //public IEnumerable<ExamSheetModel> FindAllFaculty(string facultyId)
+        //{
+
+        //}
 
         public override ExamSheetModel GetById(string id)
         {

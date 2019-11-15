@@ -51,7 +51,8 @@ namespace ExamSheet.Web.Controllers
             return new GroupModel()
             {
                 Id = model.Id,
-                Name = model.Name
+                Name = model.Name,
+                FacultyId = model.FacultyId
             };
         }
 
@@ -60,7 +61,8 @@ namespace ExamSheet.Web.Controllers
             return new GroupViewModel()
             {
                 Id = model.Id,
-                Name = model.Name 
+                Name = model.Name,
+                FacultyId = model.FacultyId
             };
         }
 

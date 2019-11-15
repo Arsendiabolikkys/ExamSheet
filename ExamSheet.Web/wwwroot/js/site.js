@@ -17,4 +17,14 @@ $(function () {
         viewMode: "years",
         minViewMode: "years"
     });
+
+    $('.btn-delete').on('click', function (e) {
+        e.preventDefault();
+        if (confirm("Підтвердіть видалення?")) {
+            var $btn = $(e.target);
+            $.post($btn.attr('href'), function (data) {
+                window.location.reload();
+            });
+        }
+    });
 });

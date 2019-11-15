@@ -39,6 +39,7 @@ namespace ExamSheet.Web.Controllers
             //TODO: Add method to business, use current Role inside method, paging
 
             //TODO: add exam sheet list view model with group, teacher etc
+            //TODO: if deanery - get for deanery, get for teacher if teacher
             var model = CreateIndexPageViewModel();
             return View(model);
         }

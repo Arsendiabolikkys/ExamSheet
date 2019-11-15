@@ -84,13 +84,14 @@ namespace ExamSheet.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
         public virtual IActionResult Delete(string id)
         {
             if (string.IsNullOrEmpty(id))
                 return RedirectToAction(nameof(Index));
 
             ItemManager.Remove(id);
-            return RedirectToAction(nameof(Index));
+            return Json(1);
         }
     }
 }

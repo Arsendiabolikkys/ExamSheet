@@ -19,6 +19,11 @@ namespace ExamSheet.Business.Group
             return Repository.FindAll().Select(CreateModel);
         }
 
+        public virtual IEnumerable<GroupModel> FindAllForFaculty(string facultyId)
+        {
+            return Repository.FindAllForFaculty(facultyId).Select(CreateModel);
+        }
+
         public override GroupModel GetById(string id)
         {
             var group = Repository.GetById(id);

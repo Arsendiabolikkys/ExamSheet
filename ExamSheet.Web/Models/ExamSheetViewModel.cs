@@ -6,8 +6,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExamSheet.Web.Models
 {
-    //TODO: DYNAMIC CREATE/EDIT FORM (SELECT FACULTY - THEN APPROPRIATE GROUP)
-    //[ModelBinder(BinderType = typeof(AuthorEntityBinder))]
     public class ExamSheetViewModel
     {
         [Required]
@@ -21,11 +19,7 @@ namespace ExamSheet.Web.Models
         [Display(Name = "Дата відкриття")]
         [UIHint("DateTime")]
         public DateTime? OpenDate { get; set; }
-
-        [Required]
-        [Display(Name = "Факультет")]
-        public string FacultyId { get; set; }
-
+        
         [Required]
         [Display(Name = "Група")]
         public string GroupId { get; set; }
@@ -51,6 +45,8 @@ namespace ExamSheet.Web.Models
         [UIHint("Year")]
         public short Year { get; set; }
         
+        public FacultyViewModel Faculty { get; set; }
+
         public IList<RatingViewModel> Ratings { get; set; }
     }
 

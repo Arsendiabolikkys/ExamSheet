@@ -1,5 +1,5 @@
 ﻿@model GroupViewModel
-@{ 
+@{
     var faculties = (List<FacultyViewModel>)ViewData["faculties"];
     var facultiesList = new List<SelectListItem>(faculties.Select(x => new SelectListItem() { Value = x.Id, Text = x.Name }));
 }
@@ -22,4 +22,5 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Зберегти</button>
+    <a asp-action="Index" asp-controller="Group" class="btn btn-primary">Назад</a>
 }

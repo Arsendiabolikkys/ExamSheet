@@ -6,9 +6,11 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.Id)
         @Html.HiddenFor(m => m.CloseDate)
+        @Html.ValidationSummary()
         <h4>Відомість</h4>
         @Html.Partial("_Edit", Model)
 
         <button type="submit" class="btn btn-primary">Створити</button>
+        <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Назад</a>
     }
 </div>

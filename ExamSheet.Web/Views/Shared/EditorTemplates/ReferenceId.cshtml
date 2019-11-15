@@ -10,5 +10,4 @@
     items.AddRange(deaneries.Select(x => new SelectListItem() { Value = x.Id, Text = string.Format("{0}", x.Name), Group = deaneriesGroup }));
 }
 
-@*//TODO:return all references -> if select Teacher - hide Deanery, else - hide teachers. Select proper one *@
 @Html.DropDownList(string.Empty, items, htmlAttributes: new { @class = "form-control reference-id" })

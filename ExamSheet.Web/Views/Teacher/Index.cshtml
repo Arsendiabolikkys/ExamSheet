@@ -30,8 +30,7 @@
                                 @Html.ActionLink("Редагувати", "Edit", "Teacher", routeValues: new { id = item.Id })
                             </td>
                             <td>
-                                @*////TODO: btn-delete-item confirm JS *@
-                                @Html.ActionLink("Видалити", "Delete", "Teacher", routeValues: new { id = item.Id })
+                                @Html.ActionLink("Видалити", "Delete", "Teacher", routeValues: new { id = item.Id }, htmlAttributes: new { @class = "btn-delete" })
                             </td>
                         </tr>
                     }

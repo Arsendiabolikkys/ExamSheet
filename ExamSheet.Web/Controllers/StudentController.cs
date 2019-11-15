@@ -14,6 +14,7 @@ namespace ExamSheet.Web.Controllers
     {
         protected GroupManager GroupManager { get; set; }
 
+        //TODO: add filters per group on list page
         public StudentController(StudentManager studentManager, GroupManager groupManager)
             : base(studentManager)
         {
