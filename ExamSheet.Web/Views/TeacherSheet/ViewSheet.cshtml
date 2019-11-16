@@ -2,11 +2,7 @@
 
 <div class="form-container">
     <form asp-controller="TeacherSheet" asp-action="Edit" method="post" class="form-create-sheet">
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.Id)
-        @Html.ValidationSummary()
         <h4>@Html.DisplayFor(m => m.State) відомість</h4>
-
         <div class="form-group">
             @Html.DisplayFor(m => m.Faculty.Name), @Html.DisplayFor(m => m.Group.Name), @Html.DisplayFor(m => m.Subject.Name)
         </div>
@@ -26,22 +22,12 @@
                 {
                     string studentName = string.Format("{0} {1}", Model.Ratings[i].Student.Surname, Model.Ratings[i].Student.Name);
                     <tr>
-                        <td>
-                            @Html.HiddenFor(m => Model.Ratings[i].ExamSheetId)
-                            @Html.HiddenFor(m => Model.Ratings[i].StudentId)
-                            @studentName
-                        </td>
-                        <td>
-                            @Html.TextBoxFor(m => Model.Ratings[i].Mark, htmlAttributes: new { type = "number", @class = "form-control" })
-                            @Html.ValidationMessageFor(m => Model.Ratings[i].Mark)
-                        </td>
+                        <td>@studentName</td>
+                        <td>@Html.TextBoxFor(m => Model.Ratings[i].Mark, htmlAttributes: new { type = "number", @class = "form-control", @readonly = "readonly" })</td>
                     </tr>
                 }
             </table>
         </div>
-        
-        <input type="submit" name="save" value="Зберегти" class="btn btn-primary" />
-        <input type="submit" name="saveAndClose" value="Зберегти та закрити" class="btn btn-primary" />
         <a asp-action="Index" asp-controller="TeacherSheet" class="btn btn-primary btn-back">Назад</a>
     </form>
 </div>

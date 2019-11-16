@@ -15,7 +15,7 @@ namespace ExamSheet.Repository.Student
             using (var session = sessionFactory.OpenSession())
             {
                 var query = session.Query<Student>();
-                return query.OrderByDescending(x => x.Surname).ToList<Student>();
+                return query.OrderBy(x => x.Surname).ToList<Student>();
             }
         }
 
@@ -26,7 +26,7 @@ namespace ExamSheet.Repository.Student
                 var criteria = session.CreateCriteria<Student>()
                     .Add(Restrictions.Eq("GroupId", groupId));
 
-                return criteria.AddOrder(Order.Desc("Surname")).List<Student>();
+                return criteria.AddOrder(Order.Asc("Surname")).List<Student>();
             }
         }
     }

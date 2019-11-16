@@ -58,10 +58,15 @@
 
                 </div>
                 <div class="card-footer">
-                    @{ 
-                        string actionName = sheet.State == ExamSheetState.Open ? "Заповнити" : "Переглянути";
+                    @if (sheet.State == ExamSheetState.Open)
+                    {
+                        <a asp-action="Edit" asp-controller="TeacherSheet" asp-route-id="@sheet.Id" class="btn">Заповнити</a>
                     }
-                    <a asp-action="Edit" asp-controller="TeacherSheet" asp-route-id="@sheet.Id" class="btn">@actionName</a>
+                    else
+                    {
+                        <a asp-action="ViewSheet" asp-controller="TeacherSheet" asp-route-id="@sheet.Id" class="btn">Переглянути</a>
+                    }
+
                     <a asp-action="Download" asp-controller="TeacherSheet" asp-route-id="@sheet.Id" class="btn download-word"><i class="fa fa-file-text-o"></i></a>
                 </div>
             </div>

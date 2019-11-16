@@ -25,6 +25,18 @@ namespace ExamSheet.Repository.ExamSheet
             }
         }
 
+        public virtual IEnumerable<ExamSheet> FindClosedForTeacher(string teacherId, short state)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<ExamSheet>()
+                    .Add(Restrictions.Eq("TeacherId", teacherId))
+                    .Add(Restrictions.Eq("State", state));
+
+                return criteria.List<ExamSheet>();
+            }
+        }
+
         public virtual IEnumerable<ExamSheet> FindAllForTeacher(string teacherId)
         {
             using (var session = sessionFactory.OpenSession())

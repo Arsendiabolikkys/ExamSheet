@@ -52,6 +52,14 @@ namespace ExamSheet.Business.ExamSheet
             return CreateModel(sheet);
         }
 
+        public IEnumerable<ExamSheetModel> FindClosedForTeacher(string teacherId)
+        {
+            if (string.IsNullOrEmpty(teacherId))
+                return new List<ExamSheetModel>();
+
+            return Repository.FindClosedForTeacher(teacherId, (short)ExamSheetState.Closed).Select(CreateModel).ToList();
+        }
+
         public IEnumerable<ExamSheetModel> FindAllForTeacher(string teacherId)
         {
             if (string.IsNullOrEmpty(teacherId))
@@ -71,6 +79,20 @@ namespace ExamSheet.Business.ExamSheet
         public override ExamSheetModel GetById(string id)
         {
             return CreateModel(Repository.GetById(id));
+        }
+
+        public virtual bool CloseSheet(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return false;
+            var sheet = Repository.GetById(id);
+            if (sheet == null)
+                return false;
+
+            sheet.State = (short)ExamSheetState.Closed;
+            sheet.CloseDate = DateTime.Now;
+            Repository.Save(sheet);
+            return true;
         }
 
         public virtual void Save(ExamSheetModel model)

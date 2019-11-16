@@ -61,21 +61,30 @@ namespace ExamSheet.Web.Controllers
         public IActionResult Edit(string id)
         {
             var examSheet = ExamSheetManager.GetById(id);
-            //TODO: closed date will be changed (if closed)
-            //TODO: edit ratings for exam sheet (exam sheet entity will not be updated using SaveOrUpdate)
+            var model = CreateViewModel(examSheet);
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ViewSheet(string id)
+        {
+            var examSheet = ExamSheetManager.GetById(id);
             var model = CreateViewModel(examSheet);
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Edit(TeacherSheetViewModel model)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(TeacherSheetViewModel model, string save, string saveAndClose)
         {
-            if (!ModelState.IsValid)
+            bool shouldClose = !string.IsNullOrEmpty(saveAndClose);
+            var valid = ModelState.IsValid && (shouldClose && ExamSheetManager.CloseSheet(model.Id) || !shouldClose);
+            if (!valid)
             {
                 var examSheet = ExamSheetManager.GetById(model.Id);
-                return View(CreateViewModel(examSheet));
+                return View("Edit", CreateViewModel(examSheet));
             }
-
+            
             RatingManager.SaveRatings(model.Ratings.Select(CreateRatingModel));
             return RedirectToAction("Index");
         }
@@ -113,10 +122,10 @@ namespace ExamSheet.Web.Controllers
         {
             var ratings = RatingManager.FindAll(examSheetId);
             if (ratings?.Any() ?? false)
-                return ratings.Select(CreateRatingViewModel).ToList();
+                return ratings.Select(CreateRatingViewModel).OrderBy(x => x.Student.Surname).ToList();
 
             var students = StudentManager.FindGroup(groupId);
-            return students.Select(student => CreateRatingViewModel(student, examSheetId)).ToList();
+            return students.Select(student => CreateRatingViewModel(student, examSheetId)).OrderBy(x => x.Student.Surname).ToList();
         }
 
         protected virtual RatingViewModel CreateRatingViewModel(RatingModel rating)
