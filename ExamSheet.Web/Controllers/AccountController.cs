@@ -53,8 +53,6 @@ namespace ExamSheet.Web.Controllers
             return Json(account == null);
         }
 
-        //TODO: is unique reference id for teachers only?
-
         [HttpGet]
         public override IActionResult Edit(string id)
         {

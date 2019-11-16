@@ -58,8 +58,10 @@
 
                 </div>
                 <div class="card-footer">
-                    <a asp-action="Edit" asp-controller="TeacherSheet" asp-route-id="@sheet.Id" class="btn">Редагувати</a>
-                    @*//TODO: WORD*@
+                    @{ 
+                        string actionName = sheet.State == ExamSheetState.Open ? "Заповнити" : "Переглянути";
+                    }
+                    <a asp-action="Edit" asp-controller="TeacherSheet" asp-route-id="@sheet.Id" class="btn">@actionName</a>
                     <a asp-action="Download" asp-controller="TeacherSheet" asp-route-id="@sheet.Id" class="btn download-word"><i class="fa fa-file-text-o"></i></a>
                 </div>
             </div>

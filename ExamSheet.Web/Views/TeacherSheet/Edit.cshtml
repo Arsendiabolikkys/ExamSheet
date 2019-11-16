@@ -6,35 +6,17 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.Id)
         @Html.ValidationSummary()
-        <h4>Відомість</h4>
-
+        <h4>@Html.DisplayFor(m => m.State) відомість</h4>
+        
         <div class="form-group">
-            @Html.LabelFor(m => m.State)
-            @Html.DisplayFor(m => m.State)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Faculty)
-            @Html.DisplayFor(m => m.Faculty.Name)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Group)
-            @Html.DisplayFor(m => m.Group.Name)
+            @Html.DisplayFor(m => m.Faculty.Name), @Html.DisplayFor(m => m.Group.Name), @Html.DisplayFor(m => m.Subject.Name)
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.Teacher)
             @string.Format("{0} {1}", Model.Teacher.Surname, Model.Teacher.Name)
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.Subject)
-            @Html.DisplayFor(m => m.Subject.Name)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Year)
-            @Html.DisplayFor(m => m.Year)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Semester)
-            @Html.DisplayFor(m => m.Semester)
+            @Html.DisplayFor(m => m.Year) @Html.LabelFor(m => m.Year) @Html.DisplayFor(m => m.Semester) @Html.LabelFor(m => m.Semester)
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.Ratings)
@@ -53,6 +35,6 @@
 
         <button type="submit" class="btn btn-primary">Зберегти</button>
         <button type="submit" class="btn btn-primary">Зберегти та закрити</button>
-        <a asp-action="Index" asp-controller="TeacherSheet" class="btn btn-primary">Назад</a>
+        <a asp-action="Index" asp-controller="TeacherSheet" class="btn btn-primary btn-back">Назад</a>
     }
 </div>

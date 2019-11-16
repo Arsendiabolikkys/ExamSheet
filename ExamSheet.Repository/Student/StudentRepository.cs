@@ -1,6 +1,7 @@
 ﻿using NHibernate;
 using NHibernate.Criterion;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ExamSheet.Repository.Student
 {
@@ -9,6 +10,15 @@ namespace ExamSheet.Repository.Student
         public StudentRepository(ISessionFactory sessionFactory)
             : base(sessionFactory) { }
 
+        public override IEnumerable<Student> FindAll()
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var query = session.Query<Student>();
+                return query.OrderByDescending(x => x.Surname).ToList<Student>();
+            }
+        }
+
         public IEnumerable<Student> FindGroup(string groupId)
         {
             using (var session = sessionFactory.OpenSession())
@@ -16,7 +26,7 @@ namespace ExamSheet.Repository.Student
                 var criteria = session.CreateCriteria<Student>()
                     .Add(Restrictions.Eq("GroupId", groupId));
 
-                return criteria.List<Student>();
+                return criteria.AddOrder(Order.Desc("Surname")).List<Student>();
             }
         }
     }

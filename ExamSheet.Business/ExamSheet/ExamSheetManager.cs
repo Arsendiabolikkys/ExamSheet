@@ -1,11 +1,11 @@
 ﻿using ExamSheet.Business.Faculty;
 using ExamSheet.Business.Group;
 using ExamSheet.Business.Rating;
-using ExamSheet.Business.Semester;
 using ExamSheet.Business.Subject;
 using ExamSheet.Business.Teacher;
 using ExamSheet.Repository;
 using ExamSheet.Repository.ExamSheet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,8 +19,6 @@ namespace ExamSheet.Business.ExamSheet
 
         protected virtual FacultyManager FacultyManager { get; set; }
 
-        protected virtual SemesterManager SemesterManager { get; set; }
-
         protected virtual SubjectManager SubjectManager { get; set; }
 
         protected virtual RatingManager RatingManager { get; set; }
@@ -28,13 +26,12 @@ namespace ExamSheet.Business.ExamSheet
         protected ExamSheetRepository Repository => repositoryWrapper.ExamSheet;
 
         public ExamSheetManager(RepositoryWrapper repositoryWrapper, GroupManager groupManager, TeacherManager teacherManager,
-            FacultyManager facultyManager, SemesterManager semesterManager, SubjectManager subjectManager, RatingManager ratingManager)
+            FacultyManager facultyManager, SubjectManager subjectManager, RatingManager ratingManager)
             : base(repositoryWrapper)
         {
             GroupManager = groupManager;
             TeacherManager = teacherManager;
             FacultyManager = facultyManager;
-            SemesterManager = semesterManager;
             SubjectManager = subjectManager;
             RatingManager = ratingManager;
         }
@@ -60,7 +57,7 @@ namespace ExamSheet.Business.ExamSheet
             if (string.IsNullOrEmpty(teacherId))
                 return new List<ExamSheetModel>();
 
-            return Repository.FindAllForTeacher(teacherId).Select(CreateModel);
+            return Repository.FindAllForTeacher(teacherId).Select(CreateModel).Where(x => x.State == ExamSheetState.Open || x.State == ExamSheetState.Closed);
         }
 
         public IEnumerable<ExamSheetModel> FindAllForFaculty(string facultyId)
@@ -116,7 +113,6 @@ namespace ExamSheet.Business.ExamSheet
             model.Id = examSheet.Id;
             model.OpenDate = examSheet.OpenDate;
             model.CloseDate = examSheet.CloseDate;
-            model.State = (ExamSheetState)examSheet.State;
             model.FacultyId = examSheet.FacultyId;
             model.GroupId = examSheet.GroupId;
             model.Semester = examSheet.Semester;
@@ -124,6 +120,11 @@ namespace ExamSheet.Business.ExamSheet
             model.TeacherId = examSheet.TeacherId;
             model.Year = examSheet.Year;
             model.Ratings = RatingManager.FindAll(examSheet.Id);
+            if ((ExamSheetState)examSheet.State == ExamSheetState.New && examSheet.OpenDate.HasValue && examSheet.OpenDate.Value >= DateTime.Now)
+                model.State = ExamSheetState.Open;
+            else
+                model.State = (ExamSheetState)examSheet.State;
+
             return model;
         }
     }

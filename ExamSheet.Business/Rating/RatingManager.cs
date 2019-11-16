@@ -1,5 +1,4 @@
-﻿using ExamSheet.Business.Semester;
-using ExamSheet.Business.Student;
+﻿using ExamSheet.Business.Student;
 using ExamSheet.Business.Subject;
 using ExamSheet.Repository;
 using ExamSheet.Repository.Rating;
@@ -12,8 +11,7 @@ namespace ExamSheet.Business.Rating
     {
         protected virtual StudentManager StudentManager { get; set; }
 
-        public RatingManager(RepositoryWrapper repositoryWrapper, SemesterManager semesterManager, SubjectManager subjectManager,
-            StudentManager studentManager)
+        public RatingManager(RepositoryWrapper repositoryWrapper, SubjectManager subjectManager, StudentManager studentManager)
             : base(repositoryWrapper)
         {
             StudentManager = studentManager;

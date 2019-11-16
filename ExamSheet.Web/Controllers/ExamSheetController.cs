@@ -53,7 +53,7 @@ namespace ExamSheet.Web.Controllers
         [IsInRole(Business.Account.AccountType.Deanery)]
         public IActionResult CreateExamSheet()
         {
-            //TODO: think what to do with status of exam sheet
+            //TODO: think what to do with status of exam sheet ??
             var faculty = GetDeaneryFaculty(User.Identity.Name);
             var model = new ExamSheetViewModel()
             {
@@ -180,10 +180,6 @@ namespace ExamSheet.Web.Controllers
         protected virtual void InitSelectItems(string facultyId)
         {
             //TODO: on list page add filter for groups, teachers, open/closed state
-
-            //TODO: for teacher get sheets for teacherId
-            //TODO: teacher is able to edit only ratings
-
             InitGroups(facultyId);
             InitSubjects();
             InitTeachers();

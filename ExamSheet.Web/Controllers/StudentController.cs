@@ -3,7 +3,6 @@ using ExamSheet.Business.Group;
 using ExamSheet.Business.Student;
 using ExamSheet.Web.Attributes;
 using ExamSheet.Web.Models;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 

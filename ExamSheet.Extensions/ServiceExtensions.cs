@@ -4,7 +4,6 @@ using ExamSheet.Business.ExamSheet;
 using ExamSheet.Business.Faculty;
 using ExamSheet.Business.Group;
 using ExamSheet.Business.Rating;
-using ExamSheet.Business.Semester;
 using ExamSheet.Business.Student;
 using ExamSheet.Business.Subject;
 using ExamSheet.Business.Teacher;
@@ -31,7 +30,6 @@ namespace ExamSheet.Extensions
             services.AddTransient<TeacherManager, TeacherManager>();
             services.AddTransient<SubjectManager, SubjectManager>();
             services.AddTransient<StudentManager, StudentManager>();
-            services.AddTransient<SemesterManager, SemesterManager>();
             services.AddTransient<DeaneryManager, DeaneryManager>();
             services.AddTransient<RatingManager, RatingManager>();
             services.AddTransient<AccountManager, AccountManager>();

@@ -289,6 +289,10 @@ li {
     color: red;
 }
 
-.btn-delete{
-    float:right;
+.btn-delete {
+    float: right;
+}
+
+.btn-back {
+    float: right;
 }

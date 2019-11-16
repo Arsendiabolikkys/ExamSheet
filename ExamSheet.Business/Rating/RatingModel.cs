@@ -1,5 +1,4 @@
-﻿using ExamSheet.Business.Semester;
-using ExamSheet.Business.Student;
+﻿using ExamSheet.Business.Student;
 using ExamSheet.Business.Subject;
 
 namespace ExamSheet.Business.Rating

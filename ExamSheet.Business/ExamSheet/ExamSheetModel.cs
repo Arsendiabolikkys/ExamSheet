@@ -1,7 +1,6 @@
 ﻿using ExamSheet.Business.Faculty;
 using ExamSheet.Business.Group;
 using ExamSheet.Business.Rating;
-using ExamSheet.Business.Semester;
 using ExamSheet.Business.Subject;
 using ExamSheet.Business.Teacher;
 using System;

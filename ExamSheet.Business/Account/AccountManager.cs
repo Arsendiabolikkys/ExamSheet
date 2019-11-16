@@ -34,7 +34,7 @@ namespace ExamSheet.Business.Account
 
         public override IEnumerable<AccountModel> FindAll()
         {
-            return Repository.FindAll().Where(x => !x.AccountType.Equals(AccountType.Admin)).Select(CreateModel);
+            return Repository.FindAll().Where(x => !((AccountType)x.AccountType).Equals(AccountType.Admin)).Select(CreateModel);
         }
 
         public override AccountModel GetById(string id)
