@@ -30,5 +30,16 @@ namespace ExamSheet.Repository.Rating
                 return criteria.List<Rating>();
             }
         }
+
+        public virtual IList<Rating> FindAll(string[] examSheetIds)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<Rating>()
+                    .Add(Expression.In("ExamSheetId", examSheetIds));
+
+                return criteria.List<Rating>();
+            }
+        }
     }
 }

@@ -1,0 +1,28 @@
+﻿@model ExamSheet.Web.Models.SubjectStatisticViewModel
+
+@if (Model == null || Model.SubjectList == null || Model.SubjectList.Count == 0)
+{
+    <div>
+        <span>Немає даних для аналізу</span>
+    </div>
+}
+else
+{
+    <div class="filters">
+        <form asp-controller="Chart" asp-action="GetSubjectData" method="post" class="subject-filter-form">
+            @Html.DropDownList("subject", Model.SubjectList, htmlAttributes: new { @class = "form-control subject-filter filter" })
+            @Html.Hidden("faculty", Model.FacultyId)
+        </form>
+    </div>
+    <div class="subject-chart-wrapper" style="width:400px;height:400px;">
+        <div class="line-chart">
+            <canvas id="lineChart"></canvas>
+        </div>
+        <div class="frequency-chart">
+            <canvas id="frequencyChart"></canvas>
+        </div>
+        <div class="predict-chart">
+            <canvas id="predictChart"></canvas>
+        </div>
+    </div>
+}

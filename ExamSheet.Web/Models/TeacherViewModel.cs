@@ -15,9 +15,5 @@ namespace ExamSheet.Web.Models
         [Required]
         [Display(Name = "Прізвище")]
         public string Surname { get; set; }
-
-        //[Required]
-        //[DataType(DataType.EmailAddress)]
-        //public string Email { get; set; }
     }
 }

@@ -36,6 +36,13 @@ namespace ExamSheet.Business.Rating
             return Repository.FindAll(examSheetId).Select(CreateModel).ToList();
         }
 
+        public virtual IList<RatingModel> FindAll(IEnumerable<string> examSheetIds)
+        {
+            if (!examSheetIds?.Any() ?? true)
+                return new List<RatingModel>();
+            return Repository.FindAll(examSheetIds.ToArray()).Select(CreateModel).ToList();
+        }
+
         public virtual void SaveRatings(IEnumerable<RatingModel> ratings)
         {
             if (!ratings?.Any() ?? true)

@@ -1,8 +1,15 @@
 ﻿$(function(){
-    var $wrapper = $('.teacher-chart-wrapper');
+    var $wrapper = $('.group-chart-wrapper');
     if ($wrapper.length) {
         var pieChartCtx = document.getElementById('pieChart').getContext('2d');
         var barChartCtx = document.getElementById('barChart').getContext('2d');
+
+        //TODO: check for multiple filters 
+        //var chart = null;
+        //if (chart) {
+        //    chart.destroy();
+        //}
+        //chart = createChart
 
         var createPieChart = function (marks) {
             var labels = [];
@@ -77,6 +84,20 @@
             });
         };
 
+        var generateStudentsTable = function (ratings) {
+            var $tbody = $('.students-table').find('tbody');
+            $tbody.html('');
+            var rows = '';
+            for (var i = 0; i < ratings.length; i++) {
+                var nameTd = '<td>' + ratings[i].surname + ' ' + ratings[i].name + '</td>';
+                var ratingTd = '<td>' + ratings[i].rating + '</td>';
+                var charTd = '<td>' + ratings[i].stringRepresentation + '</td>';
+                var css = 'student-rating-' + ratings[i].stringRepresentation;
+                rows += '<tr class="' + css + '">' + nameTd + ratingTd + charTd + '</tr>';
+            }
+            $tbody.append(rows);
+        };
+
         var initChart = function () {
             var $group = $("select.group-filter");
             var $subject = $("select.subject-filter");
@@ -114,11 +135,13 @@
                     updateFilter();
                 });
             }
-
+            //TODO: add loading indicator
+            //TODO: test with many groups, teachers, subjects, years
             var getChartData = function () {
-                var $form = $('.teacher-filter-form').first();
+                var $form = $('.group-filter-form').first();
+                var url = $form.attr('action');
                 $.ajax({
-                    url: 'getchartdata',
+                    url: url,
                     type: 'POST',
                     dataType: "json",
                     data: $form.serialize(),
@@ -129,9 +152,8 @@
                         if (data && data.rangeMarks) {
                             createRangeChart(data.rangeMarks);
                         }
-                        if (data && data.averageRating) {
-                            //TODO: avg rating
-                            //TODO: students
+                        if (data && data.studentsRating) {
+                            generateStudentsTable(data.studentsRating);
                         }
                     },
                     error: function (err) {

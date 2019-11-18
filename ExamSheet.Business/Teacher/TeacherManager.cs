@@ -25,6 +25,18 @@ namespace ExamSheet.Business.Teacher
             return CreateModel(model);
         }
 
+        public virtual List<TeacherModel> GetByIdList(IEnumerable<string> ids)
+        {
+            if (!ids?.Any() ?? true)
+                return new List<TeacherModel>();
+
+            var teachers = Repository.GetByIdList(ids.ToArray());
+            if (!teachers?.Any() ?? true)
+                return new List<TeacherModel>();
+
+            return teachers.Select(CreateModel).ToList();
+        }
+
         public override TeacherModel CreateModel(IEntity entity)
         {
             var teacher = entity as Repository.Teacher.Teacher;

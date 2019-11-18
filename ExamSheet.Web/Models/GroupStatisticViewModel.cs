@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ExamSheet.Web.Models
 {
-    public class TeacherChartViewModel
+    public class GroupStatisticViewModel
     {
         public List<SelectListItem> GroupList { get; set; }
 
@@ -17,24 +17,29 @@ namespace ExamSheet.Web.Models
         public List<SelectListItem> YearList { get; set; }
 
         public List<SelectListItem> SemesterList { get; set; }
+
+        public List<SelectListItem> TeacherList { get; set; }
+
+        public string TeacherId { get; set; }
     }
 
-    public class TeacherChartJsonModel
+    public class GroupChartJsonModel
     {
         public Dictionary<string, short> SemesterMarks { get; set; }
 
         public Dictionary<string, short> RangeMarks { get; set; }
 
-        public float AverageRating { get; set; }
-
-        public List<string> StudentsWithLowRating { get; set; }
+        public List<StudentRating> StudentsRating { get; set; }
     }
 
-    public class SemesterMarksJsonModel
+    public class StudentRating
     {
-        //TODO: add bar with rating 0-10, 10-20 .... 90-100
-        //TODO: add median rating, show students for which rating is lower than median (add description)
+        public string Surname { get; set; }
 
-        public Dictionary<string, short> Marks { get; set; }
+        public string Name { get; set; }
+
+        public string StringRepresentation { get; set; }
+
+        public short Rating { get; set; }
     }
 }

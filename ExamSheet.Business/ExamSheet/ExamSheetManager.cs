@@ -52,12 +52,12 @@ namespace ExamSheet.Business.ExamSheet
             return CreateModel(sheet);
         }
 
-        public virtual List<ExamSheetModel> Get(string groupId, string teacherId, string subjectId)
+        public virtual List<ExamSheetModel> Get(string facultyId, string subjectId)
         {
-            if (string.IsNullOrEmpty(groupId) || string.IsNullOrEmpty(teacherId) || string.IsNullOrEmpty(subjectId))
+            if (string.IsNullOrEmpty(facultyId) || string.IsNullOrEmpty(subjectId))
                 return new List<ExamSheetModel>();
 
-            var sheets = Repository.Get(groupId, teacherId, subjectId);
+            var sheets = Repository.Get(facultyId, subjectId);
             if (!sheets?.Any() ?? true)
                 return new List<ExamSheetModel>();
 
@@ -70,6 +70,14 @@ namespace ExamSheet.Business.ExamSheet
                 return new List<ExamSheetModel>();
 
             return Repository.FindForTeacher(teacherId, (short)ExamSheetState.Closed).Select(CreateModel).ToList();
+        }
+
+        public IEnumerable<ExamSheetModel> FindClosedForFaculty(string facultyId)
+        {
+            if (string.IsNullOrEmpty(facultyId))
+                return new List<ExamSheetModel>();
+
+            return Repository.FindForFaculty(facultyId, (short)ExamSheetState.Closed).Select(CreateModel).ToList();
         }
 
         public IEnumerable<ExamSheetModel> FindAllForTeacher(string teacherId)
