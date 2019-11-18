@@ -52,12 +52,24 @@ namespace ExamSheet.Business.ExamSheet
             return CreateModel(sheet);
         }
 
+        public virtual List<ExamSheetModel> Get(string groupId, string teacherId, string subjectId)
+        {
+            if (string.IsNullOrEmpty(groupId) || string.IsNullOrEmpty(teacherId) || string.IsNullOrEmpty(subjectId))
+                return new List<ExamSheetModel>();
+
+            var sheets = Repository.Get(groupId, teacherId, subjectId);
+            if (!sheets?.Any() ?? true)
+                return new List<ExamSheetModel>();
+
+            return sheets.Select(CreateModel).ToList();
+        }
+
         public IEnumerable<ExamSheetModel> FindClosedForTeacher(string teacherId)
         {
             if (string.IsNullOrEmpty(teacherId))
                 return new List<ExamSheetModel>();
 
-            return Repository.FindClosedForTeacher(teacherId, (short)ExamSheetState.Closed).Select(CreateModel).ToList();
+            return Repository.FindForTeacher(teacherId, (short)ExamSheetState.Closed).Select(CreateModel).ToList();
         }
 
         public IEnumerable<ExamSheetModel> FindAllForTeacher(string teacherId)

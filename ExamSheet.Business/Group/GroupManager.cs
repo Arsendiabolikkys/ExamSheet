@@ -32,6 +32,18 @@ namespace ExamSheet.Business.Group
             return CreateModel(group);
         }
 
+        public virtual List<GroupModel> GetByIdList(IEnumerable<string> ids)
+        {
+            if (!ids?.Any() ?? true)
+                return new List<GroupModel>();
+
+            var groups = Repository.GetByIdList(ids.ToArray());
+            if (!groups?.Any() ?? true)
+                return new List<GroupModel>();
+
+            return groups.Select(CreateModel).ToList();
+        }
+
         public virtual void Save(GroupModel groupModel)
         {
             if (groupModel == null)

@@ -10,6 +10,19 @@ namespace ExamSheet.Repository.ExamSheet
         public ExamSheetRepository(ISessionFactory sessionFactory) 
             : base(sessionFactory) { }
 
+        public virtual IEnumerable<ExamSheet> Get(string groupId, string teacherId, string subjectId)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<ExamSheet>()
+                    .Add(Restrictions.Eq("GroupId", groupId))
+                    .Add(Restrictions.Eq("TeacherId", teacherId))
+                    .Add(Restrictions.Eq("SubjectId", subjectId));
+
+                return criteria.List<ExamSheet>();
+            }
+        }
+
         public virtual ExamSheet Get(string groupId, string teacherId, string subjectId, short year, short semester)
         {
             using (var session = sessionFactory.OpenSession())
@@ -25,7 +38,7 @@ namespace ExamSheet.Repository.ExamSheet
             }
         }
 
-        public virtual IEnumerable<ExamSheet> FindClosedForTeacher(string teacherId, short state)
+        public virtual IEnumerable<ExamSheet> FindForTeacher(string teacherId, short state)
         {
             using (var session = sessionFactory.OpenSession())
             {

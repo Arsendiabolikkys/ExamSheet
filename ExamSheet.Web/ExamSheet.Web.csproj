@@ -27,6 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Chart\TeacherIndex.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Deanery\Create.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

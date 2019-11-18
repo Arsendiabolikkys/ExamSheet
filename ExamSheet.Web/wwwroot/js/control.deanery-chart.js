@@ -1,6 +1,7 @@
 ﻿$(function(){
-    var $wrapper = $('.chart-wrapper');
+    var $wrapper = $('.deanery-chart-wrapper');
     if ($wrapper.length) {
+
         var ctx = document.getElementById('mainChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',

@@ -9,6 +9,17 @@ namespace ExamSheet.Repository.Group
         public GroupRepository(ISessionFactory sessionFactory)
             : base(sessionFactory) { }
 
+        public virtual IEnumerable<Group> GetByIdList(string[] ids)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<Group>()
+                    .Add(Restrictions.In("Id", ids));
+
+                return criteria.List<Group>();
+            }
+        }
+
         public virtual IEnumerable<Group> FindAllForFaculty(string facultyId)
         {
             using (var session = sessionFactory.OpenSession())

@@ -25,6 +25,18 @@ namespace ExamSheet.Business.Subject
             return CreateModel(subject);
         }
 
+        public virtual List<SubjectModel> GetByIdList(IEnumerable<string> ids)
+        {
+            if (!ids?.Any() ?? true)
+                return new List<SubjectModel>();
+
+            var subjects = Repository.GetByIdList(ids.ToArray());
+            if (!subjects?.Any() ?? true)
+                return new List<SubjectModel>();
+
+            return subjects.Select(CreateModel).ToList();
+        }
+
         public virtual void Save(SubjectModel subjectModel)
         {
             if (subjectModel == null)
