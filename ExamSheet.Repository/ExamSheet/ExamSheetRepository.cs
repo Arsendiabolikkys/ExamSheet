@@ -61,23 +61,63 @@ namespace ExamSheet.Repository.ExamSheet
             }
         }
 
-        public virtual IEnumerable<ExamSheet> FindAllForTeacher(string teacherId)
+        public virtual int GetTotalForTeacher(string teacherId)
         {
             using (var session = sessionFactory.OpenSession())
             {
                 var criteria = session.CreateCriteria<ExamSheet>()
-                    .Add(Restrictions.Eq("TeacherId", teacherId));
+                    .SetProjection(Projections.RowCount())
+                    .Add(Restrictions.Eq("TeacherId", teacherId))
+                        .Add(Restrictions.Disjunction()
+                            .Add(Restrictions.Eq("State", (short)1))
+                            .Add(Restrictions.Eq("State", (short)2))
+                            .Add(Restrictions.Conjunction().Add(Restrictions.Eq("State", (short)0))
+                                                           .Add(Restrictions.Le("OpenDate", DateTime.Now)))
+                        );
+                
+                return criteria.UniqueResult<int>();
+            }
+        }
+
+        public virtual int GetTotalForFaculty(string facultyId)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<ExamSheet>()
+                    .SetProjection(Projections.RowCount())
+                    .Add(Restrictions.Eq("FacultyId", facultyId));
+
+                return criteria.UniqueResult<int>();
+            }
+        }
+
+        public virtual IEnumerable<ExamSheet> FindAllForTeacher(string teacherId, int page, int pageSize)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<ExamSheet>()
+                    .Add(Restrictions.Eq("TeacherId", teacherId))
+                    .Add(Restrictions.Disjunction()
+                        .Add(Restrictions.Eq("State", (short)1))
+                        .Add(Restrictions.Eq("State", (short)2))
+                        .Add(Restrictions.Conjunction().Add(Restrictions.Eq("State", (short)0))
+                                                       .Add(Restrictions.Le("OpenDate", DateTime.Now)))
+                        )
+                     .SetFirstResult(page - 1)
+                     .SetMaxResults(pageSize);
 
                 return criteria.List<ExamSheet>();
             }
         }
 
-        public virtual IEnumerable<ExamSheet> FindAllForFaculty(string facultyId)
+        public virtual IEnumerable<ExamSheet> FindAllForFaculty(string facultyId, int page, int pageSize)
         {
             using (var session = sessionFactory.OpenSession())
             {
                 var criteria = session.CreateCriteria<ExamSheet>()
-                    .Add(Restrictions.Eq("FacultyId", facultyId));
+                    .Add(Restrictions.Eq("FacultyId", facultyId))
+                    .SetFirstResult(page - 1)
+                    .SetMaxResults(pageSize);
                 
                 return criteria.List<ExamSheet>();
             }

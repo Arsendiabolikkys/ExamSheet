@@ -9,6 +9,7 @@ using ExamSheet.Business.Subject;
 using ExamSheet.Business.Teacher;
 using Microsoft.AspNetCore.Authorization;
 using ExamSheet.Business.Account;
+using ExamSheet.Business.Deanery;
 
 namespace ExamSheet.Web.Controllers
 {
@@ -25,31 +26,40 @@ namespace ExamSheet.Web.Controllers
 
         protected TeacherManager TeacherManager { get; set; }
 
+        protected DeaneryManager DeaneryManager { get; set; }
+
+        protected int PageSize { get; set; } = 8;
+
         public HomeController(ExamSheetManager examSheetManager, FacultyManager facultyManager, GroupManager groupManager,
-            SubjectManager subjectManager, TeacherManager teacherManager)
+            SubjectManager subjectManager, TeacherManager teacherManager, DeaneryManager deaneryManager)
         {
             this.ExamSheetManager = examSheetManager;
             this.FacultyManager = facultyManager;
             this.GroupManager = groupManager;
             this.SubjectManager = subjectManager;
             this.TeacherManager = teacherManager;
+            this.DeaneryManager = deaneryManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            //TODO: Add method to business, use current Role inside method, paging
-            //TODO: if deanery - get for deanery, get for teacher if teacher
+            if (User.IsInRole(AccountType.Admin))
+                return RedirectToAction("Index", "Faculty");
             if (User.IsInRole(AccountType.Teacher))
                 return RedirectToAction("Index", "TeacherSheet");
 
-            var model = CreateIndexPageViewModel();
+            var model = CreateIndexPageViewModel(page);
             return View(model);
         }
 
-        protected virtual IndexPageViewModel CreateIndexPageViewModel()
+        protected virtual IndexPageViewModel CreateIndexPageViewModel(int page)
         {
             var model = new IndexPageViewModel();
-            model.ExamSheets = ExamSheetManager.FindAll().Select(ExamSheetListViewModel).ToList();
+            var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(Constants.Claims.ReferenceId));
+            var deanery = DeaneryManager.GetById(claim.Value);
+            var totalCount = ExamSheetManager.GetTotalForFaculty(deanery.FacultyId);
+            model.Page = new PageViewModel(totalCount, page, PageSize);
+            model.ExamSheets = ExamSheetManager.FindAllForFaculty(deanery.FacultyId, page, PageSize).Select(ExamSheetListViewModel).ToList();
             return model;
         }
 

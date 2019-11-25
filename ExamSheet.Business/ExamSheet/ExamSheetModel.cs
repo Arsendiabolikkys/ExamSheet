@@ -1,8 +1,4 @@
-﻿using ExamSheet.Business.Faculty;
-using ExamSheet.Business.Group;
-using ExamSheet.Business.Rating;
-using ExamSheet.Business.Subject;
-using ExamSheet.Business.Teacher;
+﻿using ExamSheet.Business.Rating;
 using System;
 using System.Collections.Generic;
 
@@ -29,16 +25,6 @@ namespace ExamSheet.Business.ExamSheet
         public short Semester { get; set; }
 
         public short Year { get; set; }
-
-        //public TeacherModel Teacher { get; set; }
-
-        //public GroupModel Group { get; set; }
-
-        //public SubjectModel Subject { get; set; }
-
-        //public FacultyModel Faculty { get; set; }
-
-        //public SemesterModel Semester { get; set; }
 
         public IList<RatingModel> Ratings { get; set; }
     }

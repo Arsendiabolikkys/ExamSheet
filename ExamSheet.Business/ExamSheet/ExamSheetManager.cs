@@ -41,6 +41,11 @@ namespace ExamSheet.Business.ExamSheet
             return Repository.FindAll().Select(CreateModel);
         }
 
+        public virtual IEnumerable<ExamSheetModel> FindAll(int page, int pageSize)
+        {
+            return Repository.FindAll(page, pageSize).Select(CreateModel);
+        }
+
         public virtual ExamSheetModel Get(string groupId, string teacherId, string subjectId, short year, short semester)
         {
             if (string.IsNullOrEmpty(groupId) || string.IsNullOrEmpty(teacherId) || string.IsNullOrEmpty(subjectId))
@@ -80,20 +85,39 @@ namespace ExamSheet.Business.ExamSheet
             return Repository.FindForFaculty(facultyId, (short)ExamSheetState.Closed).Select(CreateModel).ToList();
         }
 
-        public IEnumerable<ExamSheetModel> FindAllForTeacher(string teacherId)
+        public IEnumerable<ExamSheetModel> FindAllForTeacher(string teacherId, int page, int pageSize)
         {
             if (string.IsNullOrEmpty(teacherId))
                 return new List<ExamSheetModel>();
 
-            return Repository.FindAllForTeacher(teacherId).Select(CreateModel).Where(x => x.State == ExamSheetState.Open || x.State == ExamSheetState.Closed);
+            return Repository.FindAllForTeacher(teacherId, page, pageSize).Select(CreateModel);
         }
 
-        public IEnumerable<ExamSheetModel> FindAllForFaculty(string facultyId)
+        public IEnumerable<ExamSheetModel> FindAllForFaculty(string facultyId, int page, int pageSize)
         {
             if (string.IsNullOrEmpty(facultyId))
                 return new List<ExamSheetModel>();
 
-            return Repository.FindAllForFaculty(facultyId).Select(CreateModel);
+            return Repository.FindAllForFaculty(facultyId, page, pageSize).Select(CreateModel);
+        }
+
+        public virtual int GetTotal()
+        {
+            return Repository.GetTotal();
+        }
+
+        public virtual int GetTotalForTeacher(string teacherId)
+        {
+            if (string.IsNullOrEmpty(teacherId))
+                return 0;
+            return Repository.GetTotalForTeacher(teacherId);
+        }
+
+        public virtual int GetTotalForFaculty(string facultyId)
+        {
+            if (string.IsNullOrEmpty(facultyId))
+                return 0;
+            return Repository.GetTotalForFaculty(facultyId);
         }
 
         public override ExamSheetModel GetById(string id)

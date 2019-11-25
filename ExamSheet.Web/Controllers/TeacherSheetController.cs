@@ -30,6 +30,8 @@ namespace ExamSheet.Web.Controllers
 
         protected RatingManager RatingManager { get; set; }
 
+        protected int PageSize { get; set; } = 9;
+
         public TeacherSheetController(ExamSheetManager examSheetManager, TeacherManager teacherManager, FacultyManager facultyManager, 
             GroupManager groupManager, SubjectManager subjectManager, StudentManager studentManager, RatingManager ratingManager)
         {
@@ -42,18 +44,20 @@ namespace ExamSheet.Web.Controllers
             RatingManager = ratingManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
             //TODO: edit only open sheets
-            var model = CreateIndexPageViewModel();
+            var model = CreateIndexPageViewModel(page);
             return View(model);
         }
 
-        protected virtual IndexPageViewModel CreateIndexPageViewModel()
+        protected virtual IndexPageViewModel CreateIndexPageViewModel(int page)
         {
             var model = new IndexPageViewModel();
             var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(Constants.Claims.ReferenceId));
-            model.ExamSheets = ExamSheetManager.FindAllForTeacher(claim.Value).Select(ExamSheetListViewModel).ToList();
+            var totalCount = ExamSheetManager.GetTotalForTeacher(claim.Value);
+            model.Page = new PageViewModel(totalCount, page, PageSize);
+            model.ExamSheets = ExamSheetManager.FindAllForTeacher(claim.Value, page, PageSize).Select(ExamSheetListViewModel).ToList();
             return model;
         }
 
