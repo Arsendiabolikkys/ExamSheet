@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System.Collections.Generic;
+using NHibernate;
 using NHibernate.Criterion;
 
 namespace ExamSheet.Repository.Account
@@ -7,6 +8,20 @@ namespace ExamSheet.Repository.Account
     {
         public AccountRepository(ISessionFactory sessionFactory)
             : base(sessionFactory) { }
+
+        public override IEnumerable<Account> FindAll(int page, int count)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var query = session.QueryOver<Account>();
+                return query
+                    .OrderBy(x => x.Email)
+                    .Asc
+                    .Skip((page - 1) * count)
+                    .Take(count)
+                    .List();
+            }
+        }
 
         public virtual Account GetByEmail(string email)
         {

@@ -81,14 +81,20 @@
                 dataType: "json",
                 data: $form.serialize(),
                 success: function (data) {
-                    if (data && data.averageRatings) {
+                    if (!data || !data.averageRatings) {
+                        $('.chart-not-available').show();
+                        $('.chart-wrapper').hide();
+                    }
+                    else {
+                        $('.chart-not-available').hide();
+                        $('.chart-wrapper').show();
                         createLineChart(data.averageRatings);
-                    }
-                    if (data && data.ratingFrequency) {
-                        createFrequencyChart(data.ratingFrequency);
-                    }
-                    if (data && data.normalDistribution) {
-                        createProbabilityChart(data.normalDistribution);
+                        if (data && data.ratingFrequency) {
+                            createFrequencyChart(data.ratingFrequency);
+                        }
+                        if (data && data.normalDistribution) {
+                            createProbabilityChart(data.normalDistribution);
+                        }
                     }
                     //if (data && data.semesterMarks) {
                     //    createPieChart(data.semesterMarks);

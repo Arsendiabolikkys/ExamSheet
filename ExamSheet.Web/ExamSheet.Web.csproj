@@ -87,6 +87,9 @@
     <Content Update="Views\Shared\EditorTemplates\ExamSheetState.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Shared\_PageModel.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Student\Create.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ExamSheet.Repository
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : IEntity
+    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class, IEntity
     {
         protected ISessionFactory sessionFactory;
 
@@ -19,6 +19,27 @@ namespace ExamSheet.Repository
             {
                 var query = session.Query<T>();
                 return query.ToList();
+            }
+        }
+
+        public virtual IEnumerable<T> FindAll(int page, int count)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var query = session.QueryOver<T>();
+                return query
+                    .Skip((page - 1) * count)
+                    .Take(count)
+                    .List();
+            }
+        }
+
+        public virtual int GetTotal()
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var query = session.QueryOver<T>();
+                return query.RowCount();
             }
         }
 

@@ -1,12 +1,6 @@
 ﻿@model ExamSheet.Web.Models.SubjectStatisticViewModel
 
-@if (Model == null || Model.SubjectList == null || Model.SubjectList.Count == 0)
-{
-    <div>
-        <span>Немає даних для аналізу</span>
-    </div>
-}
-else
+@if (Model != null && Model.SubjectList != null && Model.SubjectList.Count > 0)
 {
     <div class="filters">
         <form asp-controller="Chart" asp-action="GetSubjectData" method="post" class="subject-filter-form">
@@ -14,6 +8,11 @@ else
             @Html.Hidden("faculty", Model.FacultyId)
         </form>
     </div>
+}
+<div class="chart-not-available" style="display:none;">
+    <span>Немає даних для аналізу</span>
+</div>
+<div class="chart-wrapper" style="display:none;">
     <div class="subject-chart-wrapper" style="width:400px;height:400px;">
         <div class="line-chart">
             <canvas id="lineChart"></canvas>
@@ -25,4 +24,4 @@ else
             <canvas id="predictChart"></canvas>
         </div>
     </div>
-}
+</div>

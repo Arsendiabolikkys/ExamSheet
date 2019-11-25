@@ -17,6 +17,16 @@ namespace ExamSheet.Business.Teacher
             return Repository.FindAll().Select(CreateModel);
         }
 
+        public virtual IEnumerable<TeacherModel> FindAll(int page, int count)
+        {
+            return Repository.FindAll(page, count).Select(CreateModel);
+        }
+
+        public virtual int GetTotal()
+        {
+            return Repository.GetTotal();
+        }
+
         public override TeacherModel GetById(string id)
         {
             var model = Repository.GetById(id);

@@ -89,9 +89,11 @@ namespace ExamSheet.Web.Controllers
         public IActionResult GetSubjectData(string subject, string faculty)
         {
             var sheets = ExamSheetManager.Get(faculty, subject);
+            var model = new SubjectChartJsonModel();
+            if (!sheets?.Any() ?? true)
+                return Json(model);
             var ids = sheets.Select(x => x.Id);
             var groupedByYears = sheets.GroupBy(x => x.Year);
-            var model = new SubjectChartJsonModel();
             model.AverageRatings = new Dictionary<string, float>();
             model.RatingFrequency = new Dictionary<short, short>();
             var ratings = new List<RatingModel>();
@@ -127,11 +129,12 @@ namespace ExamSheet.Web.Controllers
             }
             var M = ratings.Sum(x => x.Mark) / ratings.Count;
             var D = ratings.Sum(x => Math.Pow(x.Mark - M, 2)) / (ratings.Count - 1);
-            var sigma = 2;//Math.Sqrt(D);
+            var sigma = Math.Sqrt(D);
             model.NormalDistribution = new Dictionary<short, double>();
             for (short i = 0; i < 100; ++i)
             {
-                double func = (1 / (sigma * Math.Sqrt(2 * Math.PI))) * Math.Pow(Math.E, -(Math.Pow((i - M), 2)) / (2 * sigma * sigma));
+                //double func = (1 / (sigma * Math.Sqrt(2 * Math.PI))) * Math.Pow(Math.E, -(Math.Pow((i - M), 2)) / (2 * sigma * sigma));
+                double func = (1 / (sigma * Math.Sqrt(2 * Math.PI))) * Math.Exp(-(Math.Pow((i - M), 2)) / (2 * sigma * sigma));
                 model.NormalDistribution.Add(i, func);
             }
             //TODO: normal
@@ -191,6 +194,8 @@ namespace ExamSheet.Web.Controllers
         {
             var sheet = ExamSheetManager.Get(group, teacher, subject, year, semester);
             var model = new GroupChartJsonModel();
+            if (sheet == null)
+                return Json(model);
             var semesterMarks = new Dictionary<string, short>();
             var rangeMarks = new Dictionary<string, short>();
             var ratings = RatingManager.FindAll(sheet.Id);

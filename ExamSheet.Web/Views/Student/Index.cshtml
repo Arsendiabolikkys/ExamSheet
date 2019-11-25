@@ -1,4 +1,4 @@
-﻿@model IList<StudentViewModel>
+﻿@model ItemsViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -15,10 +15,11 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model != null && Model.Any())
+                @if (Model.Items != null && Model.Items.Any())
                 {
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Items.OfType<StudentViewModel>())
                     {
+
                         //TODO: display group, filter by groups
                         string name = string.Format("{0} {1}", item.Surname, item.Name);
                         <tr>
@@ -41,5 +42,6 @@
                 </tr>
             </tbody>
         </table>
+        @Html.Partial("_PageModel", Model.Page)
     </div>
 </div>

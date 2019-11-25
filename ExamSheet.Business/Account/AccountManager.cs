@@ -37,6 +37,16 @@ namespace ExamSheet.Business.Account
             return Repository.FindAll().Where(x => !((AccountType)x.AccountType).Equals(AccountType.Admin)).Select(CreateModel);
         }
 
+        public virtual IEnumerable<AccountModel> FindAll(int page, int count)
+        {
+            return Repository.FindAll(page, count).Select(CreateModel);
+        }
+
+        public virtual int GetTotal()
+        {
+            return Repository.GetTotal();
+        }
+
         public override AccountModel GetById(string id)
         {
             var account = Repository.GetById(id);

@@ -23,6 +23,16 @@ namespace ExamSheet.Business.Student
             return Repository.FindAll().Select(CreateModel);
         }
 
+        public virtual IEnumerable<StudentModel> FindAll(int page, int count)
+        {
+            return Repository.FindAll(page, count).Select(CreateModel);
+        }
+
+        public virtual int GetTotal()
+        {
+            return Repository.GetTotal();
+        }
+
         public IEnumerable<StudentModel> FindGroup(string groupId)
         {
             if (string.IsNullOrEmpty(groupId))

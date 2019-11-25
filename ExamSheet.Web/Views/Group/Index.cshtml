@@ -1,4 +1,4 @@
-﻿@model IList<GroupViewModel>
+﻿@model ItemsViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -10,16 +10,15 @@
             <thead>
                 <tr class="d-none d-lg-table-cell">
                     <th>
-                        Група
                     </th>
                     <th></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @if (Model != null && Model.Any())
+                @if (Model.Items != null && Model.Items.Any())
                 {
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Items.OfType<GroupViewModel>())
                     {
                         <tr>
                             <td class="d-none d-lg-table-cell">
@@ -41,5 +40,6 @@
                 </tr>
             </tbody>
         </table>
+        @Html.Partial("_PageModel", Model.Page)
     </div>
 </div>

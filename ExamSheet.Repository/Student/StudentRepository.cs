@@ -19,6 +19,20 @@ namespace ExamSheet.Repository.Student
             }
         }
 
+        public override IEnumerable<Student> FindAll(int page, int count)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var query = session.QueryOver<Student>();
+                return query
+                    .OrderBy(x => x.Surname)
+                    .Asc
+                    .Skip((page - 1) * count)
+                    .Take(count)
+                    .List();
+            }
+        }
+
         public IEnumerable<Student> FindGroup(string groupId)
         {
             using (var session = sessionFactory.OpenSession())

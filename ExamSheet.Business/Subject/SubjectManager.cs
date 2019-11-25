@@ -17,6 +17,16 @@ namespace ExamSheet.Business.Subject
             return Repository.FindAll().Select(CreateModel);
         }
 
+        public virtual IEnumerable<SubjectModel> FindAll(int page, int count)
+        {
+            return Repository.FindAll(page, count).Select(CreateModel);
+        }
+
+        public virtual int GetTotal()
+        {
+            return Repository.GetTotal();
+        }
+
         public override SubjectModel GetById(string id)
         {
             var subject = Repository.GetById(id);

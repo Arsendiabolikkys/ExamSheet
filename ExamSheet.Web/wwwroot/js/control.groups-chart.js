@@ -146,14 +146,20 @@
                     dataType: "json",
                     data: $form.serialize(),
                     success: function (data) {
-                        if (data && data.semesterMarks) {
+                        if (!data || !data.semesterMarks) {
+                            $('.chart-not-available').show();
+                            $('.chart-wrapper').hide();
+                        }
+                        else {
+                            $('.chart-not-available').hide();
+                            $('.chart-wrapper').show();
                             createPieChart(data.semesterMarks);
-                        }
-                        if (data && data.rangeMarks) {
-                            createRangeChart(data.rangeMarks);
-                        }
-                        if (data && data.studentsRating) {
-                            generateStudentsTable(data.studentsRating);
+                            if (data && data.rangeMarks) {
+                                createRangeChart(data.rangeMarks);
+                            }
+                            if (data && data.studentsRating) {
+                                generateStudentsTable(data.studentsRating);
+                            }
                         }
                     },
                     error: function (err) {

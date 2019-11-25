@@ -23,6 +23,16 @@ namespace ExamSheet.Business.Deanery
             return Repository.FindAll().Select(CreateModel);
         }
 
+        public virtual IEnumerable<DeaneryModel> FindAll(int page, int count)
+        {
+            return Repository.FindAll(page, count).Select(CreateModel);
+        }
+
+        public virtual int GetTotal()
+        {
+            return Repository.GetTotal();
+        }
+
         public override DeaneryModel GetById(string id)
         {
             var model = Repository.GetById(id);

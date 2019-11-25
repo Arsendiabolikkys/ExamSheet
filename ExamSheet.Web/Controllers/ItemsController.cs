@@ -14,15 +14,27 @@ namespace ExamSheet.Web.Controllers
     {
         protected virtual IItemManager<T> ItemManager { get; set; }
 
+        protected virtual int PageSize { get; set; } = 10;
+
         public ItemsController(IItemManager<T> itemManager)
         {
             ItemManager = itemManager;
         }
 
-        public virtual IActionResult Index()
+        public virtual IActionResult Index(int page = 1)
         {
-            var items = ItemManager.FindAll().Select(CreateViewModel).ToList();
-            return View(items);
+            var totalCount = ItemManager.GetTotal();
+            var model = CreateItemsViewModel(totalCount, page, PageSize);
+            return View(model);
+        }
+
+        protected virtual ItemsViewModel CreateItemsViewModel(int totalCount, int page, int pageSize)
+        {
+            var model = new ItemsViewModel();
+            var pageModel = new PageViewModel(totalCount, page, pageSize);
+            model.Page = pageModel;
+            model.Items = ItemManager.FindAll(page, pageSize).Select(CreateViewModel).OfType<IItemViewModel>().ToList();
+            return model;
         }
 
         protected abstract TView CreateViewModel(T model);

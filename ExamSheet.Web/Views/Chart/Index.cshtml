@@ -1,12 +1,6 @@
 ﻿@model ExamSheet.Web.Models.GroupStatisticViewModel
 
-@if (Model == null || Model.GroupList == null || Model.GroupList.Count == 0)
-{
-    <div>
-        <span>Немає даних для аналізу</span>
-    </div>
-}
-else
+@if (Model != null && Model.GroupList != null && Model.GroupList.Count > 0)
 {
     <div class="filters">
         <form asp-controller="Chart" asp-action="GetChartData" method="post" class="group-filter-form">
@@ -24,7 +18,12 @@ else
             }
         </form>
     </div>
-    <div class="group-chart-wrapper" style="width:400px;height:400px;">
+}
+<div class="chart-not-available" style="display:none;">
+    <span>Немає даних для аналізу</span>
+</div>
+<div class="chart-wrapper" style="display:none;">
+    <div class="group-chart-wrapper" style="width:800px;height:800px;">
         <div class="pie-chart">
             <canvas id="pieChart"></canvas>
         </div>
@@ -43,4 +42,4 @@ else
             <tbody></tbody>
         </table>
     </div>
-}
+</div>
