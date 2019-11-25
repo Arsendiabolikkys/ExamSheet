@@ -20,11 +20,11 @@
                 <div class="card-body">
                     <h5 class="card-title">Відомість</h5>
                     <ul class="list-group">
-                        <li class="list-group-item list-group-item-success">> @teacher</li>
-                        <li class="list-group-item list-group-item-success">> @subject</li>
-                        <li class="list-group-item list-group-item-success">> @group</li>
-                        <li class="list-group-item list-group-item-success">> @faculty</li>
-                        <li class="list-group-item list-group-item-success">> @sheet.Semester семестр @sheet.Year рік</li>
+                        <li class="list-group-item list-group-item-success">@teacher</li>
+                        <li class="list-group-item list-group-item-success">@subject</li>
+                        <li class="list-group-item list-group-item-success">@group</li>
+                        <li class="list-group-item list-group-item-success">@faculty</li>
+                        <li class="list-group-item list-group-item-success">@sheet.Semester семестр @sheet.Year рік</li>
                     </ul>
 
                 </div>
@@ -38,7 +38,7 @@
                         <a asp-action="ViewSheet" asp-controller="TeacherSheet" asp-route-id="@sheet.Id" class="btn">Переглянути</a>
                     }
 
-                    <a asp-action="Download" asp-controller="TeacherSheet" asp-route-id="@sheet.Id" class="btn download-word"><i class="fa fa-file-text-o"></i></a>
+                    @*<a asp-action="Download" asp-controller="TeacherSheet" asp-route-id="@sheet.Id" class="btn download-word"><i class="fa fa-file-text-o"></i></a>*@
                 </div>
             </div>
         }

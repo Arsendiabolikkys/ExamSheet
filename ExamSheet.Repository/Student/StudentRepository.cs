@@ -19,6 +19,20 @@ namespace ExamSheet.Repository.Student
             }
         }
 
+        public virtual IEnumerable<Student> FindAll(string[] groups, int page, int pageSize)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<Student>()
+                    .AddOrder(Order.Asc("Surname"))
+                    .Add(Restrictions.In("GroupId", groups))
+                    .SetFirstResult((page - 1) * pageSize)
+                    .SetMaxResults(pageSize);
+
+                return criteria.List<Student>();
+            }
+        }
+
         public override IEnumerable<Student> FindAll(int page, int count)
         {
             using (var session = sessionFactory.OpenSession())
@@ -30,6 +44,30 @@ namespace ExamSheet.Repository.Student
                     .Skip((page - 1) * count)
                     .Take(count)
                     .List();
+            }
+        }
+
+        public virtual int GetTotal(string[] groups)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<Student>()
+                    .SetProjection(Projections.RowCount())
+                    .Add(Restrictions.In("GroupId", groups));
+
+                return criteria.UniqueResult<int>();
+            }
+        }
+
+        public virtual int GetTotal(string groupId)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<Student>()
+                    .SetProjection(Projections.RowCount())
+                    .Add(Restrictions.Eq("GroupId", groupId));
+
+                return criteria.UniqueResult<int>();
             }
         }
 

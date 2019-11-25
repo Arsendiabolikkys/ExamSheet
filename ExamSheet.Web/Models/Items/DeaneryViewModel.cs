@@ -2,7 +2,6 @@
 
 namespace ExamSheet.Web.Models
 {
-    //TODO: add Dekan Surname -> Initials
     public class DeaneryViewModel : IItemViewModel
     {
         [Required]
@@ -10,9 +9,11 @@ namespace ExamSheet.Web.Models
         public string Id { get; set; }
         
         [Required]
+        [Display(Name = "Назва")]
         public string Name { get; set; }
 
         [Required]
+        [Display(Name = "Факультет")]
         public string FacultyId { get; set; }
     }
 }

@@ -27,4 +27,17 @@ $(function () {
             });
         }
     });
+
+    $('select.faculty-selector').on('change', function (e) {
+        e.preventDefault();
+        var redirectTo = $(this).attr('data-url') + '?facultyId=' + $(e.target).val();
+        window.location = redirectTo;
+    });
+
+    $('select.group-selector').on('change', function (e) {
+        e.preventDefault();
+        var facultyId = $('select.faculty-selector option:selected').val();
+        var redirectTo = $(this).attr('data-url') + '?facultyId=' + facultyId + '&groupId=' + $(e.target).val();
+        window.location = redirectTo;
+    });
 });

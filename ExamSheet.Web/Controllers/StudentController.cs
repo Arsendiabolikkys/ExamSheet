@@ -1,9 +1,13 @@
 ﻿using ExamSheet.Business.Account;
+using ExamSheet.Business.Faculty;
 using ExamSheet.Business.Group;
 using ExamSheet.Business.Student;
 using ExamSheet.Web.Attributes;
 using ExamSheet.Web.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ExamSheet.Web.Controllers
@@ -13,11 +17,49 @@ namespace ExamSheet.Web.Controllers
     {
         protected GroupManager GroupManager { get; set; }
 
+        protected FacultyManager FacultyManager { get; set; }
+
+        protected StudentManager StudentManager { get; set; }
+
         //TODO: add filters per group on list page
-        public StudentController(StudentManager studentManager, GroupManager groupManager)
+        public StudentController(StudentManager studentManager, GroupManager groupManager, FacultyManager facultyManager)
             : base(studentManager)
         {
             GroupManager = groupManager;
+            FacultyManager = facultyManager;
+            StudentManager = studentManager;
+        }
+
+        [NonAction]
+        public override IActionResult Index(int page = 1)
+        {
+            return base.Index(page);
+        }
+
+        public virtual IActionResult Index(int page = 1, string facultyId = "", string groupId = "")
+        {
+            var totalCount = StudentManager.GetTotal(facultyId, groupId);
+            var model = CreateItemsViewModel(facultyId, groupId, totalCount, page, PageSize);
+            return View(model);
+        }
+
+        protected virtual StudentsViewModel CreateItemsViewModel(string facultyId, string groupId, int total, int page, int pageSize)
+        {
+            var model = new StudentsViewModel();
+            model.Page = new PageViewModel(total, page, pageSize);
+            model.Items = StudentManager.FindAll(facultyId, groupId, page, pageSize).Select(CreateViewModel).OfType<IItemViewModel>().ToList();
+            var faculties = FacultyManager.FindAll().ToList();
+            model.Faculties = new List<SelectListItem>() { new SelectListItem() { Value = "", Text = "Не обрано", Selected = string.IsNullOrEmpty(facultyId) } };
+            model.Faculties.AddRange(faculties.Select(x => new SelectListItem() { Value = x.Id, Text = x.Name, Selected = x.Id == facultyId }));
+            model.FacultyId = facultyId;
+            if (!string.IsNullOrEmpty(facultyId))
+            {
+                var groups = GroupManager.FindAllForFaculty(facultyId);
+                model.Groups = new List<SelectListItem>() { new SelectListItem() { Value = "", Text = "Не обрано", Selected = string.IsNullOrEmpty(groupId) } };
+                model.Groups.AddRange(groups.Select(x => new SelectListItem() { Value = x.Id, Text = x.Name, Selected = x.Id == groupId }));
+                model.GroupId = groupId;
+            }
+            return model;
         }
 
         protected virtual void InitGroups()

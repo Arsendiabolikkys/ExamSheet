@@ -24,9 +24,24 @@ namespace ExamSheet.Business.Group
             return Repository.FindAll(page, count).Select(CreateModel);
         }
 
+        public virtual IEnumerable<GroupModel> FindAll(string facultyId, int page, int count)
+        {
+            if (string.IsNullOrEmpty(facultyId))
+                return FindAll(page, count);
+
+            return Repository.FindAll(facultyId, page, count).Select(CreateModel);
+        }
+
         public virtual int GetTotal()
         {
             return Repository.GetTotal();
+        }
+
+        public virtual int GetTotal(string facultyId)
+        {
+            if (string.IsNullOrEmpty(facultyId))
+                return GetTotal();
+            return Repository.GetTotal(facultyId);
         }
 
         public virtual IEnumerable<GroupModel> FindAllForFaculty(string facultyId)

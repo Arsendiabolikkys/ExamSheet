@@ -316,3 +316,7 @@ li {
 .student-rating-E {
     background-color: red;
 }
+
+.header {
+    padding:0px;
+}

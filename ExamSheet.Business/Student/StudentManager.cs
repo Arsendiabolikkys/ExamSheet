@@ -23,14 +23,48 @@ namespace ExamSheet.Business.Student
             return Repository.FindAll().Select(CreateModel);
         }
 
-        public virtual IEnumerable<StudentModel> FindAll(int page, int count)
+        public virtual IEnumerable<StudentModel> FindAll(string facultyId, string groupId, int page, int pageSize)
         {
-            return Repository.FindAll(page, count).Select(CreateModel);
+            if (string.IsNullOrEmpty(facultyId) && string.IsNullOrEmpty(groupId))
+                return FindAll(page, pageSize);
+
+            if (string.IsNullOrEmpty(groupId))
+            {
+                var groups = GroupManager.FindAllForFaculty(facultyId);
+                return Repository.FindAll(groups.Select(x => x.Id).ToArray(), page, pageSize).Select(CreateModel);
+            }
+
+            return Repository.FindAll(new string[] { groupId }, page, pageSize).Select(CreateModel);
+        }
+
+        public virtual IEnumerable<StudentModel> FindAll(int page, int pageSize)
+        {
+            return Repository.FindAll(page, pageSize).Select(CreateModel);
         }
 
         public virtual int GetTotal()
         {
             return Repository.GetTotal();
+        }
+
+        public virtual int GetTotal(string facultyId)
+        {
+            var groups = GroupManager.FindAllForFaculty(facultyId);
+            if (!groups?.Any() ?? true)
+                return 0;
+
+            return Repository.GetTotal(groups.Select(x => x.Id).ToArray());
+        }
+
+        public virtual int GetTotal(string facultyId, string groupId)
+        {
+            if (string.IsNullOrEmpty(facultyId) && string.IsNullOrEmpty(groupId))
+                return GetTotal();
+
+            if (string.IsNullOrEmpty(groupId))
+                return GetTotal(facultyId);
+
+            return Repository.GetTotal(groupId);
         }
 
         public IEnumerable<StudentModel> FindGroup(string groupId)
