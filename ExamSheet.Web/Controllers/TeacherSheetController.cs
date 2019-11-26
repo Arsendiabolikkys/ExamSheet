@@ -10,6 +10,7 @@ using ExamSheet.Business.Teacher;
 using ExamSheet.Web.Attributes;
 using ExamSheet.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ExamSheet.Web.Controllers
 {
@@ -44,20 +45,63 @@ namespace ExamSheet.Web.Controllers
             RatingManager = ratingManager;
         }
 
-        public IActionResult Index(int page = 1)
+        public IActionResult Index(int page = 1, SheetFilterViewModel filter = null)
         {
-            //TODO: edit only open sheets
-            var model = CreateIndexPageViewModel(page);
+            var model = CreateIndexPageViewModel(page, filter);
             return View(model);
         }
 
-        protected virtual IndexPageViewModel CreateIndexPageViewModel(int page)
+        protected virtual IndexPageViewModel CreateIndexPageViewModel(int page, SheetFilterViewModel filter = null)
         {
             var model = new IndexPageViewModel();
             var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(Constants.Claims.ReferenceId));
-            var totalCount = ExamSheetManager.GetTotalForTeacher(claim.Value);
+            var sheetFilter = CreateFilter(filter, claim.Value);
+            var totalCount = ExamSheetManager.GetTotal(sheetFilter);
             model.Page = new PageViewModel(totalCount, page, PageSize);
-            model.ExamSheets = ExamSheetManager.FindAllForTeacher(claim.Value, page, PageSize).Select(ExamSheetListViewModel).ToList();
+            model.ExamSheets = ExamSheetManager.FindAll(sheetFilter, page, PageSize).Select(ExamSheetListViewModel).ToList();
+            model.Filter = CreateFilterModel(claim.Value, filter);
+            return model;
+        }
+
+        protected virtual SheetFilter CreateFilter(SheetFilterViewModel viewFilter, string teacherId)
+        {
+            return new SheetFilter()
+            {
+                FacultyId = viewFilter?.FacultyId,
+                GroupId = viewFilter?.GroupId,
+                State = (viewFilter == null || viewFilter.State == 0) ? (short)1 : viewFilter.State,
+                SubjectId = viewFilter?.SubjectId,
+                TeacherId = teacherId
+            };
+        }
+
+        protected virtual SheetFilterViewModel CreateFilterModel(string teacherId, SheetFilterViewModel filter = null)
+        {
+            var model = new SheetFilterViewModel();
+            model.StateList = new List<SelectListItem>()
+            {
+                new SelectListItem() { Text = "Відкрита", Value = "1" },
+                new SelectListItem() { Text = "Закрита", Value = "2" }
+            };
+            var subjects = SubjectManager.FindAll();
+            var faculties = FacultyManager.FindAll();
+            var groups = string.IsNullOrEmpty(filter.FacultyId) ? new List<GroupModel>() : GroupManager.FindAllForFaculty(filter.FacultyId).ToList();
+            //TODO: init filter on index, then load all items via ajax (paging too)
+            //TODO: OR get relevant filters
+            model.SubjectList = new List<SelectListItem>() { new SelectListItem() { Text = "Не обрано", Value = string.Empty } };
+            model.SubjectList.AddRange(subjects.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id }));
+            model.GroupList = new List<SelectListItem>() { new SelectListItem() { Text = "Не обрано", Value = string.Empty } };
+            model.GroupList.AddRange(groups.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id }));
+            model.FacultyList = new List<SelectListItem>() { new SelectListItem() { Text = "Не обрано", Value = string.Empty } };
+            model.FacultyList.AddRange(faculties.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id }));
+
+            if (filter != null)
+            {
+                model.GroupId = filter.GroupId;
+                model.FacultyId = filter.FacultyId;
+                model.SubjectId = filter.SubjectId;
+                model.State = filter.State;
+            }
             return model;
         }
 
@@ -89,7 +133,7 @@ namespace ExamSheet.Web.Controllers
                 return View("Edit", CreateViewModel(examSheet));
             }
             
-            RatingManager.SaveRatings(model.Ratings.Select(CreateRatingModel));
+            RatingManager.SaveRatings(model.Ratings?.Select(CreateRatingModel));
             return RedirectToAction("Index");
         }
 
@@ -105,7 +149,6 @@ namespace ExamSheet.Web.Controllers
 
         protected virtual TeacherSheetViewModel CreateViewModel(ExamSheetModel model)
         {
-            //TODO: Different views for closed and open sheets
             return new TeacherSheetViewModel()
             {
                 Id = model.Id,
@@ -114,7 +157,7 @@ namespace ExamSheet.Web.Controllers
                 Faculty = FacultyManager.GetById(model.FacultyId),
                 Subject = SubjectManager.GetById(model.SubjectId),
                 Teacher = TeacherManager.GetById(model.TeacherId),
-                OpenDate = model.OpenDate,
+                //OpenDate = model.OpenDate,
                 Semester = model.Semester,
                 State = (Models.ExamSheetState)model.State,
                 Year = model.Year,
@@ -161,7 +204,7 @@ namespace ExamSheet.Web.Controllers
             model.Faculty = FacultyManager.GetById(examSheet.FacultyId);
             model.Group = GroupManager.GetById(examSheet.GroupId);
             model.Id = examSheet.Id;
-            model.OpenDate = examSheet.OpenDate;
+            //model.OpenDate = examSheet.OpenDate;
             model.Semester = examSheet.Semester;
             model.State = (Models.ExamSheetState)examSheet.State;
             model.Subject = SubjectManager.GetById(examSheet.SubjectId);

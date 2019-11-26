@@ -21,15 +21,15 @@ namespace ExamSheet.Repository.Account
             }
         }
 
-        public override IEnumerable<Account> FindAll(int page, int count)
+        public override IEnumerable<Account> FindAll(int page, int pageSize)
         {
             using (var session = sessionFactory.OpenSession())
             {
                 var criteria = session.CreateCriteria<Account>()
                     .Add(Restrictions.Not(Restrictions.Eq("AccountType", (short)2)))
                     .AddOrder(Order.Asc("Email"))
-                    .SetFirstResult(page - 1)
-                    .SetMaxResults(count);
+                    .SetFirstResult((page - 1) * pageSize)
+                    .SetMaxResults(pageSize);
 
                 return criteria.List<Account>();
             }

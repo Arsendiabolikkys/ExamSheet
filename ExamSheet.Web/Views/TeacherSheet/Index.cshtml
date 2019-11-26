@@ -7,6 +7,27 @@
     <h1>Відомості</h1>
 </div>
 
+<div class="filter-container">
+    <form asp-action="Index" method="post" class="form-inline form-exam-sheets-filter">
+        <div class="form-group">
+            @Html.LabelFor(m => m.Filter.State)
+            @Html.DropDownListFor(m => m.Filter.State, Model.Filter.StateList, htmlAttributes: new { @class = "form-control", data_name = "State" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Filter.SubjectId)
+            @Html.DropDownListFor(m => m.Filter.SubjectId, Model.Filter.SubjectList, htmlAttributes: new { @class = "form-control", data_name = "SubjectId" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Filter.FacultyId)
+            @Html.DropDownListFor(m => m.Filter.FacultyId, Model.Filter.FacultyList, htmlAttributes: new { @class = "form-control", data_name = "FacultyId" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Filter.GroupId)
+            @Html.DropDownListFor(m => m.Filter.GroupId, Model.Filter.GroupList, htmlAttributes: new { @class = "form-control", data_name = "GroupId" })
+        </div>
+    </form>
+</div>
+
 <div class="card-container container">
     @if (Model.ExamSheets != null && Model.ExamSheets.Any())
     {
@@ -42,6 +63,6 @@
                 </div>
             </div>
         }
+        @Html.Partial("_PageModel", Model.Page)
     }
-    @Html.Partial("_PageModel", Model.Page)
 </div>

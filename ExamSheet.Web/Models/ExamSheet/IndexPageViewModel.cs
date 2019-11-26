@@ -10,6 +10,8 @@ namespace ExamSheet.Web.Models
     {
         public PageViewModel Page { get; set; }
 
+        public SheetFilterViewModel Filter { get; set; }
+
         public IList<ExamSheetListViewModel> ExamSheets { get; set; }
     }
 }

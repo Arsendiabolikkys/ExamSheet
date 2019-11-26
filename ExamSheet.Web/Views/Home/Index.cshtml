@@ -7,21 +7,39 @@
     <h1>Відомості</h1>
 </div>
 
-<div class="card-container container">
-    @if (User.IsInRole(ExamSheet.Business.Account.AccountType.Deanery))
-    {
-        <div class="card card-new">
-            <div class="card-body">
-                <h5 class="card-title">Нова відомість</h5>
-            </div>
-            <div class="card-footer">
-                <a href="@Url.Action("CreateExamSheet", "ExamSheet")" class="btn-lg btn-new">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                </a>
-            </div>
+<div class="filter-container">
+    <form asp-action="Index" method="post" class="form-inline form-exam-sheets-filter">
+        <div class="form-group">
+            @Html.LabelFor(m => m.Filter.State)
+            @Html.DropDownListFor(m => m.Filter.State, Model.Filter.StateList, htmlAttributes: new { @class = "form-control", data_name = "State" })
         </div>
-    }
-    
+        <div class="form-group">
+            @Html.LabelFor(m => m.Filter.SubjectId)
+            @Html.DropDownListFor(m => m.Filter.SubjectId, Model.Filter.SubjectList, htmlAttributes: new { @class = "form-control", data_name = "SubjectId" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Filter.TeacherId)
+            @Html.DropDownListFor(m => m.Filter.TeacherId, Model.Filter.TeacherList, htmlAttributes: new { @class = "form-control", data_name = "TeacherId" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Filter.GroupId)
+            @Html.DropDownListFor(m => m.Filter.GroupId, Model.Filter.GroupList, htmlAttributes: new { @class = "form-control", data_name = "GroupId" })
+        </div>
+    </form>
+</div>
+
+<div class="card-container container">
+    <div class="card card-new">
+        <div class="card-body">
+            <h5 class="card-title">Нова відомість</h5>
+        </div>
+        <div class="card-footer">
+            <a href="@Url.Action("CreateExamSheet", "ExamSheet")" class="btn-lg btn-new">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+
     @if (Model.ExamSheets != null && Model.ExamSheets.Any())
     {
         foreach (var sheet in Model.ExamSheets)
@@ -43,15 +61,32 @@
 
                 </div>
                 <div class="card-footer">
-                    @if (User.IsInRole(ExamSheet.Business.Account.AccountType.Deanery))
+                    @if (sheet.State == ExamSheetState.New || sheet.State == ExamSheetState.Open)
                     {
                         <a asp-action="Edit" asp-controller="ExamSheet" asp-route-id="@sheet.Id" class="btn">Редагувати</a>
-                        @*<a asp-action="Download" asp-controller="ExamSheet" asp-route-id="@sheet.Id" class="btn download-word"><i class="fa fa-file-text-o"></i></a>*@
-                        <a asp-action="Delete" asp-controller="ExamSheet" asp-route-id="@sheet.Id" class="btn btn-delete">Видалити</a>
                     }
+                    else
+                    {
+                        <a asp-action="ViewSheet" asp-controller="ExamSheet" asp-route-id="@sheet.Id" class="btn">Переглянути</a>
+                    }
+                    <a asp-action="Delete" asp-controller="ExamSheet" asp-route-id="@sheet.Id" class="btn btn-delete">Видалити</a>
                 </div>
             </div>
         }
     }
-    @Html.Partial("_PageModel", Model.Page)
 </div>
+
+@if (Model.Page.HasPreviousPage)
+{
+    <a asp-action="Index" asp-route-page="@(Model.Page.PageNumber - 1)" class="btn btn-default btn exam-sheets-prev">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.Page.HasNextPage)
+{
+    <a asp-action="Index" asp-route-page="@(Model.Page.PageNumber + 1)" class="btn btn-default btn exam-sheets-next">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

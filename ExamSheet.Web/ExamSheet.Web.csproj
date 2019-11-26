@@ -69,6 +69,9 @@
     <Content Update="Views\Group\_Edit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\ExamSheet\ViewSheet.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\EditorTemplates\DateTime.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

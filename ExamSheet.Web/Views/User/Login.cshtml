@@ -8,6 +8,7 @@
 @using (Html.BeginForm(FormMethod.Post))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
 
     <div class="form-group">
         @Html.LabelFor(m => m.Email)

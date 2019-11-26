@@ -45,13 +45,6 @@ namespace ExamSheet.Repository.Group
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .List();
-                //var criteria = session.CreateCriteria<Group>()
-                //    .Add(Restrictions.Eq("FacultyId", facultyId))
-                //    .AddOrder(Order.Asc("Name"))
-                //    .SetFirstResult(page - 1)
-                //    .SetMaxResults(pageSize);
-
-                //return criteria.List<Group>();
             }
         }
 

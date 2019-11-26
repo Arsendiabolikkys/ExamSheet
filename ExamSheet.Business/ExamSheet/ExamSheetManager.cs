@@ -93,6 +93,27 @@ namespace ExamSheet.Business.ExamSheet
             return Repository.FindAllForTeacher(teacherId, page, pageSize).Select(CreateModel);
         }
 
+        public IEnumerable<ExamSheetModel> FindAll(SheetFilter filter, int page, int pageSize)
+        {
+            if (filter == null)
+                return FindAll(page, pageSize);
+            
+            return Repository.FindAll(CreateFilter(filter), page, pageSize).Select(CreateModel);
+        }
+
+        protected virtual Dictionary<string, object> CreateFilter(SheetFilter filter)
+        {
+            if (filter == null)
+                return new Dictionary<string, object>();
+            var repositoryFilter = new Dictionary<string, object>();
+            repositoryFilter.Add(nameof(SheetFilter.State), filter.State);
+            repositoryFilter.Add(nameof(SheetFilter.FacultyId), filter.FacultyId);
+            repositoryFilter.Add(nameof(SheetFilter.GroupId), filter.GroupId);
+            repositoryFilter.Add(nameof(SheetFilter.SubjectId), filter.SubjectId);
+            repositoryFilter.Add(nameof(SheetFilter.TeacherId), filter.TeacherId);
+            return repositoryFilter;
+        }
+
         public IEnumerable<ExamSheetModel> FindAllForFaculty(string facultyId, int page, int pageSize)
         {
             if (string.IsNullOrEmpty(facultyId))
@@ -111,6 +132,11 @@ namespace ExamSheet.Business.ExamSheet
             if (string.IsNullOrEmpty(teacherId))
                 return 0;
             return Repository.GetTotalForTeacher(teacherId);
+        }
+
+        public virtual int GetTotal(SheetFilter filter)
+        {
+            return Repository.GetTotal(CreateFilter(filter));
         }
 
         public virtual int GetTotalForFaculty(string facultyId)
@@ -162,7 +188,7 @@ namespace ExamSheet.Business.ExamSheet
             examSheet.Id = examSheetModel.Id;
             examSheet.FacultyId = examSheetModel.FacultyId;
             examSheet.GroupId = examSheetModel.GroupId;
-            examSheet.OpenDate = examSheetModel.OpenDate;
+            //examSheet.OpenDate = examSheetModel.OpenDate;
             examSheet.State = (short)examSheetModel.State;
             examSheet.SubjectId = examSheetModel.SubjectId;
             examSheet.TeacherId = examSheetModel.TeacherId;
@@ -177,7 +203,7 @@ namespace ExamSheet.Business.ExamSheet
             var examSheet = entity as Repository.ExamSheet.ExamSheet;
             var model = new ExamSheetModel();
             model.Id = examSheet.Id;
-            model.OpenDate = examSheet.OpenDate;
+            //model.OpenDate = examSheet.OpenDate;
             model.CloseDate = examSheet.CloseDate;
             model.FacultyId = examSheet.FacultyId;
             model.GroupId = examSheet.GroupId;

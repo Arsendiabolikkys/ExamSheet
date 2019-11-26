@@ -40,4 +40,25 @@ $(function () {
         var redirectTo = $(this).attr('data-url') + '?facultyId=' + facultyId + '&groupId=' + $(e.target).val();
         window.location = redirectTo;
     });
+
+    var filterSheets = function (pageParam) {
+        var url = $('.form-exam-sheets-filter').attr('action');
+        url = url + pageParam;
+        $.each($('.form-exam-sheets-filter select'), function (index, value) {
+            var val = $(value).find('option:selected').val();
+            var name = $(value).attr('data-name');
+            url = url + '&' + name + '=' + val;
+        });
+        window.location = url;
+    };
+
+    $('.form-exam-sheets-filter select').on('change', function (e) {
+        e.preventDefault();
+        filterSheets('?page=1');
+    });
+
+    $('.exam-sheets-prev, .exam-sheets-next').on('click', function (e) {
+        e.preventDefault();
+        filterSheets(this.search);
+    });
 });

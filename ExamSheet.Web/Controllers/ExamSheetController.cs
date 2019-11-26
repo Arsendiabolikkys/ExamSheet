@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ExamSheet.Business.Account;
 using ExamSheet.Business.Deanery;
 using ExamSheet.Business.ExamSheet;
 using ExamSheet.Business.Faculty;
 using ExamSheet.Business.Group;
+using ExamSheet.Business.Rating;
+using ExamSheet.Business.Student;
 using ExamSheet.Business.Subject;
 using ExamSheet.Business.Teacher;
 using ExamSheet.Web.Attributes;
@@ -29,8 +32,13 @@ namespace ExamSheet.Web.Controllers
 
         protected DeaneryManager DeaneryManager { get; set; }
 
+        protected RatingManager RatingManager { get; set; }
+
+        protected StudentManager StudentManager { get; set; }
+
         public ExamSheetController(ExamSheetManager examSheetManager, FacultyManager facultyManager, GroupManager groupManager,
-            SubjectManager subjectManager, TeacherManager teacherManager, AccountManager accountManager, DeaneryManager deaneryManager)
+            SubjectManager subjectManager, TeacherManager teacherManager, AccountManager accountManager, DeaneryManager deaneryManager,
+            RatingManager ratingManager, StudentManager studentManager)
         {
             this.ExamSheetManager = examSheetManager;
             this.FacultyManager = facultyManager;
@@ -39,6 +47,8 @@ namespace ExamSheet.Web.Controllers
             this.TeacherManager = teacherManager;
             this.AccountManager = accountManager;
             this.DeaneryManager = deaneryManager;
+            this.RatingManager = ratingManager;
+            this.StudentManager = studentManager;
         }
 
         protected virtual FacultyModel GetDeaneryFaculty(string email)
@@ -53,12 +63,11 @@ namespace ExamSheet.Web.Controllers
         [IsInRole(Business.Account.AccountType.Deanery)]
         public IActionResult CreateExamSheet()
         {
-            //TODO: think what to do with status of exam sheet ??
             var faculty = GetDeaneryFaculty(User.Identity.Name);
             var model = new ExamSheetViewModel()
             {
                 Id = Guid.NewGuid().ToString(),
-                OpenDate = DateTime.Now,
+                //OpenDate = DateTime.Now,
                 Faculty = CreateFacultyViewModel(faculty)
             };
             InitSelectItems(model.Faculty.Id);
@@ -85,6 +94,52 @@ namespace ExamSheet.Web.Controllers
 
             SaveOrUpdate(model);
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        [IsInRole(AccountType.Deanery)]
+        public IActionResult ViewSheet(string id)
+        {
+            var examSheet = ExamSheetManager.GetById(id);
+            var model = CreateClosedSheet(examSheet);
+            return View(model);
+        }
+
+        protected virtual ExamSheetViewModel CreateClosedSheet(ExamSheetModel model)
+        {
+            return new ExamSheetViewModel()
+            {
+                Id = model.Id,
+                CloseDate = model.CloseDate,
+                Group = GroupManager.GetById(model.GroupId),
+                Faculty = CreateFacultyViewModel(FacultyManager.GetById(model.FacultyId)),
+                Subject = SubjectManager.GetById(model.SubjectId),
+                Teacher = TeacherManager.GetById(model.TeacherId),
+                Semester = model.Semester,
+                State = (Models.ExamSheetState)model.State,
+                Year = model.Year,
+                Ratings = CreateRatings(model.Id)
+            };
+        }
+
+        protected virtual List<RatingViewModel> CreateRatings(string examSheetId)
+        {
+            var ratings = RatingManager.FindAll(examSheetId);
+            if (ratings?.Any() ?? false)
+                return ratings.Select(CreateRatingViewModel).OrderBy(x => x.Student.Surname).ToList();
+
+            return new List<RatingViewModel>();
+        }
+
+        protected virtual RatingViewModel CreateRatingViewModel(RatingModel rating)
+        {
+            return new RatingViewModel()
+            {
+                ExamSheetId = rating.ExamSheetId,
+                Mark = rating.Mark,
+                Student = StudentManager.GetById(rating.StudentId),
+                StudentId = rating.StudentId
+            };
         }
 
         [HttpGet]
@@ -144,7 +199,7 @@ namespace ExamSheet.Web.Controllers
                 CloseDate = model.CloseDate,
                 Faculty = CreateFacultyViewModel(faculty),
                 GroupId = model.GroupId,
-                OpenDate = model.OpenDate,
+                //OpenDate = model.OpenDate,
                 Semester = model.Semester,
                 State = (Models.ExamSheetState)model.State,
                 SubjectId = model.SubjectId,
@@ -166,7 +221,7 @@ namespace ExamSheet.Web.Controllers
             {
                 Id = viewModel.Id,
                 State = (Business.ExamSheet.ExamSheetState)viewModel.State,
-                OpenDate = viewModel.OpenDate,
+                //OpenDate = viewModel.OpenDate,
                 TeacherId = viewModel.TeacherId,
                 FacultyId = viewModel.Faculty.Id,
                 GroupId = viewModel.GroupId,
@@ -179,7 +234,6 @@ namespace ExamSheet.Web.Controllers
 
         protected virtual void InitSelectItems(string facultyId)
         {
-            //TODO: on list page add filter for groups, teachers, open/closed state
             InitGroups(facultyId);
             InitSubjects();
             InitTeachers();

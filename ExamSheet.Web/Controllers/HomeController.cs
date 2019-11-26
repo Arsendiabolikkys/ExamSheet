@@ -10,6 +10,8 @@ using ExamSheet.Business.Teacher;
 using Microsoft.AspNetCore.Authorization;
 using ExamSheet.Business.Account;
 using ExamSheet.Business.Deanery;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ExamSheet.Web.Controllers
 {
@@ -28,7 +30,7 @@ namespace ExamSheet.Web.Controllers
 
         protected DeaneryManager DeaneryManager { get; set; }
 
-        protected int PageSize { get; set; } = 8;
+        protected int PageSize { get; set; } = 1;
 
         public HomeController(ExamSheetManager examSheetManager, FacultyManager facultyManager, GroupManager groupManager,
             SubjectManager subjectManager, TeacherManager teacherManager, DeaneryManager deaneryManager)
@@ -41,25 +43,70 @@ namespace ExamSheet.Web.Controllers
             this.DeaneryManager = deaneryManager;
         }
 
-        public IActionResult Index(int page = 1)
+        public IActionResult Index(int page = 1, SheetFilterViewModel filter = null)
         {
             if (User.IsInRole(AccountType.Admin))
                 return RedirectToAction("Index", "Faculty");
             if (User.IsInRole(AccountType.Teacher))
                 return RedirectToAction("Index", "TeacherSheet");
 
-            var model = CreateIndexPageViewModel(page);
+            var model = CreateIndexPageViewModel(page, filter);
             return View(model);
         }
 
-        protected virtual IndexPageViewModel CreateIndexPageViewModel(int page)
+        protected virtual IndexPageViewModel CreateIndexPageViewModel(int page, SheetFilterViewModel filter = null)
         {
             var model = new IndexPageViewModel();
             var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(Constants.Claims.ReferenceId));
             var deanery = DeaneryManager.GetById(claim.Value);
-            var totalCount = ExamSheetManager.GetTotalForFaculty(deanery.FacultyId);
+            var sheetFilter = CreateFilter(filter, deanery.FacultyId);
+            var totalCount = ExamSheetManager.GetTotal(sheetFilter);
             model.Page = new PageViewModel(totalCount, page, PageSize);
-            model.ExamSheets = ExamSheetManager.FindAllForFaculty(deanery.FacultyId, page, PageSize).Select(ExamSheetListViewModel).ToList();
+            model.ExamSheets = ExamSheetManager.FindAll(sheetFilter, page, PageSize).Select(ExamSheetListViewModel).ToList();
+            model.Filter = CreateFilterModel(deanery.FacultyId, filter);
+            return model;
+        }
+
+        protected virtual SheetFilter CreateFilter(SheetFilterViewModel viewFilter, string facultyId)
+        {
+            return new SheetFilter()
+            {
+                FacultyId = facultyId,
+                GroupId = viewFilter?.GroupId,
+                State = viewFilter?.State ?? 0,
+                SubjectId = viewFilter?.SubjectId,
+                TeacherId = viewFilter?.TeacherId
+            };
+        }
+
+        protected virtual SheetFilterViewModel CreateFilterModel(string facultyId, SheetFilterViewModel filter = null)
+        {
+            var model = new SheetFilterViewModel();
+            model.StateList = new List<SelectListItem>()
+            {
+                new SelectListItem() { Text = "Нова", Value = "0" },
+                new SelectListItem() { Text = "Відкрита", Value = "1" },
+                new SelectListItem() { Text = "Закрита", Value = "2" }
+            };
+            var subjects = SubjectManager.FindAll();
+            var groups = GroupManager.FindAllForFaculty(facultyId);
+            var teachers = TeacherManager.FindAll();
+            //TODO: init filter on index, then load all items via ajax (paging too)
+            //TODO: OR add only relevant data for filters (get teachers from exam sheets etc)
+            model.SubjectList = new List<SelectListItem>() { new SelectListItem() { Text = "Не обрано", Value = string.Empty } };
+            model.SubjectList.AddRange(subjects.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id }));
+            model.GroupList = new List<SelectListItem>() { new SelectListItem() { Text = "Не обрано", Value = string.Empty } };
+            model.GroupList.AddRange(groups.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id }));
+            model.TeacherList = new List<SelectListItem>() { new SelectListItem() { Text = "Не обрано", Value = string.Empty } };
+            model.TeacherList.AddRange(teachers.Select(x => new SelectListItem() { Text = x.Surname + " " + x.Name, Value = x.Id }));
+
+            if (filter != null)
+            {
+                model.GroupId = filter.GroupId;
+                model.TeacherId = filter.TeacherId;
+                model.SubjectId = filter.SubjectId;
+                model.State = filter.State;
+            }
             return model;
         }
 
@@ -70,7 +117,7 @@ namespace ExamSheet.Web.Controllers
             model.Faculty = FacultyManager.GetById(examSheet.FacultyId);
             model.Group = GroupManager.GetById(examSheet.GroupId);
             model.Id = examSheet.Id;
-            model.OpenDate = examSheet.OpenDate;
+            //model.OpenDate = examSheet.OpenDate;
             model.Semester = examSheet.Semester;
             model.State = (Web.Models.ExamSheetState)examSheet.State;
             model.Subject = SubjectManager.GetById(examSheet.SubjectId);

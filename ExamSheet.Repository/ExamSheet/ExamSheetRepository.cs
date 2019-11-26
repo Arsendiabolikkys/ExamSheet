@@ -91,6 +91,23 @@ namespace ExamSheet.Repository.ExamSheet
             }
         }
 
+        public virtual int GetTotal(Dictionary<string, object> filter)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<ExamSheet>()
+                    .SetProjection(Projections.RowCount());
+
+                foreach (var field in filter)
+                {
+                    if (field.Value != null)
+                        criteria.Add(Restrictions.Eq(field.Key, field.Value));
+                }
+
+                return criteria.UniqueResult<int>();
+            }
+        }
+
         public virtual IEnumerable<ExamSheet> FindAllForTeacher(string teacherId, int page, int pageSize)
         {
             using (var session = sessionFactory.OpenSession())
@@ -103,8 +120,27 @@ namespace ExamSheet.Repository.ExamSheet
                         .Add(Restrictions.Conjunction().Add(Restrictions.Eq("State", (short)0))
                                                        .Add(Restrictions.Le("OpenDate", DateTime.Now)))
                         )
-                     .SetFirstResult(page - 1)
+                     .SetFirstResult((page - 1) * pageSize)
                      .SetMaxResults(pageSize);
+
+                return criteria.List<ExamSheet>();
+            }
+        }
+
+        public virtual IEnumerable<ExamSheet> FindAll(Dictionary<string, object> filter, int page, int pageSize)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var criteria = session.CreateCriteria<ExamSheet>();
+
+                foreach (var field in filter)
+                {
+                    if (field.Value != null)
+                        criteria.Add(Restrictions.Eq(field.Key, field.Value));
+                }
+
+                criteria.SetFirstResult((page - 1) * pageSize)
+                    .SetMaxResults(pageSize);
 
                 return criteria.List<ExamSheet>();
             }
@@ -116,7 +152,7 @@ namespace ExamSheet.Repository.ExamSheet
             {
                 var criteria = session.CreateCriteria<ExamSheet>()
                     .Add(Restrictions.Eq("FacultyId", facultyId))
-                    .SetFirstResult(page - 1)
+                    .SetFirstResult((page - 1) * pageSize)
                     .SetMaxResults(pageSize);
                 
                 return criteria.List<ExamSheet>();

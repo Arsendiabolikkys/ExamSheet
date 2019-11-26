@@ -1,4 +1,8 @@
 ﻿using ExamSheet.Business.ExamSheet;
+using ExamSheet.Business.Faculty;
+using ExamSheet.Business.Group;
+using ExamSheet.Business.Subject;
+using ExamSheet.Business.Teacher;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,10 +19,11 @@ namespace ExamSheet.Web.Models
         [Required]
         public ExamSheetState State { get; set; }
 
-        [Required]
-        [Display(Name = "Дата відкриття")]
-        [UIHint("DateTime")]
-        public DateTime? OpenDate { get; set; }
+        //TODO: 
+        //[Required]
+        //[Display(Name = "Дата відкриття")]
+        //[UIHint("DateTime")]
+        //public DateTime? OpenDate { get; set; }
         
         [Required]
         [Display(Name = "Група")]
@@ -46,7 +51,15 @@ namespace ExamSheet.Web.Models
         public short Year { get; set; }
         
         public FacultyViewModel Faculty { get; set; }
+        
+        [Display(Name = "Викладач")]
+        public TeacherModel Teacher { get; set; }
 
+        public SubjectModel Subject { get; set; }
+
+        public GroupModel Group { get; set; }
+
+        [Display(Name = "Оцінки")]
         public IList<RatingViewModel> Ratings { get; set; }
     }
 

@@ -6,8 +6,6 @@ body {
     font-family: Arial;
 }
 
-/* //TODO: INIT ONE FONT FOR ALL ELEMENTS */ 
-
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
@@ -319,4 +317,12 @@ li {
 
 .header {
     padding:0px;
+}
+
+.form-inline .form-group {
+    margin-left: 40px;
+}
+
+.exam-sheets-next {
+    float:right;
 }
