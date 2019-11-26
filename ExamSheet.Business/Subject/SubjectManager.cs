@@ -17,6 +17,22 @@ namespace ExamSheet.Business.Subject
             return Repository.FindAll().Select(CreateModel);
         }
 
+        public virtual IEnumerable<SubjectModel> FindAllForTeacher(string teacherId)
+        {
+            if (string.IsNullOrEmpty(teacherId))
+                return new List<SubjectModel>();
+
+            return Repository.FindAllForTeacher(teacherId).Select(CreateModel);
+        }
+
+        public virtual IEnumerable<SubjectModel> FindAllForFaculty(string facultyId)
+        {
+            if (string.IsNullOrEmpty(facultyId))
+                return new List<SubjectModel>();
+
+            return Repository.FindAllForFaculty(facultyId).Select(CreateModel);
+        }
+
         public virtual IEnumerable<SubjectModel> FindAll(int page, int count)
         {
             return Repository.FindAll(page, count).Select(CreateModel);

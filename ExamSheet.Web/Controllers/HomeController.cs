@@ -88,11 +88,9 @@ namespace ExamSheet.Web.Controllers
                 new SelectListItem() { Text = "Відкрита", Value = "1" },
                 new SelectListItem() { Text = "Закрита", Value = "2" }
             };
-            var subjects = SubjectManager.FindAll();
+            var subjects = SubjectManager.FindAllForFaculty(facultyId);
             var groups = GroupManager.FindAllForFaculty(facultyId);
-            var teachers = TeacherManager.FindAll();
-            //TODO: init filter on index, then load all items via ajax (paging too)
-            //TODO: OR add only relevant data for filters (get teachers from exam sheets etc)
+            var teachers = TeacherManager.FindAllForFaculty(facultyId);
             model.SubjectList = new List<SelectListItem>() { new SelectListItem() { Text = "Не обрано", Value = string.Empty } };
             model.SubjectList.AddRange(subjects.Select(x => new SelectListItem() { Text = x.Name, Value = x.Id }));
             model.GroupList = new List<SelectListItem>() { new SelectListItem() { Text = "Не обрано", Value = string.Empty } };

@@ -1,6 +1,7 @@
 ﻿using NHibernate;
 using NHibernate.Criterion;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ExamSheet.Repository.Subject
 {
@@ -8,6 +9,34 @@ namespace ExamSheet.Repository.Subject
     {
         public SubjectRepository(ISessionFactory sessionFactory)
             : base(sessionFactory) { }
+
+        public virtual IEnumerable<Subject> FindAllForTeacher(string teacherId)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var query = session.CreateSQLQuery("select SubjectId from ExamSheets sh where sh.TeacherId = :teacher");
+                var ids = query.SetParameter("teacher", teacherId).List<string>().Distinct().ToArray();
+
+                var criteria = session.CreateCriteria<Subject>()
+                    .Add(Restrictions.In("Id", ids));
+
+                return criteria.List<Subject>();
+            }
+        }
+
+        public virtual IEnumerable<Subject> FindAllForFaculty(string facultyId)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                var query = session.CreateSQLQuery("select SubjectId from ExamSheets sh where sh.FacultyId = :faculty");
+                var ids = query.SetParameter("faculty", facultyId).List<string>().Distinct().ToArray();
+
+                var criteria = session.CreateCriteria<Subject>()
+                    .Add(Restrictions.In("Id", ids));
+
+                return criteria.List<Subject>();
+            }
+        }
 
         public override IEnumerable<Subject> FindAll(int page, int count)
         {

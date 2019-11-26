@@ -12,6 +12,14 @@ namespace ExamSheet.Business.Faculty
 
         protected FacultyRepository Repository => repositoryWrapper.Faculty;
 
+        public virtual IEnumerable<FacultyModel> FindAllForTeacher(string teacherId)
+        {
+            if (string.IsNullOrEmpty(teacherId))
+                return new List<FacultyModel>();
+
+            return Repository.FindAllForTeacher(teacherId).Select(CreateModel);
+        }
+
         public override IEnumerable<FacultyModel> FindAll()
         {
             return Repository.FindAll().Select(CreateModel);

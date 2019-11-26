@@ -63,6 +63,28 @@
                 </div>
             </div>
         }
-        @Html.Partial("_PageModel", Model.Page)
+    }
+    else
+    {
+        <div>
+            <h4>
+                По вибраному фільтру немає відомостей
+            </h4>
+        </div>
     }
 </div>
+
+@if (Model.Page.HasPreviousPage)
+{
+    <a asp-action="Index" asp-route-page="@(Model.Page.PageNumber - 1)" class="btn btn-default btn exam-sheets-prev">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.Page.HasNextPage)
+{
+    <a asp-action="Index" asp-route-page="@(Model.Page.PageNumber + 1)" class="btn btn-default btn exam-sheets-next">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
