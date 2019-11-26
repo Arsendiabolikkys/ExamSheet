@@ -30,7 +30,7 @@ namespace ExamSheet.Web.Controllers
 
         protected DeaneryManager DeaneryManager { get; set; }
 
-        protected int PageSize { get; set; } = 1;
+        protected int PageSize { get; set; } = 8;
 
         public HomeController(ExamSheetManager examSheetManager, FacultyManager facultyManager, GroupManager groupManager,
             SubjectManager subjectManager, TeacherManager teacherManager, DeaneryManager deaneryManager)
