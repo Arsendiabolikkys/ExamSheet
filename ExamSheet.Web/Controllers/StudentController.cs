@@ -65,6 +65,21 @@ namespace ExamSheet.Web.Controllers
         {
             var groups = GroupManager.FindAll().Select(CreateGroupModel).ToList();
             ViewData["groups"] = groups;
+
+            //TODO: mock students data
+            //Random rand = new Random(DateTime.Now.Second);
+            //string[] names = new string[] { "І.І.", "В.О.", "А.С.", "І.М.", "А.А.", "П.П.", "О.О.", "О.С.", "А.П.", "М.Н.", "І.С.", "А.Ю.", "М.Л.", "Д.Д", "П.Г.", "О.Г.", "А.Ю." };
+            //string[] surnames = new string[] { "Амелічкіна", "Портницький", "Заріцький", "Грабовець", "Степанов", "Іванов", "Михайлюк", "Мартинюк", "Громницький", "Бізін", "Мазолевський", "Ткачук", "Романов", "Данилюк", "Нагорна", "Габрук", "Мельник", "Пасічник", "Ніколаєв", "Бойко", "Таран", "Софіяк", "Вальгер", "Ярмола", "Пасічник", "Тимошенко", "Хохлов" };
+            //foreach (var group in groups.Where(x => !x.Name.Equals("ПІ-49")).ToList())
+            //{
+            //    var count = rand.Next(15, 30);
+            //    for (int i = 0; i < count; ++i)
+            //    {
+            //        var name = names[rand.Next(0, names.Length - 1)];
+            //        var surname = surnames[rand.Next(0, surnames.Length - 1)];
+            //        StudentManager.Save(new StudentModel() { Id = Guid.NewGuid().ToString(), GroupId = group.Id, Surname = surname, Name = name });
+            //    }
+            //}
         }
 
         protected override void OnEdit()

@@ -16,7 +16,7 @@ namespace ExamSheet.Web.Models
         [ScaffoldColumn(false)]
         public string ExamSheetId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Введіть оцінку")]
         [Range(0, 100, ErrorMessage = "Оцінка має бути в межах від 0 до 100")]
         public short Mark { get; set; }
     }

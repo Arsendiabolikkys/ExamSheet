@@ -8,7 +8,7 @@ namespace ExamSheet.Web.Models
         [ScaffoldColumn(false)]
         public string Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Введіть назву факультету")]
         [Display(Name = "Факультет")]
         public string Name { get; set; }
     }

@@ -10,15 +10,15 @@ namespace ExamSheet.Web.Models
         [ScaffoldColumn(false)]
         public string Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Введіть ініціали")]
         [Display(Name = "Ініціали")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Введіть прізвище")]
         [Display(Name = "Прізвище")]
         public string Surname { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Виберіть групу")]
         [Display(Name = "Група")]
         public string GroupId { get; set; }
     }

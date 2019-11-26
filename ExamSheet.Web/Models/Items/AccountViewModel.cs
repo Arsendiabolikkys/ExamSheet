@@ -11,29 +11,29 @@ namespace ExamSheet.Web.Models
         [ScaffoldColumn(false)]
         public string Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Введіть e-mail адресу")]
         [Display(Name = "e-mail")]
         [DataType(DataType.EmailAddress)]
         [Remote(action: "IsUniqueEmailAddress", controller: "Account")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Введіть пароль")]
         [Display(Name = "Пароль")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Повторіть пароль")]
         [Display(Name = "Повторіть пароль")]
         [DataType(DataType.Password)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
         
-        [Required]
+        [Required(ErrorMessage = "Виберіть тип акаунту")]
         [Display(Name = "Тип акаунту")]
         [UIHint("AccountTypeView")]
         public AccountTypeView AccountType { get; set; }
         
-        [Required]
+        [Required(ErrorMessage = "Виберіть посилання на викладача/деканат")]
         [Display(Name = "Посилання на викладача/деканат")]
         [UIHint("ReferenceId")]
         public string ReferenceId { get; set; }

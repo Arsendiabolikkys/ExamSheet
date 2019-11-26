@@ -9,7 +9,7 @@ namespace ExamSheet.Web.Models
         [ScaffoldColumn(false)]
         public string Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Введіть назву предмету")]
         [Display(Name = "Предмет")]
         public string Name { get; set; }
     }

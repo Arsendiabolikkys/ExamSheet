@@ -25,27 +25,27 @@ namespace ExamSheet.Web.Models
         //[UIHint("DateTime")]
         //public DateTime? OpenDate { get; set; }
         
-        [Required]
+        [Required(ErrorMessage = "Виберіть групу")]
         [Display(Name = "Група")]
         public string GroupId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Виберіть предмет")]
         [Display(Name = "Предмет")]
         public string SubjectId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Виберіть викладача")]
         [Display(Name = "Викладач")]
         public string TeacherId { get; set; }
 
         [Display(Name = "Дата закриття")]
         public DateTime? CloseDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Введіть семестр відомості")]
         [Display(Name = "Семестр")]
         [UIHint("SemesterNumber")]
         public short Semester { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Введіть рік відомості")]
         [Display(Name = "Рік")]
         [UIHint("Year")]
         public short Year { get; set; }

@@ -9,11 +9,11 @@ namespace ExamSheet.Web.Models
         [ScaffoldColumn(false)]
         public string Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Введіть назву групи")]
         [Display(Name = "Група")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Виберіть факультет")]
         [Display(Name = "Факультет")]
         public string FacultyId { get; set; }
     }
