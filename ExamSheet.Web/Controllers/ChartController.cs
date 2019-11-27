@@ -172,23 +172,27 @@ namespace ExamSheet.Web.Controllers
                 var listGroup = new SelectListGroup() { Name = group.Name };
                 foreach (var sheet in groupSheets)
                 {
-                    if (!model.SemesterList.Any(x => x.Value == sheet.Semester.ToString() && x.Group.Name == group.Name))
-                    {
-                        model.SemesterList.Add(new SelectListItem() { Text = sheet.Semester.ToString(), Value = sheet.Semester.ToString(), Group = listGroup });
-                    }
-                    if (!model.YearList.Any(x => x.Value == sheet.Year.ToString() && x.Group.Name == group.Name))
-                    {
-                        model.YearList.Add(new SelectListItem() { Text = sheet.Year.ToString(), Value = sheet.Year.ToString(), Group = listGroup });
-                    }
                     var subject = subjects.FirstOrDefault(x => x.Id == sheet.SubjectId);
+                    var subjectValidName = subject.Name.Replace('\'', ' ').Replace('-', ' ').Replace(':', ' ').Replace('.', ' ').Replace('(', ' ').Replace(')', ' ');
                     if (subject != null && !model.SubjectList.Any(x => x.Value == subject.Id && x.Group.Name == group.Name))
                     {
-                        model.SubjectList.Add(new SelectListItem() { Text = subject.Name, Value = subject.Id, Group = listGroup });
+                        model.SubjectList.Add(new SelectListItem() { Text = subjectValidName, Value = subject.Id, Group = listGroup });
+                    }
+                    
+                    var subjectGroupName = string.Format("{0} {1}", group.Name, subjectValidName);
+                    var listGroupSubject = new SelectListGroup() { Name = subjectGroupName };
+                    if (!model.SemesterList.Any(x => x.Value == sheet.Semester.ToString() && x.Group.Name == subjectGroupName))
+                    {
+                        model.SemesterList.Add(new SelectListItem() { Text = sheet.Semester.ToString(), Value = sheet.Semester.ToString(), Group = listGroupSubject });
+                    }
+                    if (!model.YearList.Any(x => x.Value == sheet.Year.ToString() && x.Group.Name == subjectGroupName))
+                    {
+                        model.YearList.Add(new SelectListItem() { Text = sheet.Year.ToString(), Value = sheet.Year.ToString(), Group = listGroupSubject });
                     }
                     var teacher = teachers.FirstOrDefault(x => x.Id == sheet.TeacherId);
-                    if (teacher != null && !model.TeacherList.Any(x => x.Value == teacher.Id && x.Group.Name == group.Name))
+                    if (teacher != null && !model.TeacherList.Any(x => x.Value == teacher.Id && x.Group.Name == subjectGroupName))
                     {
-                        model.TeacherList.Add(new SelectListItem() { Text = string.Format("{0} {1}", teacher.Surname, teacher.Name), Value = teacher.Id, Group = listGroup });
+                        model.TeacherList.Add(new SelectListItem() { Text = string.Format("{0} {1}", teacher.Surname, teacher.Name), Value = teacher.Id, Group = listGroupSubject });
                     }
                 }
             }

@@ -384,3 +384,11 @@ li {
         transform: rotate(359deg);
     }
 }
+
+/*optgroup {
+    visibility: hidden;
+}
+
+    optgroup option {
+        visibility: visible;
+    }*/

@@ -116,35 +116,39 @@
             var showAppropriateGroup = function ($select, group) {
                 $select.find("optgroup:not([label='" + group + "'])").hide();
                 $select.find("optgroup[label='" + group + "']").show();
-                if ($select.find("option:selected").not(":visible")) {
+                var $selectedGroup = $select.find("option:selected").parents("optgroup[label='" + group + "']");
+                if (!$selectedGroup.length) {
                     var value = $select.find("optgroup[label='" + group + "'] option").val();
                     $select.val(value);
                 }
             };
             if ($group.length && $subject.length) {
                 var updateFilter = function () {
-                    var selected = $group.find("option:selected").text();
-                    if (selected) {
-                        showAppropriateGroup($subject, selected);
-                        showAppropriateGroup($year, selected);
-                        showAppropriateGroup($semester, selected);
+                    var group = $group.find("option:selected").text();
+                    if (group) {
+                        showAppropriateGroup($subject, group);
+                        var groupSubject = group + " " + $subject.find("option:selected").text();
+                        showAppropriateGroup($year, groupSubject);
+                        showAppropriateGroup($semester, groupSubject);
                         if ($teacher.length) {
-                            showAppropriateGroup($teacher, selected);
+                            showAppropriateGroup($teacher, groupSubject);
                         }
                     }
                     else {
                         $subject.find("optgroup").show();
                         $year.find("optgroup").show();
                         $semester.find("optgroup").show();
+                        if ($teacher.length) {
+                            $teacher.find("optgroup").show();
+                        }
                     }
                 };
 
-                $("select.group-filter").on("change", function (e) {
+                $("select.group-filter, select.subject-filter").on("change", function (e) {
                     updateFilter();
                 });
                 updateFilter();
             }
-            //TODO: add loading indicator
             //TODO: test with many groups, teachers, subjects, years
             var getChartData = function () {
                 var $form = $('.group-filter-form').first();
