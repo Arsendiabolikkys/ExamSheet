@@ -12,6 +12,9 @@ using ExamSheet.Business.Account;
 using ExamSheet.Business.Deanery;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using ExamSheet.Business.Student;
+using ExamSheet.Business.Rating;
 
 namespace ExamSheet.Web.Controllers
 {
@@ -30,10 +33,14 @@ namespace ExamSheet.Web.Controllers
 
         protected DeaneryManager DeaneryManager { get; set; }
 
+        protected StudentManager StudentManager { get; set; }
+
+        protected RatingManager RatingManager { get; set; }
+
         protected int PageSize { get; set; } = 8;
 
         public HomeController(ExamSheetManager examSheetManager, FacultyManager facultyManager, GroupManager groupManager,
-            SubjectManager subjectManager, TeacherManager teacherManager, DeaneryManager deaneryManager)
+            SubjectManager subjectManager, TeacherManager teacherManager, DeaneryManager deaneryManager, StudentManager studentManager, RatingManager ratingManager)
         {
             this.ExamSheetManager = examSheetManager;
             this.FacultyManager = facultyManager;
@@ -41,6 +48,8 @@ namespace ExamSheet.Web.Controllers
             this.SubjectManager = subjectManager;
             this.TeacherManager = teacherManager;
             this.DeaneryManager = deaneryManager;
+            this.StudentManager = studentManager;
+            this.RatingManager = ratingManager;
         }
 
         public IActionResult Index(int page = 1, SheetFilterViewModel filter = null)
@@ -50,8 +59,40 @@ namespace ExamSheet.Web.Controllers
             if (User.IsInRole(AccountType.Teacher))
                 return RedirectToAction("Index", "TeacherSheet");
 
+            //GenerateData("28c36d24-580f-409c-92d9-bfdbe4ee4559", 35, 30, 20, 15);
+            //GenerateData("93432f51-6cc2-4e02-9523-d8d73daec829", 20, 30, 25, 25);
+            
             var model = CreateIndexPageViewModel(page, filter);
             return View(model);
+        }
+
+        protected virtual void GenerateData(string subjectId, int notPass, int low, int middle, int high)
+        {
+            var sheets = ExamSheetManager.FindAll();
+            var mmdo = sheets.Where(x => x.SubjectId.Equals(subjectId) && x.State == Business.ExamSheet.ExamSheetState.Open).ToList();
+            var rand = new Random(DateTime.Now.Millisecond);
+            foreach (var sheet in mmdo)
+            {
+                var students = StudentManager.FindGroup(sheet.GroupId);
+                var ratings = new List<RatingModel>();
+                foreach (var st in students)
+                {
+                    var rating = new RatingModel() { ExamSheetId = sheet.Id, StudentId = st.Id };
+                    var prob = rand.Next(0, 100);
+                    if (prob <= notPass)
+                        rating.Mark = (short)rand.Next(0, 59);
+                    else if (prob > notPass && prob <= (notPass + low))
+                        rating.Mark = (short)rand.Next(60, 73);
+                    else if (prob > (notPass + low) && prob <= (notPass + low + middle))
+                        rating.Mark = (short)rand.Next(74, 89);
+                    else if (prob > (notPass + low + middle) && prob <= (notPass + low + middle + high))
+                        rating.Mark = (short)rand.Next(90, 98);
+                    ratings.Add(rating);
+                }
+
+                ExamSheetManager.CloseSheet(sheet.Id);
+                RatingManager.SaveRatings(ratings);
+            }
         }
 
         protected virtual IndexPageViewModel CreateIndexPageViewModel(int page, SheetFilterViewModel filter = null)
