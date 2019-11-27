@@ -4,6 +4,8 @@
         var pieChartCtx = document.getElementById('pieChart').getContext('2d');
         var barChartCtx = document.getElementById('barChart').getContext('2d');
 
+        var pieChart = null;
+        var barChart = null;
         //TODO: check for multiple filters 
         //var chart = null;
         //if (chart) {
@@ -24,7 +26,10 @@
                 labels.push(mark + ' (' + percentage + '%)');
                 data.push(marks[mark]);
             }
-            new Chart(pieChartCtx, {
+            if (pieChart) {
+                pieChart.destroy();
+            }
+            pieChart = new Chart(pieChartCtx, {
                 type: 'pie',
                 data: {
                     labels: labels,
@@ -51,7 +56,10 @@
                 labels.push(mark);
                 data.push(marks[mark]);
             }
-            new Chart(barChartCtx, {
+            if (barChart) {
+                barChart.destroy();
+            }
+            barChart = new Chart(barChartCtx, {
                 type: 'bar',
                 data: {
                     labels: labels,
@@ -103,43 +111,46 @@
             var $subject = $("select.subject-filter");
             var $year = $("select.year-filter");
             var $semester = $("select.semester-filter");
+            var $teacher = $("select.teacher-filter");
 
             var showAppropriateGroup = function ($select, group) {
                 $select.find("optgroup:not([label='" + group + "'])").hide();
                 $select.find("optgroup[label='" + group + "']").show();
                 if ($select.find("option:selected").not(":visible")) {
-                    $select.val("");
+                    var value = $select.find("optgroup[label='" + group + "'] option").val();
+                    $select.val(value);
                 }
-                var value = $select.find("optgroup[label='" + group + "'] option").val();
-                $select.val(value);
             };
             if ($group.length && $subject.length) {
-                $(function () {
-                    function updateFilter() {
-                        var selected = $group.find("option:selected").text();
-                        if (selected) {
-                            showAppropriateGroup($subject, selected);
-                            showAppropriateGroup($year, selected);
-                            showAppropriateGroup($semester, selected);
-                        }
-                        else {
-                            $subject.find("optgroup").show();
-                            $year.find("optgroup").show();
-                            $semester.find("optgroup").show();
+                var updateFilter = function () {
+                    var selected = $group.find("option:selected").text();
+                    if (selected) {
+                        showAppropriateGroup($subject, selected);
+                        showAppropriateGroup($year, selected);
+                        showAppropriateGroup($semester, selected);
+                        if ($teacher.length) {
+                            showAppropriateGroup($teacher, selected);
                         }
                     }
+                    else {
+                        $subject.find("optgroup").show();
+                        $year.find("optgroup").show();
+                        $semester.find("optgroup").show();
+                    }
+                };
 
-                    $("select.group-filter").on("change", function (e) {
-                        updateFilter();
-                    });
+                $("select.group-filter").on("change", function (e) {
                     updateFilter();
                 });
+                updateFilter();
             }
             //TODO: add loading indicator
             //TODO: test with many groups, teachers, subjects, years
             var getChartData = function () {
                 var $form = $('.group-filter-form').first();
                 var url = $form.attr('action');
+                $('.spinner').show();
+                $('.chart-wrapper').hide();
                 $.ajax({
                     url: url,
                     type: 'POST',
@@ -161,9 +172,11 @@
                                 generateStudentsTable(data.studentsRating);
                             }
                         }
+                        $('.spinner').hide();
                     },
                     error: function (err) {
                         console.log(err);
+                        $('.spinner').hide();
                     }
                 });
             };

@@ -46,7 +46,7 @@ namespace ExamSheet.Business.ExamSheet
             return Repository.FindAll(page, pageSize).Select(CreateModel);
         }
 
-        public virtual ExamSheetModel Get(string groupId, string teacherId, string subjectId, short year, short semester)
+        public virtual ExamSheetModel Get(string groupId, string teacherId, string subjectId, short year, short semester, bool loadRatings = false)
         {
             if (string.IsNullOrEmpty(groupId) || string.IsNullOrEmpty(teacherId) || string.IsNullOrEmpty(subjectId))
                 return null;
@@ -54,10 +54,10 @@ namespace ExamSheet.Business.ExamSheet
             if (sheet == null)
                 return null;
 
-            return CreateModel(sheet);
+            return CreateModel(sheet, loadRatings);
         }
 
-        public virtual List<ExamSheetModel> Get(string facultyId, string subjectId)
+        public virtual List<ExamSheetModel> Get(string facultyId, string subjectId, bool loadRatings = false)
         {
             if (string.IsNullOrEmpty(facultyId) || string.IsNullOrEmpty(subjectId))
                 return new List<ExamSheetModel>();
@@ -66,7 +66,7 @@ namespace ExamSheet.Business.ExamSheet
             if (!sheets?.Any() ?? true)
                 return new List<ExamSheetModel>();
 
-            return sheets.Select(CreateModel).ToList();
+            return sheets.Select(x => CreateModel(x, loadRatings)).ToList();
         }
 
         public IEnumerable<ExamSheetModel> FindClosedForTeacher(string teacherId)
@@ -211,12 +211,21 @@ namespace ExamSheet.Business.ExamSheet
             model.SubjectId = examSheet.SubjectId;
             model.TeacherId = examSheet.TeacherId;
             model.Year = examSheet.Year;
-            model.Ratings = RatingManager.FindAll(examSheet.Id);
             if ((ExamSheetState)examSheet.State == ExamSheetState.New && examSheet.OpenDate.HasValue && examSheet.OpenDate.Value >= DateTime.Now)
                 model.State = ExamSheetState.Open;
             else
                 model.State = (ExamSheetState)examSheet.State;
 
+            return model;
+        }
+
+        protected virtual ExamSheetModel CreateModel(IEntity entity, bool loadRatings)
+        {
+            var model = CreateModel(entity) as ExamSheetModel;
+            if (loadRatings)
+            {
+                model.Ratings = RatingManager.FindAll(model.Id);
+            }
             return model;
         }
     }

@@ -2,8 +2,12 @@
     var $wrapper = $('.subject-chart-wrapper');
     if ($wrapper.length) {
         var lineChartCtx = document.getElementById('lineChart').getContext('2d');
-        var frequencyChart = document.getElementById('frequencyChart').getContext('2d');
-        var predictChart = document.getElementById('predictChart').getContext('2d');
+        var frequencyChartCtx = document.getElementById('frequencyChart').getContext('2d');
+        var predictChartCtx = document.getElementById('predictChart').getContext('2d');
+
+        var lineChart = null;
+        var frequencyChart = null;
+        var predictChart = null;
 
         var createFrequencyChart = function (frequencies) {
             var labels = [];
@@ -12,7 +16,10 @@
                 labels.push(fr);
                 data.push(frequencies[fr]);
             }
-            new Chart(frequencyChart, {
+            if (frequencyChart) {
+                frequencyChart.destroy();
+            }
+            frequencyChart = new Chart(frequencyChartCtx, {
                 type: 'line',
                 data: {
                     labels: labels,
@@ -34,7 +41,10 @@
                 labels.push(rating);
                 data.push(avgRatings[rating].toFixed(2));
             }
-            new Chart(lineChartCtx, {
+            if (lineChart) {
+                lineChart.destroy();
+            }
+            lineChart = new Chart(lineChartCtx, {
                 type: 'line',
                 data: {
                     labels: labels,
@@ -57,7 +67,10 @@
                 labels.push(prob);
                 data.push(probabilities[prob].toFixed(2));
             }
-            new Chart(predictChart, {
+            if (predictChart) {
+                predictChart.destroy();
+            }
+            predictChart = new Chart(predictChartCtx, {
                 type: 'line',
                 data: {
                     labels: labels,
@@ -75,6 +88,8 @@
         var getChartData = function () {
             var $form = $('.subject-filter-form').first();
             var url = $form.attr('action');
+            $('.spinner').show();
+            $('.chart-wrapper').hide();
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -96,18 +111,11 @@
                             createProbabilityChart(data.normalDistribution);
                         }
                     }
-                    //if (data && data.semesterMarks) {
-                    //    createPieChart(data.semesterMarks);
-                    //}
-                    //if (data && data.rangeMarks) {
-                    //    createRangeChart(data.rangeMarks);
-                    //}
-                    //if (data && data.studentsRating) {
-                    //    generateStudentsTable(data.studentsRating);
-                    //}
+                    $('.spinner').hide();
                 },
                 error: function (err) {
                     console.log(err);
+                    $('.spinner').hide();
                 }
             });
         };

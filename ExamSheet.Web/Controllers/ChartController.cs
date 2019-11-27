@@ -88,7 +88,7 @@ namespace ExamSheet.Web.Controllers
         [IsInRole(AccountType.Deanery)]
         public IActionResult GetSubjectData(string subject, string faculty)
         {
-            var sheets = ExamSheetManager.Get(faculty, subject);
+            var sheets = ExamSheetManager.Get(faculty, subject, true);
             var model = new SubjectChartJsonModel();
             if (!sheets?.Any() ?? true)
                 return Json(model);
@@ -157,7 +157,7 @@ namespace ExamSheet.Web.Controllers
             var teachers = TeacherManager.GetByIdList(teachersIds);
             var groups = GroupManager.GetByIdList(groupsIds);
             var subjects = SubjectManager.GetByIdList(subjectsIds);
-            model.GroupList = groups.Select(x => new SelectListItem(x.Name, x.Id)).ToList();
+            model.GroupList = groups.OrderBy(x => x.Name).Select(x => new SelectListItem(x.Name, x.Id)).ToList();
             model.SemesterList = new List<SelectListItem>();
             model.SubjectList = new List<SelectListItem>();
             model.TeacherList = new List<SelectListItem>();
@@ -172,15 +172,21 @@ namespace ExamSheet.Web.Controllers
                 var listGroup = new SelectListGroup() { Name = group.Name };
                 foreach (var sheet in groupSheets)
                 {
-                    model.SemesterList.Add(new SelectListItem() { Text = sheet.Semester.ToString(), Value = sheet.Semester.ToString(), Group = listGroup });
-                    model.YearList.Add(new SelectListItem() { Text = sheet.Year.ToString(), Value = sheet.Year.ToString(), Group = listGroup });
+                    if (!model.SemesterList.Any(x => x.Value == sheet.Semester.ToString() && x.Group.Name == group.Name))
+                    {
+                        model.SemesterList.Add(new SelectListItem() { Text = sheet.Semester.ToString(), Value = sheet.Semester.ToString(), Group = listGroup });
+                    }
+                    if (!model.YearList.Any(x => x.Value == sheet.Year.ToString() && x.Group.Name == group.Name))
+                    {
+                        model.YearList.Add(new SelectListItem() { Text = sheet.Year.ToString(), Value = sheet.Year.ToString(), Group = listGroup });
+                    }
                     var subject = subjects.FirstOrDefault(x => x.Id == sheet.SubjectId);
-                    if (subject != null)
+                    if (subject != null && !model.SubjectList.Any(x => x.Value == subject.Id && x.Group.Name == group.Name))
                     {
                         model.SubjectList.Add(new SelectListItem() { Text = subject.Name, Value = subject.Id, Group = listGroup });
                     }
                     var teacher = teachers.FirstOrDefault(x => x.Id == sheet.TeacherId);
-                    if (teacher != null)
+                    if (teacher != null && !model.TeacherList.Any(x => x.Value == teacher.Id && x.Group.Name == group.Name))
                     {
                         model.TeacherList.Add(new SelectListItem() { Text = string.Format("{0} {1}", teacher.Surname, teacher.Name), Value = teacher.Id, Group = listGroup });
                     }
@@ -192,7 +198,7 @@ namespace ExamSheet.Web.Controllers
         [HttpPost]
         public IActionResult GetChartData(string group, string subject, short year, short semester, string teacher)
         {
-            var sheet = ExamSheetManager.Get(group, teacher, subject, year, semester);
+            var sheet = ExamSheetManager.Get(group, teacher, subject, year, semester, true);
             var model = new GroupChartJsonModel();
             if (sheet == null)
                 return Json(model);
