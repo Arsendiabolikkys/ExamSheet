@@ -135,7 +135,7 @@ namespace ExamSheet.Web.Controllers
             {
                 //double func = (1 / (sigma * Math.Sqrt(2 * Math.PI))) * Math.Pow(Math.E, -(Math.Pow((i - M), 2)) / (2 * sigma * sigma));
                 double func = (1 / (sigma * Math.Sqrt(2 * Math.PI))) * Math.Exp(-(Math.Pow((i - M), 2)) / (2 * sigma * sigma));
-                model.NormalDistribution.Add(i, func);
+                model.NormalDistribution.Add(i, func * 1000);
             }
             //TODO: normal
             //Мат очікування - середнє арифм
