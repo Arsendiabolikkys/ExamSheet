@@ -385,10 +385,21 @@ li {
     }
 }
 
-/*optgroup {
-    visibility: hidden;
+.group-chart-wrapper{
+    float:left;
 }
 
-    optgroup option {
-        visibility: visible;
-    }*/
+.group-chart-wrapper > div{
+    margin-bottom: 50px;
+}
+
+.subject-chart-wrapper div{
+    margin-bottom: 50px;
+}
+
+.students-rating {
+    float: left;
+    width: 20%;
+    margin-top: 2%;
+    margin-left: 5%;
+}

@@ -8,6 +8,7 @@ using ExamSheet.Business.Subject;
 using ExamSheet.Business.Teacher;
 using ExamSheet.Web.Attributes;
 using ExamSheet.Web.Models;
+using ExamSheet.Web.Models.Chart;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -93,13 +94,13 @@ namespace ExamSheet.Web.Controllers
             if (!sheets?.Any() ?? true)
                 return Json(model);
             var ids = sheets.Select(x => x.Id);
-            var groupedByYears = sheets.GroupBy(x => x.Year);
+            var groupedByYears = sheets.GroupBy(x => x.Year).OrderBy(x => x.Key);
             model.AverageRatings = new Dictionary<string, float>();
             model.RatingFrequency = new Dictionary<short, short>();
             var ratings = new List<RatingModel>();
             foreach (var year in groupedByYears)
             {
-                var groupedBySemesters = year.GroupBy(x => x.Semester);
+                var groupedBySemesters = year.GroupBy(x => x.Semester).OrderByDescending(x => x.Key);
                 foreach (var semester in groupedBySemesters)
                 {
                     var sum = 0;
@@ -130,12 +131,76 @@ namespace ExamSheet.Web.Controllers
             var M = ratings.Sum(x => x.Mark) / ratings.Count;
             var D = ratings.Sum(x => Math.Pow(x.Mark - M, 2)) / (ratings.Count - 1);
             var sigma = Math.Sqrt(D);
-            model.NormalDistribution = new Dictionary<short, double>();
+            var size = 4;
+            model.NormalDistributions = new Dictionary<short, double>[size];
+            for (int i = 0; i < size; ++i)
+            {
+                model.NormalDistributions[i] = new Dictionary<short, double>();
+            }
+            var eScore = calcZScore(60, M, sigma);
+            var cScore = calcZScore(74, M, sigma);
+            var aScore = calcZScore(90, M, sigma);
+            var eProbability = ZTable.GetProbability(eScore);
+            var cProbability = ZTable.GetProbability(cScore);
+            var aProbability = ZTable.GetProbability(aScore);
+
+            var probSatisfactorily = cProbability - eProbability;
+            var probGood = aProbability - cProbability;
+            var probExcellent = 1 - aProbability;
+            //TODO: *100
             for (short i = 0; i < 100; ++i)
             {
-                //double func = (1 / (sigma * Math.Sqrt(2 * Math.PI))) * Math.Pow(Math.E, -(Math.Pow((i - M), 2)) / (2 * sigma * sigma));
                 double func = (1 / (sigma * Math.Sqrt(2 * Math.PI))) * Math.Exp(-(Math.Pow((i - M), 2)) / (2 * sigma * sigma));
-                model.NormalDistribution.Add(i, func * 1000);
+                if (i < 60)
+                {
+                    model.NormalDistributions[0].Add(i, func * 1000);
+                }
+                else if (i < 74)
+                {
+                    model.NormalDistributions[1].Add(i, func * 1000);
+                }
+                else if (i < 90)
+                {
+                    model.NormalDistributions[2].Add(i, func * 1000);
+                }
+                else
+                {
+                    model.NormalDistributions[3].Add(i, func * 1000);
+                }
+
+
+                //if (i < (M - sigma * 3))
+                //{
+                //    model.NormalDistributions[0].Add(i, func * 1000);
+                //}
+                //else if (i < (M - sigma * 2))
+                //{
+                //    model.NormalDistributions[1].Add(i, func * 1000);
+                //}
+                //else if (i < (M - sigma))
+                //{
+                //    model.NormalDistributions[2].Add(i, func * 1000);
+                //}
+                //else if (i <= M)
+                //{
+                //    model.NormalDistributions[3].Add(i, func * 1000);
+                //}
+                //else if (i < (M + sigma))
+                //{
+                //    model.NormalDistributions[4].Add(i, func * 1000);
+                //}
+                //else if (i < (M + sigma * 2))
+                //{
+                //    model.NormalDistributions[5].Add(i, func * 1000);
+                //}
+                //else if (i < (M + sigma * 3))
+                //{
+                //    model.NormalDistributions[6].Add(i, func * 1000);
+                //}
+                //else
+                //{
+                //    model.NormalDistributions[7].Add(i, func * 1000);
+                //}
             }
             //TODO: normal
             //Мат очікування - середнє арифм
@@ -146,6 +211,11 @@ namespace ExamSheet.Web.Controllers
             // X - 60 балов, 74, 90
 
             return Json(model);
+        }
+
+        protected double calcZScore(double x, double M, double sigma)
+        {
+            return Math.Round(((x - M) / sigma), 1);
         }
 
         protected virtual GroupStatisticViewModel CreateGroupStatisticViewModel(IEnumerable<ExamSheetModel> sheets)

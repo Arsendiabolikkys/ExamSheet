@@ -5,13 +5,18 @@
 @if (Model != null && Model.GroupList != null && Model.GroupList.Count > 0)
 {
     <div class="filters">
-        <form asp-controller="Chart" asp-action="GetChartData" method="post" class="group-filter-form">
+        <form asp-controller="Chart" asp-action="GetChartData" method="post" class="group-filter-form form-inline">
+            @Html.Label("group", "Група: ")
             @Html.DropDownList("group", Model.GroupList, htmlAttributes: new { @class = "form-control group-filter filter" })
+            @Html.Label("subject", "Предмет: ")
             @Html.DropDownList("subject", Model.SubjectList, htmlAttributes: new { @class = "form-control subject-filter filter" })
+            @Html.Label("year", "Рік: ")
             @Html.DropDownList("year", Model.YearList, htmlAttributes: new { @class = "form-control year-filter filter" })
+            @Html.Label("semester", "Семестр: ")
             @Html.DropDownList("semester", Model.SemesterList, htmlAttributes: new { @class = "form-control semester-filter filter" })
             @if (User.IsInRole(ExamSheet.Business.Account.AccountType.Deanery))
             {
+                @Html.Label("teacher", "Викладач: ")
                 @Html.DropDownList("teacher", Model.TeacherList, htmlAttributes: new { @class = "form-control teacher-filter filter" })
             }
             else

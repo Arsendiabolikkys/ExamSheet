@@ -47,11 +47,11 @@ namespace ExamSheet.Web.Controllers
             };
         }
 
-        public IActionResult IsUniqueEmailAddress(string email)
-        {
-            var account = AccountManager.GetByEmail(email);
-            return Json(account == null);
-        }
+        //public IActionResult IsUniqueEmailAddress(string email)
+        //{
+        //    var account = AccountManager.GetByEmail(email);
+        //    return Json(account == null);
+        //}
 
         [HttpGet]
         public override IActionResult Edit(string id)
@@ -66,6 +66,13 @@ namespace ExamSheet.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                InitAccountReferences(model);
+                return View(model);
+            }
+            var account = AccountManager.GetByEmail(model.Email);
+            if (account != null && account.Id != model.Id)
+            {
+                ModelState.AddModelError("", "Така e-mail адреса вже існує.");
                 InitAccountReferences(model);
                 return View(model);
             }
@@ -87,6 +94,13 @@ namespace ExamSheet.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                InitAccountReferences(model);
+                return View(model);
+            }
+            var account = AccountManager.GetByEmail(model.Email);
+            if (account != null && account.Id != model.Id)
+            {
+                ModelState.AddModelError("", "Така e-mail адреса вже існує.");
                 InitAccountReferences(model);
                 return View(model);
             }
@@ -133,8 +147,8 @@ namespace ExamSheet.Web.Controllers
 
         protected virtual void InitAccountReferences(AccountViewModel model)
         {
-            model.Teachers = TeacherManager.FindAll().Select(CreateTeacherViewModel).ToList();
-            model.Deaneries = DeaneryManager.FindAll().Select(CreateDeaneryViewModel).ToList();
+            model.Teachers = TeacherManager.FindAll().Select(CreateTeacherViewModel).OrderBy(x => x.Surname).ToList();
+            model.Deaneries = DeaneryManager.FindAll().Select(CreateDeaneryViewModel).OrderBy(x => x.Name).ToList();
         }
 
         protected virtual DeaneryViewModel CreateDeaneryViewModel(DeaneryModel deanery)

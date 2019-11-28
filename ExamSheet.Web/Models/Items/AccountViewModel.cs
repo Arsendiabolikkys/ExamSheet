@@ -14,7 +14,7 @@ namespace ExamSheet.Web.Models
         [Required(ErrorMessage = "Введіть e-mail адресу")]
         [Display(Name = "e-mail")]
         [DataType(DataType.EmailAddress)]
-        [Remote(action: "IsUniqueEmailAddress", controller: "Account")]
+        //[Remote(action: "IsUniqueEmailAddress", controller: "Account")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Введіть пароль")]

@@ -57,6 +57,7 @@ namespace ExamSheet.Repository.Subject
             using (var session = sessionFactory.OpenSession())
             {
                 var criteria = session.CreateCriteria<Subject>()
+                    .AddOrder(Order.Asc("Name"))
                     .Add(Restrictions.In("Id", ids));
 
                 return criteria.List<Subject>();
