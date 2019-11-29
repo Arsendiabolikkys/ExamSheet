@@ -18,6 +18,7 @@ namespace ExamSheet.Repository.Teacher
                 var ids = query.SetParameter("faculty", facultyId).List<string>().Distinct().ToArray();
 
                 var criteria = session.CreateCriteria<Teacher>()
+                    .AddOrder(Order.Asc("Surname"))
                     .Add(Restrictions.In("Id", ids));
 
                 return criteria.List<Teacher>();
