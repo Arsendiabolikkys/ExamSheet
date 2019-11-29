@@ -1,5 +1,7 @@
 ﻿@model ExamSheet.Web.Models.SubjectStatisticViewModel
 
+<h3 class="subject-chart-header">Статистичні дані предмету за всі роки навчання</h3>
+
 <div class="spinner" style="display:none;"></div>
 
 @if (Model != null && Model.SubjectList != null && Model.SubjectList.Count > 0)
@@ -15,17 +17,23 @@
     <span>Немає даних для аналізу</span>
 </div>
 <div class="chart-wrapper" style="display:none;">
-    <div class="subject-chart-wrapper" style="width:600px;height:800px;">
-        <div class="line-chart">
-            <div>DESCRIPTION</div>
+    <div class="subject-chart-wrapper" style="width:800px;height:800px;">
+        <div class="line-chart subject-chart">
+            <div class="line-chart-title subject-chart-title">
+                <h4>Середній бал по предмету за кожен семестр</h4>
+            </div>
             <canvas id="lineChart"></canvas>
         </div>
-        <div class="frequency-chart">
-            <div>DESCRIPTION</div>
+        <div class="frequency-chart subject-chart">
+            <div class="frequency-chart-title subject-chart-title">
+                <h4>Частота отримання оцінки за всі роки навчання</h4>
+            </div>
             <canvas id="frequencyChart"></canvas>
         </div>
-        <div class="predict-chart">
-            <div>DESCRIPTION</div>
+        <div class="predict-chart subject-chart">
+            <div class="predict-chart-title subject-chart-title">
+                <h4>Графік ймовірності здачі предмету</h4>
+            </div>
             <canvas id="predictChart"></canvas>
         </div>
     </div>

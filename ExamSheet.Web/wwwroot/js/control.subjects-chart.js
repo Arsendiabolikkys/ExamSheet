@@ -66,8 +66,6 @@
             });
         };
 
-        //TODO: correct labels with percentage
-
         var getProbColor = function (x) {
             if (x == 0)
                 return 'rgba(231, 76, 60, 1)';
@@ -78,17 +76,6 @@
 
             return 'rgba(123, 239, 178, 1)';
         };
-
-        //var getProbLabel = function (x) {
-        //    if (x == 0)
-        //        return 'Шанс не здати предмет';
-        //    if (x == 1)
-        //        return 'Шанс здати на 60-74';
-        //    if (x == 2)
-        //        return 'Шанс здати на 74-90';
-
-        //    return 'Шанс здати на 90+';
-        //};
 
         var createProbabilityChart = function (probabilities, probLabels) {
             var labels = [];
@@ -110,8 +97,7 @@
                     data: data,
                     backgroundColor: [
                         getProbColor(i)
-                    ],
-                    percentage: '5%'
+                    ]
                 });
             }
             if (predictChart) {

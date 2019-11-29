@@ -1,5 +1,7 @@
 ﻿@model ExamSheet.Web.Models.GroupStatisticViewModel
 
+<h3 class="group-chart-header">Статистичні дані для груп по певному предмету</h3>
+
 <div class="spinner" style="display:none;"></div>
 
 @if (Model != null && Model.GroupList != null && Model.GroupList.Count > 0)
@@ -32,9 +34,15 @@
 <div class="chart-wrapper" style="display:none;">
     <div class="group-chart-wrapper" style="width:800px;height:800px;">
         <div class="pie-chart">
+            <div class="pie-chart-title chart-title">
+                <h4>Статистичний графік кількості оцінок А, В, С, D, E та F</h4>
+            </div>
             <canvas id="pieChart"></canvas>
         </div>
         <div class="bar-chart">
+            <div class="bar-chart-title chart-title">
+                <h4>Статистичний графік кількості оцінок з кроком у 10 балів</h4>
+            </div>
             <canvas id="barChart"></canvas>
         </div>
     </div>

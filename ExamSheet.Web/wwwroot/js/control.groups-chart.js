@@ -58,7 +58,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Оцінки з кроком у 10 балів',
+                        label: 'Оцінок в діапазоні',
                         data: data,
                         backgroundColor: [
                             'rgba(153, 102, 255)',
@@ -81,6 +81,21 @@
                                 beginAtZero: true
                             }
                         }]
+                    },
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: false
+                    },
+                    tooltips: {
+                        enabled: true,
+                        mode: 'single',
+                        callbacks: {
+                            label: function (tooltipItems, data) {
+                                return data.datasets[tooltipItems.datasetIndex].label + ' ' + tooltipItems.label + ': ' + data.datasets[tooltipItems.datasetIndex].data[tooltipItems.index];
+                            }
+                        }
                     }
                 }
             });
@@ -143,7 +158,7 @@
                 });
                 updateFilter();
             }
-            //TODO: test with many groups, teachers, subjects, years
+
             var getChartData = function () {
                 var $form = $('.group-filter-form').first();
                 var url = $form.attr('action');

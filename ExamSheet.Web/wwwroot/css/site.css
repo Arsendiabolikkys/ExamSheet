@@ -393,7 +393,11 @@ li {
     margin-bottom: 50px;
 }
 
-.subject-chart-wrapper div{
+.subject-chart-wrapper .subject-chart {
+    margin-left: 15%;
+}
+
+.predict-chart {
     margin-bottom: 50px;
 }
 
@@ -409,4 +413,21 @@ li {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.chart-title {
+    margin: 0 auto;
+    width: 60%;
+    margin-top: 25px;
+}
+
+.subject-chart-title {
+    margin: 0 auto;
+    width: 60%;
+    margin-top:25px;
+}
+
+.group-chart-header, .subject-chart-header {
+    width: 50%;
+    margin: 10px auto;
 }
