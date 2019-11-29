@@ -20,5 +20,7 @@ namespace ExamSheet.Web.Models
         public Dictionary<short, short> RatingFrequency { get; set; }
 
         public Dictionary<short, double>[] NormalDistributions { get; set; }
+
+        public List<string> NormalDistributionLabels { get; set; }
     }
 }

@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExamSheet.Web.Models
 {
-    //TODO: ErrorMessage for all view models
     public class AccountViewModel : IItemViewModel
     {
         [Required]

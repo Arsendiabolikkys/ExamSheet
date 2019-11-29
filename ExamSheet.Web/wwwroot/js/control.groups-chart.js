@@ -6,12 +6,6 @@
 
         var pieChart = null;
         var barChart = null;
-        //TODO: check for multiple filters 
-        //var chart = null;
-        //if (chart) {
-        //    chart.destroy();
-        //}
-        //chart = createChart
 
         var createPieChart = function (marks) {
             var labels = [];
@@ -64,7 +58,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Діапазон оцінок',
+                        label: 'Оцінки з кроком у 10 балів',
                         data: data,
                         backgroundColor: [
                             'rgba(153, 102, 255)',

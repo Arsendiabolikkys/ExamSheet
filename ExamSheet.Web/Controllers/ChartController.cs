@@ -144,10 +144,17 @@ namespace ExamSheet.Web.Controllers
             var cProbability = ZTable.GetProbability(cScore);
             var aProbability = ZTable.GetProbability(aScore);
 
-            var probSatisfactorily = cProbability - eProbability;
-            var probGood = aProbability - cProbability;
-            var probExcellent = 1 - aProbability;
-            //TODO: *100
+            var probFail = eProbability * 100;
+            var probSatisfactorily = (cProbability - eProbability) * 100;
+            var probGood = (aProbability - cProbability) * 100;
+            var probExcellent = (1 - aProbability) * 100;
+            model.NormalDistributionLabels = new List<string>()
+            {
+                string.Format("Ймовірність не здати предмет: {0}%", probFail.ToString("0.0")),
+                string.Format("Ймовірність здати на 60-74: {0}%", probSatisfactorily.ToString("0.0")),
+                string.Format("Ймовірність здати на 74-90: {0}%", probGood.ToString("0.0")),
+                string.Format("Ймовірність здати на 90+: {0}%", probExcellent.ToString("0.0"))
+            };
             for (short i = 0; i < 100; ++i)
             {
                 double func = (1 / (sigma * Math.Sqrt(2 * Math.PI))) * Math.Exp(-(Math.Pow((i - M), 2)) / (2 * sigma * sigma));
@@ -167,49 +174,7 @@ namespace ExamSheet.Web.Controllers
                 {
                     model.NormalDistributions[3].Add(i, func * 1000);
                 }
-
-
-                //if (i < (M - sigma * 3))
-                //{
-                //    model.NormalDistributions[0].Add(i, func * 1000);
-                //}
-                //else if (i < (M - sigma * 2))
-                //{
-                //    model.NormalDistributions[1].Add(i, func * 1000);
-                //}
-                //else if (i < (M - sigma))
-                //{
-                //    model.NormalDistributions[2].Add(i, func * 1000);
-                //}
-                //else if (i <= M)
-                //{
-                //    model.NormalDistributions[3].Add(i, func * 1000);
-                //}
-                //else if (i < (M + sigma))
-                //{
-                //    model.NormalDistributions[4].Add(i, func * 1000);
-                //}
-                //else if (i < (M + sigma * 2))
-                //{
-                //    model.NormalDistributions[5].Add(i, func * 1000);
-                //}
-                //else if (i < (M + sigma * 3))
-                //{
-                //    model.NormalDistributions[6].Add(i, func * 1000);
-                //}
-                //else
-                //{
-                //    model.NormalDistributions[7].Add(i, func * 1000);
-                //}
             }
-            //TODO: normal
-            //Мат очікування - середнє арифм
-            //Дисперсія - https://ru.wikihow.com/%D0%BF%D0%BE%D1%81%D1%87%D0%B8%D1%82%D0%B0%D1%82%D1%8C-%D0%B4%D0%B8%D1%81%D0%BF%D0%B5%D1%80%D1%81%D0%B8%D1%8E-%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D0%BE%D0%B9-%D0%B2%D0%B5%D0%BB%D0%B8%D1%87%D0%B8%D0%BD%D1%8B
-            // Среднеквадратическое отклонение - корень з дисперсії
-            // Y = { 1/[ σ * sqrt(2π) ] } * e-(x - μ)2/2σ2  (https://stattrek.com/probability-distributions/normal.aspx)
-
-            // X - 60 балов, 74, 90
-
             return Json(model);
         }
 

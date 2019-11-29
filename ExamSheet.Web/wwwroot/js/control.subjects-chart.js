@@ -68,7 +68,7 @@
 
         //TODO: correct labels with percentage
 
-        var getColor = function (x) {
+        var getProbColor = function (x) {
             if (x == 0)
                 return 'rgba(231, 76, 60, 1)';
             if (x == 1)
@@ -77,44 +77,43 @@
                 return 'rgba(252, 214, 112, 1)';
 
             return 'rgba(123, 239, 178, 1)';
-        }
-        var createProbabilityChart = function (probabilities) {
+        };
+
+        //var getProbLabel = function (x) {
+        //    if (x == 0)
+        //        return 'Шанс не здати предмет';
+        //    if (x == 1)
+        //        return 'Шанс здати на 60-74';
+        //    if (x == 2)
+        //        return 'Шанс здати на 74-90';
+
+        //    return 'Шанс здати на 90+';
+        //};
+
+        var createProbabilityChart = function (probabilities, probLabels) {
             var labels = [];
             var lines = [];
             var count = 0;
-            var data = [];
             for (var i = 0; i < probabilities.length; i++) {
+                var data = [];
                 for (var ind in probabilities[i]) {
                     labels.push(count);
                     data[count] = probabilities[i][ind].toFixed(2);
                     count++;
                 }
-                var lastAdded = data[count - 1];
-                var color = getColor(i);
+                if (i < probabilities.length - 1 && probabilities[i + 1][count]) {
+                    data[count] = probabilities[i + 1][count];
+                }
                 lines.push({
-                    label: "test",
+                    label: probLabels[i],
                     fill: true,
                     data: data,
                     backgroundColor: [
-                        color
-                    ]
+                        getProbColor(i)
+                    ],
+                    percentage: '5%'
                 });
-                var data = [];
-                data[count - 1] = lastAdded;
             }
-
-            //for (var prob in probabilities) {
-            //    var data = [];
-            //    for (var p in probabilities[prob]) {
-            //        labels.push(p);
-            //        data.push(probabilities[prob][p].toFixed(2));
-            //    }
-            //    lines.push({
-            //        label: "test",
-            //        fill: true,
-            //        data: data
-            //    });
-            //}
             if (predictChart) {
                 predictChart.destroy();
             }
@@ -123,21 +122,23 @@
                 data: {
                     labels: labels,
                     datasets: lines
-                    //datasets: [{
-                    //    label: 'Нормальний розподіл по оцінкам за предмет',
-                    //    data: lines,
-                    //    backgroundColor: [
-                    //        'rgba(153, 102, 255)'
-                    //    ]
-                    //}]
                 },
                 options: {
                     scales: {
                         yAxes: [{
                             ticks: {
-                                //display: false
+                                display: false
                             }
                         }]
+                    },
+                    tooltips: {
+                        enabled: true,
+                        mode: 'single',
+                        callbacks: {
+                            label: function (tooltipItems, data) {
+                                return data.datasets[tooltipItems.datasetIndex].label;
+                            }
+                        }
                     }
                 }
             });
@@ -166,7 +167,7 @@
                             createFrequencyChart(data.ratingFrequency);
                         }
                         if (data && data.normalDistributions) {
-                            createProbabilityChart(data.normalDistributions);
+                            createProbabilityChart(data.normalDistributions, data.normalDistributionLabels);
                         }
                     }
                     $('.spinner').hide();

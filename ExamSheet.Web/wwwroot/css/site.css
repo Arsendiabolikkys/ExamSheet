@@ -403,3 +403,10 @@ li {
     margin-top: 2%;
     margin-left: 5%;
 }
+
+.card-body {
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
