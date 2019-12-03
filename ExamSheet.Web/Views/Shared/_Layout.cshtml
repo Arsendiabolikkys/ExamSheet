@@ -57,10 +57,13 @@
                 else
                 {
                     <ul class="nav navbar-nav">
-                        <li><a asp-controller="Chart" asp-action="Index">Статистика по групам</a></li>
+                        @if (User.IsInRole(ExamSheet.Business.Account.AccountType.Deanery) || User.IsInRole(ExamSheet.Business.Account.AccountType.Teacher))
+                        {
+                            <li><a asp-area="" asp-controller="Chart" asp-action="Index">Статистика по групам</a></li>
+                        }
                         @if (User.IsInRole(ExamSheet.Business.Account.AccountType.Deanery))
                         {
-                            <li><a asp-controller="Chart" asp-action="Subjects">Статистика по предметам</a></li>
+                            <li><a asp-area="" asp-controller="Chart" asp-action="Subjects">Статистика по предметам</a></li>
                         }
                     </ul>
                 }
